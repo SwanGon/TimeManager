@@ -17,7 +17,7 @@ defmodule TimemanagerWeb.CoreComponents do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
-  import TimemanagerWeb.Gettext
+  use Gettext, backend: TimemanagerWeb.Gettext
 
   @doc """
   Renders a modal.
