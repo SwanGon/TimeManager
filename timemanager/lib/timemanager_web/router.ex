@@ -18,6 +18,12 @@ defmodule TimemanagerWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    scope "/api" do
+      resources "/users", UserController, except: [:new, :edit]
+      resources "/clocks", ClockController, except: [:new, :edit]
+      resources "/working_times", WorkingTimeController, except: [:new, :edit]
+    end
   end
 
   # Other scopes may use custom stacks.
