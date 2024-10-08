@@ -13,7 +13,7 @@ defmodule TimemanagerWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
     plug :fetch_session
-    
+
   end
 
   scope "/", TimemanagerWeb do
@@ -21,7 +21,7 @@ defmodule TimemanagerWeb.Router do
 
     get "/", PageController, :home
 
-    
+
   end
 
   # Other scopes may use custom stacks.
@@ -29,7 +29,7 @@ defmodule TimemanagerWeb.Router do
     pipe_through :api
 
     resources "/users", UserController, except: [:new, :edit]
-    resources "/clocks", ClockController, except: [:new, :edit]
+    resources "/clocks", ClockController, only: [:show, :create]
     resources "/workingtimes", WorkingTimeController, except: [:new, :edit]
   end
 
