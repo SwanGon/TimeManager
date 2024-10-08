@@ -96,7 +96,7 @@ Enum.each([clocks_antoine,clocks_laurent,clocks_marc,clocks_swan], fn clocks ->
       user_id: clock.user_id
     }
     if clock.status == false do
-      new = Repo.insert! %WorkingTime{
+      Repo.insert! %WorkingTime{
         start: Enum.at(clocks_antoine, index - 1).time,
         end: clock.time,
         user_id: clock.user_id
