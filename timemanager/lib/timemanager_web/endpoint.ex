@@ -34,10 +34,13 @@ defmodule TimemanagerWeb.Endpoint do
     plug Phoenix.Ecto.CheckRepoStatus, otp_app: :timemanager
   end
 
-  plug Phoenix.LiveDashboard.RequestLogger,
-    param_key: "request_logger",
-    cookie_key: "request_logger"
-
+  #plug Phoenix.LiveDashboard.RequestLogger,
+  #  param_key: "request_logger",
+  #  cookie_key: "request_logger"
+  #plug Plug.Session, store: :cookie, key: "_timemanager_key", signing_salt: "12qADr+I"
+  #plug :fetch_session
+  
+  #plug Plug.CSRFProtection
   plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
