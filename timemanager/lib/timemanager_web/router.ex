@@ -26,6 +26,15 @@ defmodule TimemanagerWeb.Router do
     end
   end
 
+  def swagger_info do
+    %{
+      info: %{
+        version: "1.0",
+        title: "Time Manager"
+      }
+    }
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", TimemanagerWeb do
   #   pipe_through :api
