@@ -14,5 +14,8 @@ defmodule Timemanager.UserManager.User do
     user
     |> cast(attrs, [:username, :email])
     |> validate_required([:username, :email])
+    |> validate_format(:email, ~r/^[A-Za-z0-9._%+\-+']+@[A-Za-z0-9.-]+\.[A-Za-z]+$/)
+    |> unique_constraint(:email)
+    |> validate_length(:username, min: 3)
   end
 end

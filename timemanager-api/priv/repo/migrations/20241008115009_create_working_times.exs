@@ -5,7 +5,7 @@ defmodule Timemanager.Repo.Migrations.CreateWorkingTimes do
     create table(:working_times) do
       add :start, :utc_datetime
       add :end, :utc_datetime
-      add :user_id, references(:users)
+      add :user_id, references(:users, on_delete: :delete_all)
 
       timestamps(type: :utc_datetime)
     end
