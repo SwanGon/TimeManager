@@ -42,7 +42,15 @@ defmodule TimemanagerWeb.UserController do
         username: "JohnDoe123",
         email: "mymail@testmail.com"
       }
-    end
+    end,
+    UpdateUser: swagger_schema do
+      title "Update User"
+      description "Schema for updating a user"
+      properties do
+        username :string, "Username", example: "UpdatedUser123", required: true
+        email :string, "Email address", example: "updatedmail@testmail.com", required: true
+      end
+    end,
   }
   end
 
@@ -89,6 +97,20 @@ defmodule TimemanagerWeb.UserController do
     render(conn, :show, user: user)
   end
 
+  swagger_path :update do
+    put "/api/users/{id}"
+    description "Update an existing user"
+    produces "application/json"
+    tag "Users"
+    parameters do
+      id :path, :integer, "User ID", required: true, example: 1
+      body :body, Schema.ref(:UpdateUser), "User update params", required: true
+    end
+    response 200, "User updated", Schema.ref(:User)
+    response 400, "Client Error"
+  end
+
+
   def update(conn, %{"id" => id, "username" => username, "email" => email}) do
     user = UserManager.get_user!(id)
     user_params = %{"username" => username, "email" => email}
@@ -101,6 +123,28 @@ defmodule TimemanagerWeb.UserController do
         |> put_status(:bad_request)
         |> json(%{error: "Unable to update user", details: changeset})
     end
+  end
+
+  swagger_path :update do
+    put "/api/users/{id}"
+    description "Update an existing user"
+    produces "application/json"
+    tag "Users"
+    parameters do
+      id :path, :integer, "User ID", required: true, example: 1
+      body :body, Schema.ref(:UpdateUser), "User update params", required: true
+    end
+    response 200, "User updated", Schema.ref(:User)
+    response 400, "Client Error"
+  end
+
+  swagger_path :delete do
+    PhoenixSwagger.Path.delete "/api/users/{id}"
+    summary "Delete User"
+    description "Delete a user by ID"
+    tag "Users"
+    parameter :id, :path, :integer, "User ID", required: true, example: 3
+    response 203, "No Content - Deleted Successfully"
   end
 
   def delete(conn, %{"id" => id}) do
