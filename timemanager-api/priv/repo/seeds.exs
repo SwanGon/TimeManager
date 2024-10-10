@@ -16,12 +16,9 @@ alias Timemanager.UserManager.User
 alias Timemanager.ClockManager.Clock
 alias Timemanager.WorkingTimeManager.WorkingTime
 
-# First we clean the previous seeds if there is any:
-
-IO.puts("deleting previous working users and associated models...")
+IO.puts("deleting previous working users and associated...")
 Repo.delete_all User
 
-IO.inspect( Timemanager.ClockManager.list_clocks())
 # # Then we create users with:
 
 IO.puts("creating users Antoine...")
