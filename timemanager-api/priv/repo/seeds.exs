@@ -10,19 +10,18 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
+alias Bandit.Clock
 alias Timemanager.Repo
 alias Timemanager.UserManager.User
 alias Timemanager.ClockManager.Clock
 alias Timemanager.WorkingTimeManager.WorkingTime
 
 # First we clean the previous seeds if there is any:
-IO.puts("deleting previous working times...")
-Repo.delete_all WorkingTime
-IO.puts("deleting previous working clocks...")
-Repo.delete_all Clock
-IO.puts("deleting previous working users...")
+
+IO.puts("deleting previous working users and associated models...")
 Repo.delete_all User
 
+IO.inspect( Timemanager.ClockManager.list_clocks())
 # # Then we create users with:
 
 IO.puts("creating users Antoine...")
