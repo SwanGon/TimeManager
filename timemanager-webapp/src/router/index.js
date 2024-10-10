@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import User from '../components/User/User.vue'
 import WorkingTimes from '../components/WorkingTime/WorkingTime.vue'
 import WorkingTime from '../components/WorkingTime/WorkingTimes.vue'
+
 import ClockManager from '../components/ClockManager/ClockManager.vue'
 import ChartManager from '../components/ChartManager/ChartManager.vue'
 
@@ -23,6 +24,7 @@ const router = createRouter({
     {
       path: '/workingTimes',
       name: 'workingTimes',
+
       component: WorkingTimes
     },
     {

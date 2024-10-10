@@ -30,3 +30,4 @@
       <Pie :chart-data="chartData" />
     </div>
   </template>
+
