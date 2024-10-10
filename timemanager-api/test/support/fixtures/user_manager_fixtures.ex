@@ -11,7 +11,7 @@ defmodule Timemanager.UserManagerFixtures do
     {:ok, user} =
       attrs
       |> Enum.into(%{
-        email: "some email",
+        email: "some@email.com",
         username: "some username"
       })
       |> Timemanager.UserManager.create_user()
