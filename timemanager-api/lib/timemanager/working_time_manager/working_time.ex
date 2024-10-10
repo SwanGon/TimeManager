@@ -31,4 +31,3 @@ defmodule Timemanager.WorkingTimeManager.WorkingTime do
     end
   end
 end
-
