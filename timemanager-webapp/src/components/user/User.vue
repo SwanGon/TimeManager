@@ -1,15 +1,3 @@
-<template>
-    <div>
-      <h2>User Management</h2>
-      <input v-model="user.username" placeholder="Username">
-      <input v-model="user.email" placeholder="Email">
-      <button @click="createUser">Create User</button>
-      <button @click="updateUser">Update User</button>
-      <button @click="getUser">Get User</button>
-      <button @click="deleteUser">Delete User</button>
-    </div>
-  </template>
-  
   <script>
   import axios from 'axios'
   
@@ -35,5 +23,15 @@
       }
     }
   }
-  </script>
-  
+</script>
+<template>
+  <div>
+    <h2>User Management</h2>
+    <input v-model="user.username" placeholder="Username">
+    <input v-model="user.email" placeholder="Email">
+    <button @click="createUser">Create User</button>
+    <button @click="updateUser">Update User</button>
+    <button @click="getUser">Get User</button>
+    <button @click="deleteUser">Delete User</button>
+  </div>
+</template>

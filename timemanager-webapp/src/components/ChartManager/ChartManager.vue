@@ -1,5 +1,4 @@
 
-  
   <script>
   import { Bar, Line, Pie } from 'vue-chartjs'
   import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement, ArcElement } from 'chart.js'

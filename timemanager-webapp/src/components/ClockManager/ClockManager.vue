@@ -1,13 +1,4 @@
-<template>
-    <div>
-      <h2>Clock Manager</h2>
-      <p>Start Date Time: {{ startDateTime }}</p>
-      <p>Clock In: {{ clockIn }}</p>
-      <button @click="clock">{{ clockIn ? 'Clock Out' : 'Clock In' }}</button>
-    </div>
-  </template>
-  
-  <script>
+<script>
   import axios from 'axios'
   
   export default {
@@ -32,5 +23,13 @@
       this.refresh()
     }
   }
-  </script>
-  
+</script>
+
+<template>
+  <div>
+    <h2>Clock Manager</h2>
+    <p>Start Date Time: {{ startDateTime }}</p>
+    <p>Clock In: {{ clockIn }}</p>
+    <button @click="clock">{{ clockIn ? 'Clock Out' : 'Clock In' }}</button>
+  </div>
+</template>
