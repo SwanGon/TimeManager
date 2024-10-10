@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import WorkingTime from '../components/WorkingTime/WorkingTime.vue'
-import WorkingTimes from '../components/WorkingTime/WorkingTimes.vue'
 import User from '../components/User/User.vue'
+import WorkingTimes from '../components/WorkingTime/WorkingTime.vue'
+import WorkingTime from '../components/WorkingTime/WorkingTimes.vue'
+
 import ClockManager from '../components/ClockManager/ClockManager.vue'
 import ChartManager from '../components/ChartManager/ChartManager.vue'
 
@@ -16,13 +17,14 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/working-time',
-      name: 'working-time',
+      path: '/workingTime',
+      name: 'workingTime',
       component: WorkingTime
     },
     {
-      path: '/working-times',
-      name: 'working-times',
+      path: '/workingTimes',
+      name: 'workingTimes',
+
       component: WorkingTimes
     },
     {
@@ -31,13 +33,13 @@ const router = createRouter({
       component: User
     },
     {
-      path: '/clock-manager',
-      name: 'clock-manager',
+      path: '/clockManager',
+      name: 'clockManager',
       component: ClockManager
     },
     {
-      path: '/chart-manager',
-      name: 'chart-manager',
+      path: '/chartManager',
+      name: 'chartManager',
       component: ChartManager
     }
   ]
