@@ -1,12 +1,12 @@
 
   <script>
-  import { Bar, Line, Pie } from 'vue-chartjs'
+  import { Bar, Pie } from 'vue-chartjs'
   import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement, ArcElement } from 'chart.js'
   
   ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement, ArcElement)
   
   export default {
-    components: { Bar, Line, Pie },
+    components: { Bar, Pie },
     data() {
       return {
         chartData: {
@@ -27,7 +27,6 @@
     <div>
       <h2>Chart Manager</h2>
       <Bar :chart-data="chartData" />
-      <Line :chart-data="chartData" />
       <Pie :chart-data="chartData" />
     </div>
   </template>

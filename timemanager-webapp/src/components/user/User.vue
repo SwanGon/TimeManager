@@ -1,28 +1,25 @@
-  <script>
-  import axios from 'axios'
-  
-  export default {
-    data() {
-      return {
-        user: { username: '', email: '' }
-      }
-    },
-    methods: {
-      async createUser() {
-        await axios.post('http://localhost:4000/api/users', this.user)
-      },
-      async updateUser() {
-        await axios.put(`http://localhost:4000/api/users/${this.user.id}`, this.user)
-      },
-      async getUser() {
-        const response = await axios.get(`http://localhost:4000/api/users/${this.user.id}`)
-        this.user = response.data
-      },
-      async deleteUser() {
-        await axios.delete(`http://localhost:4000/api/users/${this.user.id}`)
-      }
-    }
-  }
+<script setup>
+import axios from 'axios'
+import { ref } from 'vue'
+
+const user = ref({ username: '', email: '' })
+
+async function createUser() {
+  await axios.post('http://localhost:4000/api/users', user.value)
+}
+
+async function updateUser() {
+  await axios.put(`http://localhost:4000/api/users/${user.value.id}`, user.value)
+}
+
+async function getUser() {
+  const response = await axios.get(`http://localhost:4000/api/users/${user.value.id}`)
+  user.value = response.data
+}
+
+async function deleteUser() {
+  await axios.delete(`http://localhost:4000/api/users/${user.value.id}`)
+}
 </script>
 <template>
   <div>
