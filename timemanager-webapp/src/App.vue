@@ -5,8 +5,8 @@
       <routerLink to="/user">User</routerLink> |
       <router-link :to="'/clock/' + userId">Clock</router-link> |
       <router-link :to="'/chartManager/' + userId">Charts</router-link> |
-      <router-link :to="'/workingTimes/' + userId">Working Times</router-link> |
-      <routerLink to="/workingTime">Working Times</routerLink> |
+      <router-link :to="'/workingtimes/' + userId">Working Times</router-link> |
+      <routerLink to="/workingTime">Working Time</routerLink> |
         
     </nav>
     <router-view></router-view>

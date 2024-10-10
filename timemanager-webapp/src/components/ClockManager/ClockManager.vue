@@ -10,19 +10,24 @@
       }
     },
     methods: {
-      async clock() {
-        const response = await axios.post(`http://localhost:4000/api/clocks/${this.userId}`)
-        this.refresh(response.data)
-      },
-      refresh(data) {
+    refresh(data) {
+      if (data && data.time) {
         this.startDateTime = data.time
         this.clockIn = data.status
+      } else {
+        console.error('Unexpected data structure:', data)
       }
-    },
-    mounted() {
-      this.refresh()
+    }
+  },
+  async mounted() {
+    try {
+      const response = await axios.get(`http://localhost:4000/api/clocks/${this.userId}`)
+      this.refresh(response.data)
+    } catch (error) {
+      console.error('Error fetching clock data:', error)
     }
   }
+}
 </script>
 
 <template>
