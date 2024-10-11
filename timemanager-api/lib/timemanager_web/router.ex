@@ -16,15 +16,6 @@ defmodule TimemanagerWeb.Router do
 
   end
 
-  # scope "/", TimemanagerWeb do
-  #   pipe_through :api
-
-  #   get "/", PageController, :home
-
-
-
-  # end
-
   scope "/api/swagger" do
     forward "/", PhoenixSwagger.Plug.SwaggerUI, otp_app: :timemanager, swagger_file: "swagger.json"
   end
@@ -34,7 +25,9 @@ defmodule TimemanagerWeb.Router do
     pipe_through :api
 
     resources "/users", UserController
-    resources "/clocks", ClockController, except: [:new, :edit]
+    resources "/clocks", ClockController
+    # resources "/clocks", ClockController, only: [:create, :show, :index]
+    # resources "/workingtimes", WorkingTimeController, except: [:new, :edit]
     resources "/workingtimes", WorkingTimeController, except: [:new, :edit]
   end
 

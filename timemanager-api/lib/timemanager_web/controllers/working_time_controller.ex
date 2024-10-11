@@ -6,6 +6,8 @@ defmodule TimemanagerWeb.WorkingTimeController do
 
   action_fallback TimemanagerWeb.FallbackController
 
+  Module.eval_quoted(__MODULE__, WorkingtimeSwagger.paths())
+
   def index(conn, _params) do
     working_times = WorkingTimeManager.list_working_times()
     render(conn, :index, working_times: working_times)
@@ -39,5 +41,9 @@ defmodule TimemanagerWeb.WorkingTimeController do
     with {:ok, %WorkingTime{}} <- WorkingTimeManager.delete_working_time(working_time) do
       send_resp(conn, :no_content, "")
     end
+  end
+
+  def swagger_definitions do
+    WorkingtimeSwagger.swagger_definitions()
   end
 end
