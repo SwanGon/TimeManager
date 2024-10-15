@@ -5,8 +5,8 @@ defmodule Timemanager.UserManager.User do
   schema "users" do
     field :username, :string
     field :email, :string
-    has_many :clocks, Timemanager.ClockManager.Clock, on_delete: :delete_all
-    has_many :working_times, Timemanager.WorkingTimeManager.WorkingTime, on_delete: :delete_all
+    has_many :clocks, Timemanager.ClockManager.Clock
+    has_many :working_times, Timemanager.WorkingTimeManager.WorkingTime
 
     timestamps(type: :utc_datetime)
   end

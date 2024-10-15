@@ -18,8 +18,8 @@ defmodule TimemanagerWeb.WorkingTimeJSON do
   defp data(%WorkingTime{} = working_time) do
     %{
       id: working_time.id,
-      start: working_time.clock_start,
-      end: working_time.clock_end
+      start: working_time.working_start,
+      end: working_time.working_end
     }
   end
 end
