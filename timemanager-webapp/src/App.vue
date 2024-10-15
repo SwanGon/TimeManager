@@ -18,7 +18,7 @@
 export default {
   data() {
     return {
-      userId: 1 // Replace with actual user ID
+      userId: 1 
     }
   }
 }
