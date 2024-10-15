@@ -1,0 +1,70 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        elixir-version: '1.13.4'
+        otp-version: '24.3'
+    
+    - name: Install dependencies
+      run: |
+        cd timemanager-api
+        mix deps.get
+    
+    - name: Run tests
+      run: |
+        cd timemanager-api
+        mix test
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+    
+    - name: Install frontend dependencies
+      run: |
+        cd timemanager-webapp
+        npm ci
+    
+    - name: Run frontend tests
+      run: |
+        cd timemanager-webapp
+        npm run test:unit
+
+  build-and-deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Build and push Docker images
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+        echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+        docker-compose build
+        docker-compose push
+    
+    - name: Deploy to server
+      env:
+        HOST: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      run: |
+        echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
+        scp -i private_key docker-compose.yml $USERNAME@$HOST:~/
+        ssh -i private_key $USERNAME@$HOST "docker-compose pull && docker-compose up -d"
