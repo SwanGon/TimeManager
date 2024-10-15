@@ -3,8 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import ClockManager from '../components/ClockManager/ClockManager.vue'
 import ChartManager from '../components/ChartManager/ChartManager.vue'
 import UserManager from '@/components/UserManager/UserManager.vue'
-import WorkingTimeManager from '@/components/WorkingTimesManager/WorkingTimeManager.vue'
 import WorkingTimesManager from '@/components/WorkingTimesManager/WorkingTimesManager.vue'
+import WorkingShiftManager from '@/components/WorkingShiftManager/WorkingShiftManager.vue'
 
 
 const router = createRouter({
@@ -16,12 +16,12 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/workingtime',
+      path: '/workingtime/:userId',
       name: 'workingtime',
-      component: WorkingTimeManager
+      component: WorkingShiftManager
     },
     // {
-    //   path: '/workingtime/:userId',
+    //   path: '/workingtime/',
     //   name: 'workingtime',
     //   component: WorkingTimeManager
     // },
