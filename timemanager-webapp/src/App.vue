@@ -1,25 +1,19 @@
 <template>
   <div id="app">
     <nav>
-      <routerLink to="/">Home</routerLink> |
-      <routerLink to="/user">User</routerLink> |
+      <router-link :to="'/'">Home</router-link> |
+      <router-link :to="'/user'">User</router-link> |
       <router-link :to="'/clock/' + userId">Clock</router-link> |
-      <router-link :to="'/chartManager/' + userId">Charts</router-link> |
+      <router-link :to="'/chart/' + userId">Charts</router-link> |
       <router-link :to="'/workingtimes/' + userId">Working Times</router-link> |
-      <routerLink to="/workingTime">Working Time</routerLink> |
-        
+      <router-link :to="'/workingtime'">Working Time</router-link> |
+
     </nav>
     <router-view></router-view>
   </div>
-  
+
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      userId: 1 // Replace with actual user ID
-    }
-  }
-}
+<script setup>
+const userId = 1
 </script>
