@@ -1,21 +1,28 @@
 defmodule TimemanagerWeb.ClockController do
   use TimemanagerWeb, :controller
+  use PhoenixSwagger
 
   alias Timemanager.ClockManager
   alias Timemanager.ClockManager.Clock
+  alias TimemanagerWeb.Swagger.ClockSwagger
 
   action_fallback TimemanagerWeb.FallbackController
+
+  Module.eval_quoted(__MODULE__, ClockSwagger.paths())
 
   def index(conn, _params) do
     clocks = ClockManager.list_clocks()
     render(conn, :index, clocks: clocks)
   end
 
-  def create(conn, %{"clock" => clock_params}) do
+  def create(conn, %{"id" => id, "time" => time, "status" => status}) do
+    user = UserManager.get_user!(id)
+    clock_params = %{"time" => time, "status" => status}
+
     with {:ok, %Clock{} = clock} <- ClockManager.create_clock(clock_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/clocks/#{clock}")
+      |> put_resp_header("location", ~p"/api/clocks/#{clock.id}")
       |> render(:show, clock: clock)
     end
   end
@@ -39,5 +46,9 @@ defmodule TimemanagerWeb.ClockController do
     with {:ok, %Clock{}} <- ClockManager.delete_clock(clock) do
       send_resp(conn, :no_content, "")
     end
+  end
+
+  def swagger_definitions do
+    ClockSwagger.swagger_definitions()
   end
 end

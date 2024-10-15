@@ -9,7 +9,7 @@ defmodule Timemanager.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
     ]
   end
 
@@ -60,6 +60,8 @@ defmodule Timemanager.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
+      {:phoenix_swagger, "~> 0.8"},
+      {:ex_json_schema, "~> 0.5"}, # optional
       {:validate, "~> 1.3"}
     ]
   end
