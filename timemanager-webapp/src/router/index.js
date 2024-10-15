@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import WorkingTimes from '../components/WorkingTime/WorkingTime.vue'
-import WorkingTime from '../components/WorkingTime/WorkingTimes.vue'
 import ClockManager from '../components/ClockManager/ClockManager.vue'
 import ChartManager from '../components/ChartManager/ChartManager.vue'
 import UserManager from '@/components/UserManager/UserManager.vue'
+import WorkingTimeManager from '@/components/WorkingTimesManager/WorkingTimeManager.vue'
+import WorkingTimesManager from '@/components/WorkingTimesManager/WorkingTimesManager.vue'
 
 
 const router = createRouter({
@@ -16,30 +16,29 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/workingTime',
-      name: 'workingTime',
-      component: WorkingTime
+      path: '/workingtime',
+      name: 'workingtime',
+      component: WorkingTimeManager
     },
-    {
-      path: '/workingTime/:userId',
-      name: 'workingTime',
-      component: WorkingTime
-    },
-    {
-      path: '/workingtime/:userId/:workingtimeId',
-      component: WorkingTime
+    // {
+    //   path: '/workingtime/:userId',
+    //   name: 'workingtime',
+    //   component: WorkingTimeManager
+    // },
+    // {
+    //   path: '/workingtime/:userId/:workingtimeId',
+    //   component: WorkingTimeManager
 
-    },
-    {
-      path: '/workingtime/:userId',
-      component: WorkingTime
+    // },
+    // {
+    //   path: '/workingtime/:userId',
+    //   component: WorkingTimeManager
 
-    },
+    // },
     {
       path: '/workingtimes/:userId',
       name: 'workingTimes',
-
-      component: WorkingTimes
+      component: WorkingTimesManager
     },
     {
       path: '/user',
