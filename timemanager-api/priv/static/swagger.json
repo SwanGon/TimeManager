@@ -1,0 +1,465 @@
+{
+  "info": {
+    "version": "1.0",
+    "title": "Time Manager"
+  },
+  "host": "localhost:4000",
+  "definitions": {
+    "Clock": {
+      "description": "Clock details",
+      "example": {
+        "status": "mymail@testmail.com",
+        "time": "JohnDoe123",
+        "user": "User ID"
+      },
+      "properties": {
+        "status": {
+          "description": "Status",
+          "type": "boolean"
+        },
+        "time": {
+          "description": "Time",
+          "type": "datetime"
+        },
+        "user": {
+          "description": "User ID",
+          "type": "integer"
+        }
+      },
+      "title": "Clock",
+      "type": "object"
+    },
+    "User": {
+      "description": "User details",
+      "example": {
+        "email": "mymail@testmail.com",
+        "username": "JohnDoe123"
+      },
+      "properties": {
+        "email": {
+          "description": "Email address",
+          "type": "string"
+        },
+        "username": {
+          "description": "Username",
+          "type": "string"
+        }
+      },
+      "title": "User",
+      "type": "object"
+    },
+    "CreateClock": {
+      "description": "Schema for creating a clock",
+      "properties": {
+        "status": {
+          "description": "Status",
+          "example": "true",
+          "type": "boolean"
+        },
+        "time": {
+          "description": "Time",
+          "example": "2024-12-30 15:46:33",
+          "type": "datetime"
+        }
+      },
+      "required": [
+        "time"
+      ],
+      "title": "Create Clock",
+      "type": "object"
+    },
+    "CreateUser": {
+      "description": "Schema for creating a user",
+      "properties": {
+        "email": {
+          "description": "Email address",
+          "example": "mymail@testmail.com",
+          "type": "string"
+        },
+        "username": {
+          "description": "Username",
+          "example": "JohnDoe123",
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "username"
+      ],
+      "title": "Create User",
+      "type": "object"
+    },
+    "UpdateUser": {
+      "description": "Schema for updating a user",
+      "properties": {
+        "email": {
+          "description": "Email address",
+          "example": "updatedmail@testmail.com",
+          "type": "string"
+        },
+        "username": {
+          "description": "Username",
+          "example": "UpdatedUser123",
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "username"
+      ],
+      "title": "Update User",
+      "type": "object"
+    },
+    "CreateWorkingtime": {
+      "description": "Schema for creating a workingtime",
+      "properties": {
+        "clock_end": {
+          "description": "End",
+          "example": "2024-12-30 15:46:33",
+          "type": "datetime"
+        },
+        "clock_start": {
+          "description": "Start",
+          "example": "2024-12-30 15:46:33",
+          "type": "datetime"
+        }
+      },
+      "required": [
+        "clock_end",
+        "clock_start"
+      ],
+      "title": "Create Workingtime",
+      "type": "object"
+    },
+    "Workingtime": {
+      "description": "Workingtime details",
+      "example": {
+        "clock_end": "2024-12-30 15:46:33",
+        "clock_start": "2024-12-30 15:46:33"
+      },
+      "properties": {
+        "clock_end": {
+          "description": "end",
+          "type": "datetime"
+        },
+        "clock_start": {
+          "description": "Start",
+          "type": "datetime"
+        }
+      },
+      "title": "Workingtime",
+      "type": "object"
+    },
+    "UpdateWorkingtime": {
+      "description": "Schema for updating a workingtime",
+      "properties": {
+        "email": {
+          "description": "Email address",
+          "example": "updatedmail@testmail.com",
+          "type": "string"
+        },
+        "username": {
+          "description": "Username",
+          "example": "UpdatedUser123",
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "username"
+      ],
+      "title": "Update Workingtime",
+      "type": "object"
+    }
+  },
+  "paths": {
+    "/api/clocks": {
+      "get": {
+        "description": "List all clocks",
+        "operationId": "TimemanagerWeb.ClockController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Clocks"
+        ]
+      }
+    },
+    "/api/clocks/{id}": {
+      "get": {
+        "description": "Get clock by id",
+        "operationId": "TimemanagerWeb.ClockController.show",
+        "parameters": [
+          {
+            "description": "Clock ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "x-example": 3
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Clocks"
+        ]
+      },
+      "post": {
+        "description": "Create clock",
+        "operationId": "TimemanagerWeb.ClockController.create",
+        "parameters": [
+          {
+            "description": "User ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "x-example": 1
+          },
+          {
+            "description": "Clock creation params",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateClock"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Clock"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Clocks"
+        ]
+      }
+    },
+    "/api/users": {
+      "get": {
+        "description": "List all users",
+        "operationId": "TimemanagerWeb.UserController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Users"
+        ]
+      },
+      "post": {
+        "description": "Create user",
+        "operationId": "TimemanagerWeb.UserController.create",
+        "parameters": [
+          {
+            "description": "User creation params",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateUser"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/api/users/{id}": {
+      "delete": {
+        "description": "Delete a user by ID",
+        "operationId": "TimemanagerWeb.UserController.delete",
+        "parameters": [
+          {
+            "description": "User ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "x-example": 3
+          }
+        ],
+        "responses": {
+          "203": {
+            "description": "No Content - Deleted Successfully"
+          }
+        },
+        "summary": "Delete User",
+        "tags": [
+          "Users"
+        ]
+      },
+      "get": {
+        "description": "Get user by id",
+        "operationId": "TimemanagerWeb.UserController.show",
+        "parameters": [
+          {
+            "description": "User ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "x-example": 3
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Users"
+        ]
+      },
+      "put": {
+        "description": "Update an existing user",
+        "operationId": "TimemanagerWeb.UserController.update",
+        "parameters": [
+          {
+            "description": "User ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "x-example": 1
+          },
+          {
+            "description": "User update params",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateUser"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "User updated",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/api/workingtime/{id}": {
+      "post": {
+        "description": "Create workingtime",
+        "operationId": "TimemanagerWeb.WorkingTimeController.create",
+        "parameters": [
+          {
+            "description": "User ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "x-example": 1
+          },
+          {
+            "description": "Workingtime creation params",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateWorkingtime"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Workingtime"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Workingtime"
+        ]
+      }
+    }
+  },
+  "swagger": "2.0"
+}
