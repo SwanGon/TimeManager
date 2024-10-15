@@ -7,12 +7,14 @@ defmodule TimemanagerWeb.UserControllerTest do
 
   @create_attrs %{
     username: "some username",
-    email: "some email"
+    email: "some@email.com"
   }
   @update_attrs %{
     username: "some updated username",
-    email: "some updated email"
+    email: "some@updated.email"
   }
+
+
   @invalid_attrs %{username: nil, email: nil}
 
   setup %{conn: conn} do
@@ -35,7 +37,7 @@ defmodule TimemanagerWeb.UserControllerTest do
 
       assert %{
                "id" => ^id,
-               "email" => "some email",
+               "email" => "some@email.com",
                "username" => "some username"
              } = json_response(conn, 200)["data"]
     end
@@ -57,7 +59,7 @@ defmodule TimemanagerWeb.UserControllerTest do
 
       assert %{
                "id" => ^id,
-               "email" => "some updated email",
+               "email" => "some@updated.email",
                "username" => "some updated username"
              } = json_response(conn, 200)["data"]
     end

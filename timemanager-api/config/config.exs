@@ -52,6 +52,11 @@ config :tailwind,
     ),
     cd: Path.expand("../assets", __DIR__)
   ]
+# Configuration de corps_plug
+config :cors_plug,
+  origin: ["http://localhost:5173"],
+  max_age: 86400,
+  methods: ["GET", "POST", "PUT", "DELETE"]
 
 # Configures Elixir's Logger
 config :logger, :console,
