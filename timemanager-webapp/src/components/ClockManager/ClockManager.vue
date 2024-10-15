@@ -1,33 +1,30 @@
-<script>
-  import axios from 'axios'
-  
-  export default {
-    data() {
-      return {
-        userId: this.$route.params.userId,
-        startDateTime: null,
-        clockIn: false
-      }
-    },
-    methods: {
-    refresh(data) {
-      if (data && data.time) {
-        this.startDateTime = data.time
-        this.clockIn = data.status
-      } else {
-        console.error('Unexpected data structure:', data)
-      }
-    }
-  },
-  async mounted() {
-    try {
-      const response = await axios.get(`http://localhost:4000/api/clocks/${this.userId}`)
-      this.refresh(response.data)
-    } catch (error) {
-      console.error('Error fetching clock data:', error)
-    }
+<script setup>
+import axios from 'axios'
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const userId = ref(route.params.userId)
+const startDateTime = ref(null)
+const clockIn = ref(false)
+
+function refresh(data) {
+  if (data && data.time) {
+    startDateTime.value = data.time
+    clockIn.value = data.status
+  } else {
+    console.error('Unexpected data structure:', data)
   }
 }
+onMounted(async () => {
+  try {
+    const response = await axios.get(`http://localhost:4000/api/clocks/${userId.value}`)
+    refresh(response.data)
+  } catch (error) {
+    console.error('Error fetching clock data:', error)
+  }
+})
 </script>
 
 <template>
