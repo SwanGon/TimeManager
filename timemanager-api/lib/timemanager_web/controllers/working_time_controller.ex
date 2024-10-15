@@ -1,10 +1,14 @@
 defmodule TimemanagerWeb.WorkingTimeController do
   use TimemanagerWeb, :controller
+  use PhoenixSwagger
 
   alias Timemanager.WorkingTimeManager
   alias Timemanager.WorkingTimeManager.WorkingTime
+  alias TimemanagerWeb.Swagger.WorkingtimeSwagger
 
   action_fallback TimemanagerWeb.FallbackController
+
+  Module.eval_quoted(__MODULE__, WorkingtimeSwagger.paths())
 
   def index(conn, _params) do
     working_times = WorkingTimeManager.list_working_times()
@@ -39,5 +43,9 @@ defmodule TimemanagerWeb.WorkingTimeController do
     with {:ok, %WorkingTime{}} <- WorkingTimeManager.delete_working_time(working_time) do
       send_resp(conn, :no_content, "")
     end
+  end
+
+  def swagger_definitions do
+    WorkingtimeSwagger.swagger_definitions()
   end
 end
