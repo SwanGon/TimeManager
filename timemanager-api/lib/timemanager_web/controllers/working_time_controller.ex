@@ -1,8 +1,10 @@
 defmodule TimemanagerWeb.WorkingTimeController do
   use TimemanagerWeb, :controller
+  use PhoenixSwagger
 
   alias Timemanager.WorkingTimeManager
   alias Timemanager.WorkingTimeManager.WorkingTime
+  alias TimemanagerWeb.Swagger.WorkingtimeSwagger
 
   action_fallback TimemanagerWeb.FallbackController
 
