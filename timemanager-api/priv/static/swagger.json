@@ -5,28 +5,25 @@
   },
   "host": "localhost:4000",
   "definitions": {
-    "Clock": {
-      "description": "Clock details",
-      "example": {
-        "status": "mymail@testmail.com",
-        "time": "JohnDoe123",
-        "user": "User ID"
-      },
+    "CreateUser": {
+      "description": "Schema for creating a user",
       "properties": {
-        "status": {
-          "description": "Status",
-          "type": "boolean"
+        "email": {
+          "description": "Email address",
+          "example": "mymail@testmail.com",
+          "type": "string"
         },
-        "time": {
-          "description": "Time",
-          "type": "datetime"
-        },
-        "user": {
-          "description": "User ID",
-          "type": "integer"
+        "username": {
+          "description": "Username",
+          "example": "JohnDoe123",
+          "type": "string"
         }
       },
-      "title": "Clock",
+      "required": [
+        "email",
+        "username"
+      ],
+      "title": "Create User",
       "type": "object"
     },
     "User": {
@@ -46,6 +43,27 @@
         }
       },
       "title": "User",
+      "type": "object"
+    },
+    "UpdateUser": {
+      "description": "Schema for updating a user",
+      "properties": {
+        "email": {
+          "description": "Email address",
+          "example": "updatedmail@testmail.com",
+          "type": "string"
+        },
+        "username": {
+          "description": "Username",
+          "example": "UpdatedUser123",
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "username"
+      ],
+      "title": "Update User",
       "type": "object"
     },
     "CreateClock": {
@@ -68,46 +86,28 @@
       "title": "Create Clock",
       "type": "object"
     },
-    "CreateUser": {
-      "description": "Schema for creating a user",
+    "Clock": {
+      "description": "Clock details",
+      "example": {
+        "status": "mymail@testmail.com",
+        "time": "JohnDoe123",
+        "user": "User ID"
+      },
       "properties": {
-        "email": {
-          "description": "Email address",
-          "example": "mymail@testmail.com",
-          "type": "string"
+        "status": {
+          "description": "Status",
+          "type": "boolean"
         },
-        "username": {
-          "description": "Username",
-          "example": "JohnDoe123",
-          "type": "string"
+        "time": {
+          "description": "Time",
+          "type": "datetime"
+        },
+        "user": {
+          "description": "User ID",
+          "type": "integer"
         }
       },
-      "required": [
-        "email",
-        "username"
-      ],
-      "title": "Create User",
-      "type": "object"
-    },
-    "UpdateUser": {
-      "description": "Schema for updating a user",
-      "properties": {
-        "email": {
-          "description": "Email address",
-          "example": "updatedmail@testmail.com",
-          "type": "string"
-        },
-        "username": {
-          "description": "Username",
-          "example": "UpdatedUser123",
-          "type": "string"
-        }
-      },
-      "required": [
-        "email",
-        "username"
-      ],
-      "title": "Update User",
+      "title": "Clock",
       "type": "object"
     },
     "CreateWorkingtime": {
