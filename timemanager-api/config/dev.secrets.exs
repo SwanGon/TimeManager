@@ -1,0 +1,11 @@
+defmodule Config.DevSecrets do
+  def setup_env do
+    System.put_env("DATABASE_USER", "postgres")
+    System.put_env("DATABASE_PASSWORD", "postgres")
+    System.put_env("DATABASE_HOST", "db")
+    System.put_env("DATABASE_NAME", "timemanager_dev")
+    System.put_env("PORT", "4000")
+  end
+end
+
+Config.DevSecrets.setup_env()
