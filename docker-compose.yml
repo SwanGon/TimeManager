@@ -17,14 +17,17 @@ services:
     environment:
       - DATABASE_URL=ecto://postgres:password@db/timemanager
     depends_on:
-      - db
+       db:
+        condition: service_healthy
+    networks:
+      - app-network
 
   db:
     image: postgres:13
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=timemanager
+      - POSTGRES_DB=timemanager_dev
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
     networks:
