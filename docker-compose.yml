@@ -16,11 +16,9 @@ services:
       - "4000:4000"
     environment:
       - DATABASE_URL=ecto://postgres:password@db/timemanager
+    network_mode: host
     depends_on:
-       db:
-        condition: service_healthy
-    networks:
-      - app-network
+      - db
 
   db:
     image: postgres:13
