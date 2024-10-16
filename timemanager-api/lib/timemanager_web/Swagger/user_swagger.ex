@@ -3,25 +3,28 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
 
   def swagger_definitions do
     %{
-      CreateUser: swagger_schema do
-        title "Create User"
-        description "Schema for creating a user"
-        properties do
-          username :string, "Username", example: "JohnDoe123", required: true
-          email :string, "Email address", example: "mymail@testmail.com", required: true
-        end
-      end,
       User: swagger_schema do
         title "User"
         description "User details"
         properties do
           username :string, "Username"
           email :string, "Email address"
+          role_id :integer, "Role foreign key"
         end
         example %{
           username: "JohnDoe123",
-          email: "mymail@testmail.com"
+          email: "mymail@testmail.com",
+          role_id: 1
         }
+      end,
+      CreateUser: swagger_schema do
+        title "Create User"
+        description "Schema for creating a user"
+        properties do
+          username :string, "Username", example: "JohnDoe123", required: true
+          email :string, "Email address", example: "mymail@testmail.com", required: true
+          role_id :integer, "Role key", required: true
+        end
       end,
       UpdateUser: swagger_schema do
         title "Update User"
@@ -29,6 +32,7 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
         properties do
           username :string, "Username", example: "UpdatedUser123", required: true
           email :string, "Email address", example: "updatedmail@testmail.com", required: true
+          role_id :integer, "Role key", required: true
         end
       end,
     }

@@ -13,6 +13,10 @@
           "example": "mymail@testmail.com",
           "type": "string"
         },
+        "role_id": {
+          "description": "Role key",
+          "type": "integer"
+        },
         "username": {
           "description": "Username",
           "example": "JohnDoe123",
@@ -20,6 +24,7 @@
         }
       },
       "required": [
+        "role_id",
         "email",
         "username"
       ],
@@ -30,12 +35,17 @@
       "description": "User details",
       "example": {
         "email": "mymail@testmail.com",
+        "role_id": 1,
         "username": "JohnDoe123"
       },
       "properties": {
         "email": {
           "description": "Email address",
           "type": "string"
+        },
+        "role_id": {
+          "description": "Role foreign key",
+          "type": "integer"
         },
         "username": {
           "description": "Username",
@@ -53,6 +63,10 @@
           "example": "updatedmail@testmail.com",
           "type": "string"
         },
+        "role_id": {
+          "description": "Role key",
+          "type": "integer"
+        },
         "username": {
           "description": "Username",
           "example": "UpdatedUser123",
@@ -60,6 +74,7 @@
         }
       },
       "required": [
+        "role_id",
         "email",
         "username"
       ],
