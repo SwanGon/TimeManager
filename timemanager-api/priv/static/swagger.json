@@ -89,8 +89,8 @@
     "Clock": {
       "description": "Clock details",
       "example": {
-        "status": "mymail@testmail.com",
-        "time": "JohnDoe123",
+        "status": "true",
+        "time": "2024-12-30 15:46:33",
         "user": "User ID"
       },
       "properties": {
@@ -113,20 +113,20 @@
     "CreateWorkingtime": {
       "description": "Schema for creating a workingtime",
       "properties": {
-        "clock_end": {
+        "working_end": {
           "description": "End",
-          "example": "2024-12-30 15:46:33",
+          "example": "2024-12-30 16:46:33",
           "type": "datetime"
         },
-        "clock_start": {
+        "working_start": {
           "description": "Start",
-          "example": "2024-12-30 15:46:33",
+          "example": "2024-12-30 09:46:33",
           "type": "datetime"
         }
       },
       "required": [
-        "clock_end",
-        "clock_start"
+        "working_end",
+        "working_start"
       ],
       "title": "Create Workingtime",
       "type": "object"
@@ -134,15 +134,20 @@
     "Workingtime": {
       "description": "Workingtime details",
       "example": {
-        "clock_end": "2024-12-30 15:46:33",
-        "clock_start": "2024-12-30 15:46:33"
+        "user": "User ID",
+        "working_end": "2024-12-30 15:46:33",
+        "working_start": "2024-12-30 15:46:33"
       },
       "properties": {
-        "clock_end": {
+        "user": {
+          "description": "User ID",
+          "type": "integer"
+        },
+        "working_end": {
           "description": "end",
           "type": "datetime"
         },
-        "clock_start": {
+        "working_start": {
           "description": "Start",
           "type": "datetime"
         }
@@ -153,20 +158,20 @@
     "UpdateWorkingtime": {
       "description": "Schema for updating a workingtime",
       "properties": {
-        "email": {
-          "description": "Email address",
-          "example": "updatedmail@testmail.com",
-          "type": "string"
+        "working_end": {
+          "description": "End",
+          "example": "2024-12-30 17:46:33",
+          "type": "datetime"
         },
-        "username": {
-          "description": "Username",
-          "example": "UpdatedUser123",
-          "type": "string"
+        "working_start": {
+          "description": "Start",
+          "example": "2024-12-30 10:46:33",
+          "type": "datetime"
         }
       },
       "required": [
-        "email",
-        "username"
+        "working_end",
+        "working_start"
       ],
       "title": "Update Workingtime",
       "type": "object"
@@ -178,37 +183,6 @@
         "description": "List all clocks",
         "operationId": "TimemanagerWeb.ClockController.index",
         "parameters": [],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "400": {
-            "description": "Client Error"
-          }
-        },
-        "summary": "",
-        "tags": [
-          "Clocks"
-        ]
-      }
-    },
-    "/api/clocks/{id}": {
-      "get": {
-        "description": "Get clock by id",
-        "operationId": "TimemanagerWeb.ClockController.show",
-        "parameters": [
-          {
-            "description": "Clock ID",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer",
-            "x-example": 3
-          }
-        ],
         "produces": [
           "application/json"
         ],
@@ -256,6 +230,37 @@
             "schema": {
               "$ref": "#/definitions/Clock"
             }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Clocks"
+        ]
+      }
+    },
+    "/api/clocks/{id}": {
+      "get": {
+        "description": "Get clock by id",
+        "operationId": "TimemanagerWeb.ClockController.show",
+        "parameters": [
+          {
+            "description": "Clock ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "x-example": 3
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
           },
           "400": {
             "description": "Client Error"
@@ -337,7 +342,7 @@
           }
         ],
         "responses": {
-          "203": {
+          "204": {
             "description": "No Content - Deleted Successfully"
           }
         },
@@ -417,7 +422,7 @@
         ]
       }
     },
-    "/api/workingtime/{id}": {
+    "/api/workingtimes": {
       "post": {
         "description": "Create workingtime",
         "operationId": "TimemanagerWeb.WorkingTimeController.create",

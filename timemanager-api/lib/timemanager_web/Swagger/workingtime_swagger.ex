@@ -7,28 +7,30 @@ defmodule TimemanagerWeb.Swagger.WorkingtimeSwagger do
         title "Create Workingtime"
         description "Schema for creating a workingtime"
         properties do
-          clock_start :datetime, "Start", example: "2024-12-30 15:46:33", required: true
-          clock_end :datetime, "End", example: "2024-12-30 15:46:33", required: true
+          working_start :datetime, "Start", example: "2024-12-30 09:46:33", required: true
+          working_end :datetime, "End", example: "2024-12-30 16:46:33", required: true
         end
       end,
       Workingtime: swagger_schema do
         title "Workingtime"
         description "Workingtime details"
         properties do
-          clock_start :datetime, "Start"
-          clock_end :datetime, "end"
+          working_start :datetime, "Start"
+          working_end :datetime, "end"
+          user :integer, "User ID"
         end
         example %{
-          clock_start: "2024-12-30 15:46:33",
-          clock_end: "2024-12-30 15:46:33"
+          working_start: "2024-12-30 15:46:33",
+          working_end: "2024-12-30 15:46:33",
+          user: "User ID"
         }
       end,
       UpdateWorkingtime: swagger_schema do
         title "Update Workingtime"
         description "Schema for updating a workingtime"
         properties do
-          username :string, "Username", example: "UpdatedUser123", required: true
-          email :string, "Email address", example: "updatedmail@testmail.com", required: true
+          working_start :datetime, "Start", example: "2024-12-30 10:46:33", required: true
+          working_end :datetime, "End", example: "2024-12-30 17:46:33", required: true
         end
       end,
     }
@@ -37,7 +39,7 @@ defmodule TimemanagerWeb.Swagger.WorkingtimeSwagger do
   def paths do
     quote do
       swagger_path :create do
-        post "/api/workingtime/{id}"
+        post "/api/workingtimes"
         description "Create workingtime"
         produces "application/json"
         tag "Workingtime"

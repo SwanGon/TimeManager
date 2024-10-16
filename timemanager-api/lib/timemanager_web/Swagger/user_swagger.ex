@@ -86,7 +86,7 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
         description "Delete a user by ID"
         tag "Users"
         parameter :id, :path, :integer, "User ID", required: true, example: 3
-        response 203, "No Content - Deleted Successfully"
+        response 204, "No Content - Deleted Successfully"
       end
     end
   end

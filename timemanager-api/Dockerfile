@@ -93,5 +93,11 @@ USER nobody
 # advised to add an init process such as tini via `apt-get install`
 # above and adding an entrypoint. See https://github.com/krallin/tini for details
 # ENTRYPOINT ["/tini", "--"]
+# Add postgresql-client for pg_isready
+RUN apk add --no-cache postgresql-client
 
-CMD ["/app/bin/server"]
+# Copy entrypoint script
+COPY entrypoint.sh ./
+RUN chmod +x entrypoint.sh
+
+CMD ["./entrypoint.sh"]
