@@ -2,11 +2,10 @@ defmodule Timemanager.WorkingTimeManager.WorkingTime do
   use Ecto.Schema
   import Ecto.Changeset
   alias Timemanager.UserManager.User
-  alias Timemanager.ClockManager.Clock
 
   schema "working_times" do
-    belongs_to :clock_start, Clock
-    belongs_to :clock_end, Clock
+    field :working_start, :utc_datetime
+    field :working_end, :utc_datetime
     belongs_to :user, User
     timestamps(type: :utc_datetime)
   end
@@ -14,18 +13,18 @@ defmodule Timemanager.WorkingTimeManager.WorkingTime do
   @doc false
   def changeset(working_time, attrs) do
     working_time
-    |> cast(attrs, [:clock_start, :clock_end])
-    |> validate_required([:clock_start, :clock_end])
+    |> cast(attrs, [:working_start, :working_end])
+    |> validate_required([:working_start, :working_end])
     |> validate_start_before_end()
   end
 
   defp validate_start_before_end(changeset) do
-    start_time = get_field(changeset, :clock_start)
-    end_time = get_field(changeset, :clock_end)
+    start_time = get_field(changeset, :working_start)
+    end_time = get_field(changeset, :working_end)
 
     # Only validate if both start and end are present
     if start_time && end_time && DateTime.compare(start_time, end_time) != :lt do
-      add_error(changeset, :clock_start, "must be before end time")
+      add_error(changeset, :working_start, "must be before end time")
     else
       changeset
     end

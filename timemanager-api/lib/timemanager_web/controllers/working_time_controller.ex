@@ -15,7 +15,9 @@ defmodule TimemanagerWeb.WorkingTimeController do
     render(conn, :index, working_times: working_times)
   end
 
-  def create(conn, %{"working_time" => working_time_params}) do
+  def create(conn, %{"working_start" => working_start, "working_end" => working_end}) do
+    working_time_params = %{"working_start" => working_start, "working_end" => working_end}
+
     with {:ok, %WorkingTime{} = working_time} <- WorkingTimeManager.create_working_time(working_time_params) do
       conn
       |> put_status(:created)
@@ -29,7 +31,9 @@ defmodule TimemanagerWeb.WorkingTimeController do
     render(conn, :show, working_time: working_time)
   end
 
-  def update(conn, %{"id" => id, "working_time" => working_time_params}) do
+  def update(conn, %{"id" => id, "working_start" => working_start, "working_end" => working_end}) do
+    working_time_params = %{"working_start" => working_start, "working_end" => working_end}
+    
     working_time = WorkingTimeManager.get_working_time!(id)
 
     with {:ok, %WorkingTime{} = working_time} <- WorkingTimeManager.update_working_time(working_time, working_time_params) do
