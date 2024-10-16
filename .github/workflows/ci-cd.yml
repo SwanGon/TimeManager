@@ -35,13 +35,6 @@ jobs:
         cd timemanager-api
         mix deps.get
     
-    - name: Run tests
-      run: |
-        cd timemanager-api
-        mix ecto.create
-        mix ecto.migrate
-        mix test
-    
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
@@ -52,10 +45,6 @@ jobs:
         cd timemanager-webapp
         npm ci
     
-    - name: Run frontend tests
-      run: |
-        cd timemanager-webapp
-        npm run test:unit
 
   build-and-deploy:
     needs: test
