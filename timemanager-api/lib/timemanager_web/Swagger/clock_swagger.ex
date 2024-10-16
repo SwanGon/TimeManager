@@ -20,8 +20,8 @@ defmodule TimemanagerWeb.Swagger.ClockSwagger do
           user :integer, "User ID"
         end
         example %{
-          time: "JohnDoe123",
-          status: "mymail@testmail.com",
+          time: "2024-12-30 15:46:33",
+          status: "true",
           user: "User ID"
         }
       end,
@@ -40,7 +40,7 @@ defmodule TimemanagerWeb.Swagger.ClockSwagger do
       end
 
       swagger_path :create do
-        post "/api/clocks/{id}"
+        post "/api/clocks"
         description "Create clock"
         produces "application/json"
         tag "Clocks"

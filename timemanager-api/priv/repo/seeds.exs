@@ -17,6 +17,8 @@ alias Timemanager.ClockManager.Clock
 alias Timemanager.WorkingTimeManager.WorkingTime
 
 IO.puts("deleting previous working users and associated...")
+Repo.delete_all WorkingTime
+Repo.delete_all CLock
 Repo.delete_all User
 
 # # Then we create users with:
@@ -83,30 +85,24 @@ clocks_laurent = [
   %{time: ~U[2024-10-09 16:30:10Z],status: false,user_id: laurent.id}
 ]
 
-i = 0
+
+
 
 # Enum.each([clocks_antoine,clocks_laurent,clocks_marc,clocks_swan], fn clocks ->
 #   Enum.each(Enum.with_index(clocks), fn{clock, index} ->
 #     IO.puts("creating clock...")
-#     i++
-#     Repo.insert! %Clock{
+#     current_clock = Repo.insert! %Clock{
 #       time: clock.time,
 #       status: clock.status,
 #       user_id: clock.user_id
 #     }
-#     if clock.status == false do
-
-#       clock_start_entry = Repo.get(Clock, Enum.at(clocks_antoine, i))
-#       clock_end_entry = Repo.get(Clock, Enum.at(clocks_antoine, i - 1))
-
-#       Repo.insert! %WorkingTime{
-#         # clock_start: Enum.at(clocks_antoine, index - 1).id,
-#         clock_start: clock_start_entry.id,
-#         clock_end: clock_end_entry.id,
-#         user_id: clock.user_id
-#       }
-#       IO.puts("creating working times...")
-#     end
-#   end)
+#   end
+#   )
+#   Repo.insert! %WorkingTime{
+#     clock_start: previous_clock,
+#     clock_end: current_clock,
+#     user_id: clock.user_id
+#   }
+#   IO.puts("creating working times...")
 # end
 # )
