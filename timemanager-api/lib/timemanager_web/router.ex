@@ -16,21 +16,28 @@ defmodule TimemanagerWeb.Router do
 
   end
 
-  scope "/", TimemanagerWeb do
-    pipe_through :browser
-
-    get "/", PageController, :home
-
-
+  scope "/api/swagger" do
+    forward "/", PhoenixSwagger.Plug.SwaggerUI, otp_app: :timemanager, swagger_file: "swagger.json"
   end
 
   # Other scopes may use custom stacks.
   scope "/api", TimemanagerWeb do
     pipe_through :api
 
-    resources "/users", UserController, except: [:new, :edit]
-    resources "/clocks", ClockController, only: [:show, :create]
+    resources "/users", UserController
+    resources "/clocks", ClockController
+    # resources "/clocks", ClockController, only: [:create, :show, :index]
+    # resources "/workingtimes", WorkingTimeController, except: [:new, :edit]
     resources "/workingtimes", WorkingTimeController, except: [:new, :edit]
+  end
+
+  def swagger_info do
+    %{
+      info: %{
+        version: "1.0",
+        title: "Time Manager",
+      }
+    }
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
