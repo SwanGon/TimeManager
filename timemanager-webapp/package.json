@@ -15,6 +15,7 @@
     "axios": "^1.7.7",
     "chart.js": "^4.4.4",
     "pinia": "^2.1.7",
+    "timemanager-webapp": "file:",
     "vue": "^3.4.29",
     "vue-chartjs": "^5.3.1",
     "vue-chartmaker": "^1.4.4",
