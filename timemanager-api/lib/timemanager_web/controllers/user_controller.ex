@@ -15,8 +15,8 @@ defmodule TimemanagerWeb.UserController do
     render(conn, :index, users: users)
   end
 
-  def create(conn, %{"username" => username, "email" => email}) do
-    user_params = %{"username" => username, "email" => email}
+  def create(conn, %{"username" => username, "email" => email, "role_id" => role_id}) do
+    user_params = %{"username" => username, "email" => email, "role_id" => role_id}
 
     with {:ok, %User{} = user} <- UserManager.create_user(user_params) do
       conn
@@ -24,7 +24,8 @@ defmodule TimemanagerWeb.UserController do
       |> put_resp_header("location", ~p"/api/users/#{user.id}")
       |> render(:show, user: user)
     else
-      _ ->
+      g ->
+        IO.inspect(g)
         conn
         |> put_status(:bad_request)
         |> json(%{error: "Unable to create user"})
