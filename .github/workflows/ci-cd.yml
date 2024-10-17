@@ -73,6 +73,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Liste des fichiers
+        run: ls -la
+        
       - name: Push API Image
         uses: docker/build-push-action@v4
         with:
