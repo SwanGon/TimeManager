@@ -49,7 +49,7 @@ jobs:
   build-and-deploy:
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/init'
+    if: github.ref == 'refs/heads/17-finishing-cicd'
     steps:
     - uses: actions/checkout@v2
     
