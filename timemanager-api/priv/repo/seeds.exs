@@ -55,6 +55,11 @@ swan = Repo.insert! %User{
   role_id: admin_role.id
 }
 
+laurent = Repo.insert! %User{
+  username: "Laurent",
+  email: "laurent@mail.mail",
+  role_id: user_role.id
+}
 
 
 Repo.insert! %WorkingTime{
@@ -75,6 +80,11 @@ Repo.insert! %WorkingTime{
   user_id: swan.id
 }
 
+Repo.insert! %WorkingTime{
+  working_start: ~U[2024-10-08 09:00:00Z],
+  working_end: ~U[2024-10-08 17:00:00Z],
+  user_id: laurent.id
+}
 
 
 
@@ -103,8 +113,15 @@ clocks_marc = [
   %{time: ~U[2024-10-09 17:45:12Z],status: false,user_id: marc.id},
 ]
 
+clocks_laurent = [
+  %{time: ~U[2024-10-08 10:09:00Z],status: true, user_id: marc.id},
+  %{time: ~U[2024-10-08 18:00:23Z],status: false,user_id: marc.id},
+  %{time: ~U[2024-10-09 09:12:00Z],status: true, user_id: marc.id},
+  %{time: ~U[2024-10-09 17:45:12Z],status: false,user_id: marc.id},
+]
 
-Enum.each([clocks_antoine,clocks_marc,clocks_swan], fn clocks ->
+
+Enum.each([clocks_antoine,clocks_marc,clocks_swan,clocks_laurent], fn clocks ->
   Enum.each(clocks, fn clock ->
     IO.puts("creating clock...")
     Repo.insert! %Clock{
