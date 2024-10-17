@@ -15,6 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Liste des fichiers
+        run: ls -la
+
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
