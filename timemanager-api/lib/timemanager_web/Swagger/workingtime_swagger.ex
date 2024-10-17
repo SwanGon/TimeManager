@@ -3,28 +3,31 @@ defmodule TimemanagerWeb.Swagger.WorkingtimeSwagger do
 
   def swagger_definitions do
     %{
-      CreateWorkingtime: swagger_schema do
-        title "Create Workingtime"
-        description "Schema for creating a workingtime"
-        properties do
-          working_start :datetime, "Start", example: "2024-12-30 09:46:33", required: true
-          working_end :datetime, "End", example: "2024-12-30 16:46:33", required: true
-        end
-      end,
       Workingtime: swagger_schema do
         title "Workingtime"
         description "Workingtime details"
         properties do
           working_start :datetime, "Start"
           working_end :datetime, "end"
-          user :integer, "User ID"
+          user_id :integer, "User ID"
         end
         example %{
           working_start: "2024-12-30 15:46:33",
           working_end: "2024-12-30 15:46:33",
-          user: "User ID"
+          user_id: "User ID"
         }
       end,
+
+      CreateWorkingtime: swagger_schema do
+        title "Create Workingtime"
+        description "Schema for creating a workingtime"
+        properties do
+          working_start :datetime, "Start", example: "2024-12-30 09:46:33", required: true
+          working_end :datetime, "End", example: "2024-12-30 16:46:33", required: true
+          user_id :integer, "User ID", example: 1, required: true
+        end
+      end,
+
       UpdateWorkingtime: swagger_schema do
         title "Update Workingtime"
         description "Schema for updating a workingtime"

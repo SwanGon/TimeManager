@@ -1,20 +1,19 @@
 defmodule Timemanager.WorkingTimeManager.WorkingTime do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Timemanager.UserManager.User
 
   schema "working_times" do
     field :working_start, :utc_datetime
     field :working_end, :utc_datetime
-    belongs_to :user, User
+    field :user_id, :id
     timestamps(type: :utc_datetime)
   end
 
   @doc false
   def changeset(working_time, attrs) do
     working_time
-    |> cast(attrs, [:working_start, :working_end])
-    |> validate_required([:working_start, :working_end])
+    |> cast(attrs, [:working_start, :working_end, :user_id])
+    |> validate_required([:working_start, :working_end, :user_id])
     |> validate_start_before_end()
   end
 

@@ -15,8 +15,8 @@ defmodule TimemanagerWeb.ClockController do
     render(conn, :index, clocks: clocks)
   end
 
-  def create(conn, %{"time" => time, "status" => status}) do
-    clock_params = %{"time" => time, "status" => status}
+  def create(conn, %{"time" => time, "status" => status, "user_id" => user_id}) do
+    clock_params = %{"time" => time, "status" => status, "user_id" => user_id}
 
     with {:ok, %Clock{} = clock} <- ClockManager.create_clock(clock_params) do
       conn

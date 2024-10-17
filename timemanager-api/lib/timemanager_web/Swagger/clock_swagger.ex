@@ -3,27 +3,29 @@ defmodule TimemanagerWeb.Swagger.ClockSwagger do
 
   def swagger_definitions do
     %{
-      CreateClock: swagger_schema do
-        title "Create Clock"
-        description "Schema for creating a clock"
-        properties do
-          time :datetime, "Time", example: "2024-12-30 15:46:33", required: true
-          status :boolean, "Status", example: "true"
-        end
-      end,
       Clock: swagger_schema do
         title "Clock"
         description "Clock details"
         properties do
           time :datetime, "Time"
           status :boolean, "Status"
-          user :integer, "User ID"
+          user_id :integer, "User ID"
         end
         example %{
           time: "2024-12-30 15:46:33",
           status: "true",
-          user: "User ID"
+          user_id: "User ID"
         }
+      end,
+
+      CreateClock: swagger_schema do
+        title "Create Clock"
+        description "Schema for creating a clock"
+        properties do
+          time :datetime, "Time", example: "2024-12-30 15:46:33", required: true
+          status :boolean, "Status", example: "true", required: true
+          user_id :integer, "User ID", example: 1, required: true
+        end
       end,
     }
   end

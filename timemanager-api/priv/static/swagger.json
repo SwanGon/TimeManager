@@ -5,56 +5,106 @@
   },
   "host": "localhost:4000",
   "definitions": {
-    "CreateUser": {
-      "description": "Schema for creating a user",
+    "Clock": {
+      "description": "Clock details",
+      "example": {
+        "status": "true",
+        "time": "2024-12-30 15:46:33",
+        "user_id": "User ID"
+      },
       "properties": {
-        "email": {
-          "description": "Email address",
-          "example": "mymail@testmail.com",
-          "type": "string"
+        "status": {
+          "description": "Status",
+          "type": "boolean"
         },
-        "role_id": {
-          "default": 1,
-          "description": "Role id",
+        "time": {
+          "description": "Time",
+          "type": "datetime"
+        },
+        "user_id": {
+          "description": "User ID",
+          "type": "integer"
+        }
+      },
+      "title": "Clock",
+      "type": "object"
+    },
+    "CreateClock": {
+      "description": "Schema for creating a clock",
+      "properties": {
+        "status": {
+          "description": "Status",
+          "example": "true",
+          "type": "boolean"
+        },
+        "time": {
+          "description": "Time",
+          "example": "2024-12-30 15:46:33",
+          "type": "datetime"
+        },
+        "user_id": {
+          "description": "User ID",
           "example": 1,
           "type": "integer"
-        },
-        "username": {
-          "description": "Username",
-          "example": "JohnDoe123",
-          "type": "string"
         }
       },
       "required": [
-        "role_id",
-        "email",
-        "username"
+        "user_id",
+        "status",
+        "time"
       ],
-      "title": "Create User",
+      "title": "Create Clock",
       "type": "object"
     },
-    "User": {
-      "description": "User details",
-      "example": {
-        "email": "mymail@testmail.com",
-        "role_id": 1,
-        "username": "JohnDoe123"
-      },
+    "CreateWorkingtime": {
+      "description": "Schema for creating a workingtime",
       "properties": {
-        "email": {
-          "description": "Email address",
-          "type": "string"
-        },
-        "role_id": {
-          "description": "Role ID",
+        "user_id": {
+          "description": "User ID",
+          "example": 1,
           "type": "integer"
         },
-        "username": {
-          "description": "Username",
-          "type": "string"
+        "working_end": {
+          "description": "End",
+          "example": "2024-12-30 16:46:33",
+          "type": "datetime"
+        },
+        "working_start": {
+          "description": "Start",
+          "example": "2024-12-30 09:46:33",
+          "type": "datetime"
         }
       },
-      "title": "User",
+      "required": [
+        "user_id",
+        "working_end",
+        "working_start"
+      ],
+      "title": "Create Workingtime",
+      "type": "object"
+    },
+    "Workingtime": {
+      "description": "Workingtime details",
+      "example": {
+        "user_id": "User ID",
+        "working_end": "2024-12-30 15:46:33",
+        "working_start": "2024-12-30 15:46:33"
+      },
+      "properties": {
+        "user_id": {
+          "description": "User ID",
+          "type": "integer"
+        },
+        "working_end": {
+          "description": "end",
+          "type": "datetime"
+        },
+        "working_start": {
+          "description": "Start",
+          "type": "datetime"
+        }
+      },
+      "title": "Workingtime",
       "type": "object"
     },
     "UpdateUser": {
@@ -85,93 +135,56 @@
       "title": "Update User",
       "type": "object"
     },
-    "CreateClock": {
-      "description": "Schema for creating a clock",
+    "User": {
+      "description": "User details",
+      "example": {
+        "email": "mymail@testmail.com",
+        "role_id": 1,
+        "username": "JohnDoe123"
+      },
       "properties": {
-        "status": {
-          "description": "Status",
-          "example": "true",
-          "type": "boolean"
+        "email": {
+          "description": "Email address",
+          "type": "string"
         },
-        "time": {
-          "description": "Time",
-          "example": "2024-12-30 15:46:33",
-          "type": "datetime"
+        "role_id": {
+          "description": "Role ID",
+          "type": "integer"
+        },
+        "username": {
+          "description": "Username",
+          "type": "string"
+        }
+      },
+      "title": "User",
+      "type": "object"
+    },
+    "CreateUser": {
+      "description": "Schema for creating a user",
+      "properties": {
+        "email": {
+          "description": "Email address",
+          "example": "mymail@testmail.com",
+          "type": "string"
+        },
+        "role_id": {
+          "default": 1,
+          "description": "Role id",
+          "example": 1,
+          "type": "integer"
+        },
+        "username": {
+          "description": "Username",
+          "example": "JohnDoe123",
+          "type": "string"
         }
       },
       "required": [
-        "time"
+        "role_id",
+        "email",
+        "username"
       ],
-      "title": "Create Clock",
-      "type": "object"
-    },
-    "Clock": {
-      "description": "Clock details",
-      "example": {
-        "status": "true",
-        "time": "2024-12-30 15:46:33",
-        "user": "User ID"
-      },
-      "properties": {
-        "status": {
-          "description": "Status",
-          "type": "boolean"
-        },
-        "time": {
-          "description": "Time",
-          "type": "datetime"
-        },
-        "user": {
-          "description": "User ID",
-          "type": "integer"
-        }
-      },
-      "title": "Clock",
-      "type": "object"
-    },
-    "CreateWorkingtime": {
-      "description": "Schema for creating a workingtime",
-      "properties": {
-        "working_end": {
-          "description": "End",
-          "example": "2024-12-30 16:46:33",
-          "type": "datetime"
-        },
-        "working_start": {
-          "description": "Start",
-          "example": "2024-12-30 09:46:33",
-          "type": "datetime"
-        }
-      },
-      "required": [
-        "working_end",
-        "working_start"
-      ],
-      "title": "Create Workingtime",
-      "type": "object"
-    },
-    "Workingtime": {
-      "description": "Workingtime details",
-      "example": {
-        "user": "User ID",
-        "working_end": "2024-12-30 15:46:33",
-        "working_start": "2024-12-30 15:46:33"
-      },
-      "properties": {
-        "user": {
-          "description": "User ID",
-          "type": "integer"
-        },
-        "working_end": {
-          "description": "end",
-          "type": "datetime"
-        },
-        "working_start": {
-          "description": "Start",
-          "type": "datetime"
-        }
-      },
-      "title": "Workingtime",
+      "title": "Create User",
       "type": "object"
     },
     "UpdateWorkingtime": {
