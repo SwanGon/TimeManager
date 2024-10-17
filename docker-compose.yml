@@ -15,7 +15,8 @@ services:
     ports:
       - "4000:4000"
     environment:
-      - DATABASE_URL=ecto://postgres:password@db/timemanager
+      - DATABASE_URL=ecto://${{secrets.POSTGRES_USER}}:${{secrets.POSTGRES_PASSWORD}}@db/${{secrets.POSTGRES_DB}}
+      - SECRET_KEY_BASE=${{secrets.SECRET_KEY_BASE}}
     network_mode: host
     depends_on:
       - db
@@ -25,9 +26,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=timemanager_dev
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+      - POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+      - POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
     networks:
       - app-network
     healthcheck:

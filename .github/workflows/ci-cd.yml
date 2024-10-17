@@ -2,9 +2,9 @@ name: CI/CD
 
 on:
   push:
-    branches: [ init ]
+    branches: [ 17-finishing-cicd ]
   pull_request:
-    branches: [ init ]
+    branches: [ 17-finishing-cicd ]
 
 jobs:
   test:
@@ -56,7 +56,7 @@ jobs:
     - name: Build and push Docker images
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_TOKEN }}
       run: |
         echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
         docker-compose build
@@ -64,9 +64,9 @@ jobs:
     
     - name: Deploy to server
       env:
-        HOST: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.USERNAME }}
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        HOST: ${{ secrets.PROD_SERVER_HOST }}
+        USERNAME: ${{ secrets.PROD_SERVER_USERNAME }}
+        SSH_PRIVATE_KEY: ${{ secrets.PROD_SERVER_SSH_PRIVATE_KEY }}
       run: |
         echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
         scp -i private_key docker-compose.yml $USERNAME@$HOST:~/
