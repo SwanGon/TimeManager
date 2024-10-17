@@ -1,27 +1,32 @@
 defmodule TimemanagerWeb.Swagger.UserSwagger do
   use PhoenixSwagger
 
+
+
   def swagger_definitions do
     %{
-      CreateUser: swagger_schema do
-        title "Create User"
-        description "Schema for creating a user"
-        properties do
-          username :string, "Username", example: "JohnDoe123", required: true
-          email :string, "Email address", example: "mymail@testmail.com", required: true
-        end
-      end,
       User: swagger_schema do
         title "User"
         description "User details"
         properties do
           username :string, "Username"
           email :string, "Email address"
+          role_id :integer, "Role ID"
         end
         example %{
           username: "JohnDoe123",
-          email: "mymail@testmail.com"
+          email: "mymail@testmail.com",
+          role_id: 1
         }
+      end,
+      CreateUser: swagger_schema do
+        title "Create User"
+        description "Schema for creating a user"
+        properties do
+          username :string, "Username", example: "JohnDoe123", required: true
+          email :string, "Email address", example: "mymail@testmail.com", required: true
+          role_id :integer, "Role id", example: 1, required: true, default: 1
+        end
       end,
       UpdateUser: swagger_schema do
         title "Update User"
@@ -29,6 +34,7 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
         properties do
           username :string, "Username", example: "UpdatedUser123", required: true
           email :string, "Email address", example: "updatedmail@testmail.com", required: true
+          role_id :integer, "Role id", example: 1, required: true, default: 1
         end
       end,
     }
@@ -65,6 +71,7 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
         parameter :id, :path, :integer, "User ID", required: true, example: 3
         response 200, "Success"
         response 400, "Client Error"
+        response 404, "N user found with this ID"
       end
 
       swagger_path :update do

@@ -13,6 +13,12 @@
           "example": "mymail@testmail.com",
           "type": "string"
         },
+        "role_id": {
+          "default": 1,
+          "description": "Role id",
+          "example": 1,
+          "type": "integer"
+        },
         "username": {
           "description": "Username",
           "example": "JohnDoe123",
@@ -20,6 +26,7 @@
         }
       },
       "required": [
+        "role_id",
         "email",
         "username"
       ],
@@ -30,12 +37,17 @@
       "description": "User details",
       "example": {
         "email": "mymail@testmail.com",
+        "role_id": 1,
         "username": "JohnDoe123"
       },
       "properties": {
         "email": {
           "description": "Email address",
           "type": "string"
+        },
+        "role_id": {
+          "description": "Role ID",
+          "type": "integer"
         },
         "username": {
           "description": "Username",
@@ -53,6 +65,12 @@
           "example": "updatedmail@testmail.com",
           "type": "string"
         },
+        "role_id": {
+          "default": 1,
+          "description": "Role id",
+          "example": 1,
+          "type": "integer"
+        },
         "username": {
           "description": "Username",
           "example": "UpdatedUser123",
@@ -60,6 +78,7 @@
         }
       },
       "required": [
+        "role_id",
         "email",
         "username"
       ],
@@ -373,6 +392,9 @@
           },
           "400": {
             "description": "Client Error"
+          },
+          "404": {
+            "description": "N user found with this ID"
           }
         },
         "summary": "",
