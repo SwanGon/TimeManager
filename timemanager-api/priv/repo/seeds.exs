@@ -114,10 +114,10 @@ clocks_marc = [
 ]
 
 clocks_laurent = [
-  %{time: ~U[2024-10-08 10:09:00Z],status: true, user_id: marc.id},
-  %{time: ~U[2024-10-08 18:00:23Z],status: false,user_id: marc.id},
-  %{time: ~U[2024-10-09 09:12:00Z],status: true, user_id: marc.id},
-  %{time: ~U[2024-10-09 17:45:12Z],status: false,user_id: marc.id},
+  %{time: ~U[2024-10-08 10:09:00Z],status: true, user_id: laurent.id},
+  %{time: ~U[2024-10-08 18:00:23Z],status: false,user_id: laurent.id},
+  %{time: ~U[2024-10-09 09:12:00Z],status: true, user_id: laurent.id},
+  %{time: ~U[2024-10-09 17:45:12Z],status: false,user_id: laurent.id},
 ]
 
 
