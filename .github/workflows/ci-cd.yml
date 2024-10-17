@@ -22,16 +22,16 @@ jobs:
           otp-version: "25.0"
 
       - name: Install Dependencies
-        working-directory: ./api
+        working-directory: ./timemanager-api
         run: mix deps.get
 
       - name: Build Docker Image for API
         id: build-image
         uses: docker/build-push-action@v4
         with:
-          context: ./api
+          context: ./timemanager-api
           push: false
-          tags: ghcr.io/swangon/timemanager/api:latest
+          tags: ghcr.io/swangon/timemanager/timemanager-api:latest
 
   build-webapp:
     name: Build and test Webapp
@@ -47,16 +47,16 @@ jobs:
           node-version: "lts/*"
 
       - name: Install Dependencies
-        working-directory: ./webapp
+        working-directory: ./timemanager-webapp
         run: npm ci
 
       - name: Build Docker Image for Webapp
         id: build-image
         uses: docker/build-push-action@v4
         with:
-          context: ./webapp
+          context: ./timemanager-webapp
           push: false
-          tags: ghcr.io/swangon/timemanager/webapp:latest
+          tags: ghcr.io/swangon/timemanager/timemanager-webapp:latest
 
   docker-login-and-push:
     name: Log in to GitHub Container Registry and push Docker images
@@ -73,16 +73,16 @@ jobs:
       - name: Push API Image
         uses: docker/build-push-action@v4
         with:
-          context: ./api
+          context: ./timemanager-api
           push: true
-          tags: ghcr.io/swangon/timemanager/api:latest
+          tags: ghcr.io/swangon/timemanager/timemanager-api:latest
 
       - name: Push Webapp Image
         uses: docker/build-push-action@v4
         with:
-          context: ./webapp
+          context: ./timemanager-webapp
           push: true
-          tags: ghcr.io/swangon/timemanager/webapp:latest
+          tags: ghcr.io/swangon/timemanager/timemanager-webapp:latest
 
   deploy-to-render:
     name: Deploy to Render
