@@ -2,12 +2,17 @@ defmodule Timemanager.Repo.Migrations.CreateUsers do
   use Ecto.Migration
 
   def change do
-    create table(:users) do
-      add :username, :string
-      add :email, :string
-      
-      timestamps(type: :utc_datetime)
+   execute "CREATE EXTENSION IF NOT EXISTS citext", ""
+
+   create table(:users) do
+        add :username, :string
+        add :email, :citext, null: false
+        add :hashed_password, :string, null: false
+        add :confirmed_at, :utc_datetime
+
+        timestamps(type: :utc_datetime)
+      end
+
+      create unique_index(:users, [:email])
     end
-    create unique_index(:users, [:email])
-  end
 end

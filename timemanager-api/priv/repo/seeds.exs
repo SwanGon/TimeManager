@@ -39,26 +39,30 @@ supervisor_role = Repo.insert! %Role{
 antoine = Repo.insert! %User{
   username: "Antoine",
   email: "antoine@mail.mail",
-  role_id: supervisor_role.id
+  role_id: supervisor_role.id,
+  hashed_password: Bcrypt.hash_pwd_salt("antoine")
 }
 
 marc = Repo.insert! %User{
   username: "Marc",
   email: "marc@mail.mail",
-  role_id: user_role.id
+  role_id: user_role.id,
+  hashed_password: Bcrypt.hash_pwd_salt("marc")
 }
 
 
 swan = Repo.insert! %User{
   username: "Swan",
   email: "swan@mail.mail",
-  role_id: admin_role.id
+  role_id: admin_role.id,
+  hashed_password: Bcrypt.hash_pwd_salt("swan")
 }
 
 laurent = Repo.insert! %User{
   username: "Laurent",
   email: "laurent@mail.mail",
-  role_id: user_role.id
+  role_id: user_role.id,
+  hashed_password: Bcrypt.hash_pwd_salt("laurent")
 }
 
 
