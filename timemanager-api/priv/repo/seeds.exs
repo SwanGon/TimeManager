@@ -10,52 +10,87 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-alias Bandit.Clock
 alias Timemanager.Repo
+alias Timemanager.RoleManager.Role
 alias Timemanager.UserManager.User
 alias Timemanager.ClockManager.Clock
 alias Timemanager.WorkingTimeManager.WorkingTime
 
 IO.puts("deleting previous working users and associated...")
+Repo.delete_all Clock
 Repo.delete_all WorkingTime
-Repo.delete_all CLock
 Repo.delete_all User
-
+Repo.delete_all Role
 # # Then we create users with:
 
-IO.puts("creating users Antoine...")
+user_role = Repo.insert! %Role{
+  title: "user"
+}
+
+admin_role =Repo.insert! %Role{
+  title: "admin"
+}
+
+
+supervisor_role = Repo.insert! %Role{
+  title: "supervisor"
+}
 
 antoine = Repo.insert! %User{
   username: "Antoine",
-  email: "antoine@mail.mail"
+  email: "antoine@mail.mail",
+  role_id: supervisor_role.id
 }
-
-IO.puts("creating users Marc...")
-
 
 marc = Repo.insert! %User{
   username: "Marc",
-  email: "marc@mail.mail"
+  email: "marc@mail.mail",
+  role_id: user_role.id
 }
 
-IO.puts("creating users Swan...")
 
 swan = Repo.insert! %User{
   username: "Swan",
-  email: "swan@mail.mail"
+  email: "swan@mail.mail",
+  role_id: admin_role.id
 }
-
-IO.puts("creating users Laurent...")
 
 laurent = Repo.insert! %User{
   username: "Laurent",
-  email: "laurent@mail.mail"
+  email: "laurent@mail.mail",
+  role_id: user_role.id
 }
 
-# Then we create clock times for each users
+
+Repo.insert! %WorkingTime{
+  working_start: ~U[2024-10-08 09:00:00Z],
+  working_end: ~U[2024-10-08 17:00:00Z],
+  user_id: antoine.id
+}
+
+Repo.insert! %WorkingTime{
+  working_start: ~U[2024-10-08 09:00:00Z],
+  working_end: ~U[2024-10-08 17:00:00Z],
+  user_id: marc.id
+}
+
+Repo.insert! %WorkingTime{
+  working_start: ~U[2024-10-08 09:00:00Z],
+  working_end: ~U[2024-10-08 17:00:00Z],
+  user_id: swan.id
+}
+
+Repo.insert! %WorkingTime{
+  working_start: ~U[2024-10-08 09:00:00Z],
+  working_end: ~U[2024-10-08 17:00:00Z],
+  user_id: laurent.id
+}
 
 
-IO.puts("managing working times...")
+
+
+
+# IO.puts("managing working times...")
 
 clocks_antoine = [
   %{time: ~U[2024-10-08 09:05:23Z],status: true, user_id: antoine.id},
@@ -79,30 +114,22 @@ clocks_marc = [
 ]
 
 clocks_laurent = [
-  %{time: ~U[2024-10-08 08:45:02Z],status: true, user_id: laurent.id},
-  %{time: ~U[2024-10-08 15:00:30Z],status: false,user_id: laurent.id},
-  %{time: ~U[2024-10-09 09:15:01Z],status: true, user_id: laurent.id},
-  %{time: ~U[2024-10-09 16:30:10Z],status: false,user_id: laurent.id}
+  %{time: ~U[2024-10-08 10:09:00Z],status: true, user_id: laurent.id},
+  %{time: ~U[2024-10-08 18:00:23Z],status: false,user_id: laurent.id},
+  %{time: ~U[2024-10-09 09:12:00Z],status: true, user_id: laurent.id},
+  %{time: ~U[2024-10-09 17:45:12Z],status: false,user_id: laurent.id},
 ]
 
 
-
-
-# Enum.each([clocks_antoine,clocks_laurent,clocks_marc,clocks_swan], fn clocks ->
-#   Enum.each(Enum.with_index(clocks), fn{clock, index} ->
-#     IO.puts("creating clock...")
-#     current_clock = Repo.insert! %Clock{
-#       time: clock.time,
-#       status: clock.status,
-#       user_id: clock.user_id
-#     }
-#   end
-#   )
-#   Repo.insert! %WorkingTime{
-#     clock_start: previous_clock,
-#     clock_end: current_clock,
-#     user_id: clock.user_id
-#   }
-#   IO.puts("creating working times...")
-# end
-# )
+Enum.each([clocks_antoine,clocks_marc,clocks_swan,clocks_laurent], fn clocks ->
+  Enum.each(clocks, fn clock ->
+    IO.puts("creating clock...")
+    Repo.insert! %Clock{
+      time: clock.time,
+      status: clock.status,
+      user_id: clock.user_id
+    }
+  end
+  )
+end
+)
