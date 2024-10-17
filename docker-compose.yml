@@ -14,9 +14,6 @@ services:
     build: ./timemanager-api
     ports:
       - "4000:4000"
-    environment:
-      - DATABASE_URL=ecto://${{secrets.POSTGRES_USER}}:${{secrets.POSTGRES_PASSWORD}}@db/${{secrets.POSTGRES_DB}}
-      - SECRET_KEY_BASE=${{secrets.SECRET_KEY_BASE}}
     network_mode: host
     depends_on:
       - db
@@ -25,10 +22,6 @@ services:
     image: postgres:13
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=${{ secrets.POSTGRES_DB }}
-      - POSTGRES_USER=${{ secrets.POSTGRES_USER }}
-      - POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
     networks:
       - app-network
     healthcheck:
