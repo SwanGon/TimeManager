@@ -12,25 +12,12 @@ permissions:
 
 jobs:
   build-api:
-    name: Build and test API
+    name: Build and push API
     runs-on: ubuntu-latest
     outputs:
       backend-image: ${{ steps.build-image.outputs.image }}
     steps:
       - uses: actions/checkout@v3
-
-      - name: Liste des fichiers
-        run: ls -la && pwd
-
-      - name: Set up Elixir
-        uses: erlef/setup-beam@v1
-        with:
-          elixir-version: "1.14"
-          otp-version: "25.0"
-
-      - name: Install Dependencies
-        working-directory: timemanager-api
-        run: mix deps.get
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
@@ -48,21 +35,12 @@ jobs:
           tags: ghcr.io/swangon/timemanager/timemanager-api:latest
 
   build-webapp:
-    name: Build and test Webapp
+    name: Build and push Webapp
     runs-on: ubuntu-latest
     outputs:
       frontend-image: ${{ steps.build-image.outputs.image }}
     steps:
       - uses: actions/checkout@v3
-      
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "lts/*"
-
-      - name: Install Dependencies
-        working-directory: timemanager-webapp
-        run: npm ci
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
