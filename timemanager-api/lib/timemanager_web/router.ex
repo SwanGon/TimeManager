@@ -24,10 +24,14 @@ defmodule TimemanagerWeb.Router do
   scope "/api", TimemanagerWeb do
     pipe_through :api
 
-    resources "/users", UserController
+    get "/users", UserController, :index
+    get "/users/:id", UserController, :show
+    post "/users", UserController, :create
+    put "/users/:id", UserController, :update
+    delete "/users/:id", UserController, :delete
+
+
     resources "/clocks", ClockController
-    # resources "/clocks", ClockController, only: [:create, :show, :index]
-    # resources "/workingtimes", WorkingTimeController, except: [:new, :edit]
     resources "/workingtimes", WorkingTimeController, except: [:new, :edit]
   end
 
