@@ -25,14 +25,14 @@ jobs:
           otp-version: "25.0"
 
       - name: Install Dependencies
-        working-directory: ./timemanager-api
+        working-directory: timemanager-api
         run: mix deps.get
 
       - name: Build Docker Image for API
         id: build-image
         uses: docker/build-push-action@v4
         with:
-          context: ./timemanager-api
+          context: timemanager-api
           push: false
           tags: ghcr.io/swangon/timemanager/timemanager-api:latest
 
@@ -50,14 +50,14 @@ jobs:
           node-version: "lts/*"
 
       - name: Install Dependencies
-        working-directory: ./timemanager-webapp
+        working-directory: timemanager-webapp
         run: npm ci
 
       - name: Build Docker Image for Webapp
         id: build-image
         uses: docker/build-push-action@v4
         with:
-          context: ./timemanager-webapp
+          context: timemanager-webapp
           push: false
           tags: ghcr.io/swangon/timemanager/timemanager-webapp:latest
 
@@ -79,7 +79,7 @@ jobs:
       - name: Push API Image
         uses: docker/build-push-action@v4
         with:
-          context: ./timemanager-api
+          context: timemanager-api
           push: true
           tags: ghcr.io/swangon/timemanager/timemanager-api:latest
 
