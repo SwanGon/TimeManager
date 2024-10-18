@@ -89,4 +89,6 @@ COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/timemanager .
 
 USER nobody
 
+RUN chmod +x ./bin/server
+
 CMD ["./bin/server"]
