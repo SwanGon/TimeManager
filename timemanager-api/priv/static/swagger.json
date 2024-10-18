@@ -5,6 +5,30 @@
   },
   "host": "localhost:4000",
   "definitions": {
+    "User": {
+      "description": "User details",
+      "example": {
+        "email": "mymail@testmail.com",
+        "role_id": 1,
+        "username": "JohnDoe123"
+      },
+      "properties": {
+        "email": {
+          "description": "Email address",
+          "type": "string"
+        },
+        "role_id": {
+          "description": "Role ID",
+          "type": "integer"
+        },
+        "username": {
+          "description": "Username",
+          "type": "string"
+        }
+      },
+      "title": "User",
+      "type": "object"
+    },
     "CreateUser": {
       "description": "Schema for creating a user",
       "properties": {
@@ -33,30 +57,6 @@
       "title": "Create User",
       "type": "object"
     },
-    "User": {
-      "description": "User details",
-      "example": {
-        "email": "mymail@testmail.com",
-        "role_id": 1,
-        "username": "JohnDoe123"
-      },
-      "properties": {
-        "email": {
-          "description": "Email address",
-          "type": "string"
-        },
-        "role_id": {
-          "description": "Role ID",
-          "type": "integer"
-        },
-        "username": {
-          "description": "Username",
-          "type": "string"
-        }
-      },
-      "title": "User",
-      "type": "object"
-    },
     "UpdateUser": {
       "description": "Schema for updating a user",
       "properties": {
@@ -83,50 +83,6 @@
         "username"
       ],
       "title": "Update User",
-      "type": "object"
-    },
-    "CreateClock": {
-      "description": "Schema for creating a clock",
-      "properties": {
-        "status": {
-          "description": "Status",
-          "example": "true",
-          "type": "boolean"
-        },
-        "time": {
-          "description": "Time",
-          "example": "2024-12-30 15:46:33",
-          "type": "datetime"
-        }
-      },
-      "required": [
-        "time"
-      ],
-      "title": "Create Clock",
-      "type": "object"
-    },
-    "Clock": {
-      "description": "Clock details",
-      "example": {
-        "status": "true",
-        "time": "2024-12-30 15:46:33",
-        "user": "User ID"
-      },
-      "properties": {
-        "status": {
-          "description": "Status",
-          "type": "boolean"
-        },
-        "time": {
-          "description": "Time",
-          "type": "datetime"
-        },
-        "user": {
-          "description": "User ID",
-          "type": "integer"
-        }
-      },
-      "title": "Clock",
       "type": "object"
     },
     "CreateWorkingtime": {
@@ -172,6 +128,50 @@
         }
       },
       "title": "Workingtime",
+      "type": "object"
+    },
+    "CreateClock": {
+      "description": "Schema for creating a clock",
+      "properties": {
+        "status": {
+          "description": "Status",
+          "example": "true",
+          "type": "boolean"
+        },
+        "time": {
+          "description": "Time",
+          "example": "2024-12-30 15:46:33",
+          "type": "datetime"
+        }
+      },
+      "required": [
+        "time"
+      ],
+      "title": "Create Clock",
+      "type": "object"
+    },
+    "Clock": {
+      "description": "Clock details",
+      "example": {
+        "status": "true",
+        "time": "2024-12-30 15:46:33",
+        "user": "User ID"
+      },
+      "properties": {
+        "status": {
+          "description": "Status",
+          "type": "boolean"
+        },
+        "time": {
+          "description": "Time",
+          "type": "datetime"
+        },
+        "user": {
+          "description": "User ID",
+          "type": "integer"
+        }
+      },
+      "title": "Clock",
       "type": "object"
     },
     "UpdateWorkingtime": {
@@ -295,7 +295,22 @@
       "get": {
         "description": "List all users",
         "operationId": "TimemanagerWeb.UserController.index",
-        "parameters": [],
+        "parameters": [
+          {
+            "description": "Email address of the user",
+            "in": "query",
+            "name": "email",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "description": "Username of the user",
+            "in": "query",
+            "name": "username",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "produces": [
           "application/json"
         ],

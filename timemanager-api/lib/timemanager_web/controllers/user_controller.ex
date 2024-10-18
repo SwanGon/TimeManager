@@ -10,8 +10,18 @@ defmodule TimemanagerWeb.UserController do
 
   Module.eval_quoted(__MODULE__, UserSwagger.paths())
 
-  def index(conn, _params) do
-    users = UserManager.list_users()
+  def index(conn, params) do
+    users =
+      cond do
+        params["email"] && params["username"] ->
+          UserManager.get_users_by_email_and_username(params["email"], params["username"])
+        params["email"] ->
+          UserManager.get_users_by_email(params["email"])
+        params["username"] ->
+          UserManager.get_users_by_username(params["username"])
+        true ->
+          UserManager.list_users()
+        end
     render(conn, :index, users: users)
   end
 

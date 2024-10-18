@@ -47,6 +47,10 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
         description "List all users"
         produces "application/json"
         tag "Users"
+        parameters do
+          email :query, :string, "Email address of the user", required: false
+          username :query, :string, "Username of the user", required: false
+        end
         response 200, "Success"
         response 400, "Client Error"
       end

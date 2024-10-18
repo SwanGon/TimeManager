@@ -21,6 +21,20 @@ defmodule Timemanager.UserManager do
     Repo.all(User)
   end
 
+  def get_users_by_email(email) do
+    from(u in User, where: u.email == ^email)
+    |> Repo.all()
+  end
+
+  def get_users_by_username(username) do
+    from(u in User, where: u.username == ^username)
+    |> Repo.all()
+  end
+
+  def get_users_by_email_and_username(email, username) do
+    from(u in User, where: u.email == ^email and u.username == ^username)
+  |> Repo.all()
+  end
   @doc """
   Gets a single user.
 
