@@ -55,6 +55,17 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
         response 400, "Client Error"
       end
 
+      swagger_path :show do
+        get "/api/users/{id}"
+        description "Get user by id"
+        produces "application/json"
+        tag "Users"
+        parameter :id, :path, :integer, "User ID", required: true, example: 3
+        response 200, "Success"
+        response 400, "Client Error"
+        response 404, "N user found with this ID"
+      end
+
       swagger_path :create do
         post "/api/users"
         description "Create user"
@@ -65,17 +76,6 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
         end
         response 201, "Success", Schema.ref(:User)
         response 400, "Client Error"
-      end
-
-      swagger_path :show do
-        get "/api/users/{id}"
-        description "Get user by id"
-        produces "application/json"
-        tag "Users"
-        parameter :id, :path, :integer, "User ID", required: true, example: 3
-        response 200, "Success"
-        response 400, "Client Error"
-        response 404, "N user found with this ID"
       end
 
       swagger_path :update do

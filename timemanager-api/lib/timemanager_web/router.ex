@@ -23,6 +23,7 @@ defmodule TimemanagerWeb.Router do
   # Other scopes may use custom stacks.
   scope "/api", TimemanagerWeb do
     pipe_through :api
+    #Users routes
 
     get "/users", UserController, :index
     get "/users/:id", UserController, :show
@@ -30,9 +31,14 @@ defmodule TimemanagerWeb.Router do
     put "/users/:id", UserController, :update
     delete "/users/:id", UserController, :delete
 
+    #Working times routes
+    get "/workingtimes/:user_id", WorkingTimeController, :index
+    get "/workingtimes/:user_id/:id", WorkingTimeController, :show
+    post "/workingtimes/:user_id", WorkingTimeController, :create
+    put "/workingtimes/:id", WorkingTimeController, :update
+    delete "/workingtimes/:id", WorkingTimeController, :delete
 
     resources "/clocks", ClockController
-    resources "/workingtimes", WorkingTimeController, except: [:new, :edit]
   end
 
   def swagger_info do

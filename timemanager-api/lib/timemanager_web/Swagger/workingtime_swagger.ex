@@ -3,14 +3,6 @@ defmodule TimemanagerWeb.Swagger.WorkingtimeSwagger do
 
   def swagger_definitions do
     %{
-      CreateWorkingtime: swagger_schema do
-        title "Create Workingtime"
-        description "Schema for creating a workingtime"
-        properties do
-          working_start :datetime, "Start", example: "2024-12-30 09:46:33", required: true
-          working_end :datetime, "End", example: "2024-12-30 16:46:33", required: true
-        end
-      end,
       Workingtime: swagger_schema do
         title "Workingtime"
         description "Workingtime details"
@@ -25,6 +17,16 @@ defmodule TimemanagerWeb.Swagger.WorkingtimeSwagger do
           user: "User ID"
         }
       end,
+
+      CreateWorkingtime: swagger_schema do
+        title "Create Workingtime"
+        description "Schema for creating a workingtime"
+        properties do
+          working_start :datetime, "Start", example: "2024-12-30 09:46:33", required: true
+          working_end :datetime, "End", example: "2024-12-30 16:46:33", required: true
+        end
+      end,
+
       UpdateWorkingtime: swagger_schema do
         title "Update Workingtime"
         description "Schema for updating a workingtime"
@@ -38,6 +40,36 @@ defmodule TimemanagerWeb.Swagger.WorkingtimeSwagger do
 
   def paths do
     quote do
+
+      swagger_path :index do
+        get "/api/workingtimes/{user_id}"
+        description "List all working times of a user"
+        produces "application/json"
+        tag "Workingtime"
+
+        parameter :user_id, :path, :integer, "User ID", required: true
+        parameter :working_start, :query, :string, "start date", required: false
+        parameter :working_end, :query, :string, "end date", required: false
+
+        response 200, "Success"
+        response 400, "Client Error"
+      end
+
+
+      swagger_path :show do
+        get "/api/workingtimes/{user_id}/"
+        description "Get a working time by user by id"
+        produces "application/json"
+        tag "Workingtime"
+
+        parameter :id, :query, :integer, "Working time ID", required: true
+        parameter :user_id, :path, :integer, "User ID", required: true
+
+        response 200, "Success"
+        response 400, "Client Error"
+        response 404, "No working time and/or user found with this IDs"
+      end
+
       swagger_path :create do
         post "/api/workingtimes"
         description "Create workingtime"

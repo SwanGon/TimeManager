@@ -17,8 +17,28 @@ defmodule Timemanager.WorkingTimeManager do
       [%WorkingTime{}, ...]
 
   """
-  def list_working_times do
-    Repo.all(WorkingTime)
+  # def list_working_times do
+  #   Repo.all(WorkingTime)
+  # end
+
+  def get_working_times_by_user(user_id) do
+    from(w in WorkingTime, where: w.user_id == ^user_id)
+    |> Repo.all()
+  end
+
+  def get_working_times_by_user_start_and_end(working_start, working_end, user_id) do
+    from(w in WorkingTime, where: w.user_id == ^user_id and w.working_start <= ^working_start and w.working_end >= ^working_end)
+    |> Repo.all()
+  end
+
+  def get_working_times_by_user_and_start(working_start, user_id) do
+    from(w in WorkingTime, where: w.user_id == ^user_id and w.working_start <= ^working_start)
+    |> Repo.all()
+  end
+
+  def get_working_times_by_user_and_end(working_end, user_id) do
+    from(w in WorkingTime, where: w.user_id == ^user_id and w.working_end >= ^working_end)
+    |> Repo.all()
   end
 
   @doc """
@@ -37,6 +57,10 @@ defmodule Timemanager.WorkingTimeManager do
   """
   def get_working_time!(id), do: Repo.get!(WorkingTime, id)
 
+  def get_one_working_time!(id, user_id) do
+    from(w in WorkingTime, where: w.user_id == ^user_id and w.id == ^id)
+    |> Repo.all()
+  end
   @doc """
   Creates a working_time.
 

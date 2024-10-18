@@ -10,9 +10,24 @@ defmodule TimemanagerWeb.WorkingTimeController do
 
   Module.eval_quoted(__MODULE__, WorkingtimeSwagger.paths())
 
-  def index(conn, _params) do
-    working_times = WorkingTimeManager.list_working_times()
-    render(conn, :index, working_times: working_times)
+  def index(conn, params) do
+    working_times =
+      cond do
+        params["working_start"] && params["working_end"] ->
+          WorkingTimeManager.get_working_times_by_user_start_and_end(params["working_start"], params["working_end"],params["user_id"])
+        params["working_start"] ->
+          WorkingTimeManager.get_working_times_by_user_and_start(params["working_start"], params["user_id"])
+        params["working_end"] ->
+          WorkingTimeManager.get_working_times_by_user_and_end(params["working_start"], params["user_id"])
+        true ->
+          WorkingTimeManager.get_working_times_by_user(params["user_id"])
+      end
+    render(conn, "index.json", working_times: working_times)
+  end
+
+  def show(conn, %{"id" => id, "user_id"=> user_id}) do
+    working_time = WorkingTimeManager.get_one_working_time!(id, user_id)
+    render(conn, :show, working_time: working_time)
   end
 
   def create(conn, %{"working_start" => working_start, "working_end" => working_end}) do
@@ -26,14 +41,10 @@ defmodule TimemanagerWeb.WorkingTimeController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    working_time = WorkingTimeManager.get_working_time!(id)
-    render(conn, :show, working_time: working_time)
-  end
 
   def update(conn, %{"id" => id, "working_start" => working_start, "working_end" => working_end}) do
     working_time_params = %{"working_start" => working_start, "working_end" => working_end}
-    
+
     working_time = WorkingTimeManager.get_working_time!(id)
 
     with {:ok, %WorkingTime{} = working_time} <- WorkingTimeManager.update_working_time(working_time, working_time_params) do
