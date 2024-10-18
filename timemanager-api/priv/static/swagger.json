@@ -5,6 +5,144 @@
   },
   "host": "localhost:4000",
   "definitions": {
+    "Workingtime": {
+      "description": "Workingtime details",
+      "example": {
+        "user": "User ID",
+        "working_end": "2024-12-30 15:46:33",
+        "working_start": "2024-12-30 15:46:33"
+      },
+      "properties": {
+        "user": {
+          "description": "User ID",
+          "type": "integer"
+        },
+        "working_end": {
+          "description": "end",
+          "type": "datetime"
+        },
+        "working_start": {
+          "description": "Start",
+          "type": "datetime"
+        }
+      },
+      "title": "Workingtime",
+      "type": "object"
+    },
+    "CreateWorkingtime": {
+      "description": "Schema for creating a workingtime",
+      "properties": {
+        "working_end": {
+          "description": "End",
+          "example": "2024-12-30 16:46:33",
+          "type": "datetime"
+        },
+        "working_start": {
+          "description": "Start",
+          "example": "2024-12-30 09:46:33",
+          "type": "datetime"
+        }
+      },
+      "required": [
+        "working_end",
+        "working_start"
+      ],
+      "title": "Create Workingtime",
+      "type": "object"
+    },
+    "UpdateWorkingtime": {
+      "description": "Schema for updating a workingtime",
+      "properties": {
+        "working_end": {
+          "description": "End",
+          "example": "2024-12-30 17:46:33",
+          "type": "datetime"
+        },
+        "working_start": {
+          "description": "Start",
+          "example": "2024-12-30 10:46:33",
+          "type": "datetime"
+        }
+      },
+      "required": [
+        "working_end",
+        "working_start"
+      ],
+      "title": "Update Workingtime",
+      "type": "object"
+    },
+    "CreateClock": {
+      "description": "Schema for creating a clock",
+      "properties": {
+        "status": {
+          "description": "Status",
+          "example": "true",
+          "type": "boolean"
+        },
+        "time": {
+          "description": "Time",
+          "example": "2024-12-30 15:46:33",
+          "type": "datetime"
+        }
+      },
+      "required": [
+        "time"
+      ],
+      "title": "Create Clock",
+      "type": "object"
+    },
+    "Clock": {
+      "description": "Clock details",
+      "example": {
+        "status": "true",
+        "time": "2024-12-30 15:46:33",
+        "user": "User ID"
+      },
+      "properties": {
+        "status": {
+          "description": "Status",
+          "type": "boolean"
+        },
+        "time": {
+          "description": "Time",
+          "type": "datetime"
+        },
+        "user": {
+          "description": "User ID",
+          "type": "integer"
+        }
+      },
+      "title": "Clock",
+      "type": "object"
+    },
+    "UpdateUser": {
+      "description": "Schema for updating a user",
+      "properties": {
+        "email": {
+          "description": "Email address",
+          "example": "updatedmail@testmail.com",
+          "type": "string"
+        },
+        "role_id": {
+          "default": 1,
+          "description": "Role id",
+          "example": 1,
+          "type": "integer"
+        },
+        "username": {
+          "description": "Username",
+          "example": "UpdatedUser123",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role_id",
+        "email",
+        "username"
+      ],
+      "title": "Update User",
+      "type": "object"
+    },
     "User": {
       "description": "User details",
       "example": {
@@ -55,144 +193,6 @@
         "username"
       ],
       "title": "Create User",
-      "type": "object"
-    },
-    "UpdateUser": {
-      "description": "Schema for updating a user",
-      "properties": {
-        "email": {
-          "description": "Email address",
-          "example": "updatedmail@testmail.com",
-          "type": "string"
-        },
-        "role_id": {
-          "default": 1,
-          "description": "Role id",
-          "example": 1,
-          "type": "integer"
-        },
-        "username": {
-          "description": "Username",
-          "example": "UpdatedUser123",
-          "type": "string"
-        }
-      },
-      "required": [
-        "role_id",
-        "email",
-        "username"
-      ],
-      "title": "Update User",
-      "type": "object"
-    },
-    "CreateWorkingtime": {
-      "description": "Schema for creating a workingtime",
-      "properties": {
-        "working_end": {
-          "description": "End",
-          "example": "2024-12-30 16:46:33",
-          "type": "datetime"
-        },
-        "working_start": {
-          "description": "Start",
-          "example": "2024-12-30 09:46:33",
-          "type": "datetime"
-        }
-      },
-      "required": [
-        "working_end",
-        "working_start"
-      ],
-      "title": "Create Workingtime",
-      "type": "object"
-    },
-    "Workingtime": {
-      "description": "Workingtime details",
-      "example": {
-        "user": "User ID",
-        "working_end": "2024-12-30 15:46:33",
-        "working_start": "2024-12-30 15:46:33"
-      },
-      "properties": {
-        "user": {
-          "description": "User ID",
-          "type": "integer"
-        },
-        "working_end": {
-          "description": "end",
-          "type": "datetime"
-        },
-        "working_start": {
-          "description": "Start",
-          "type": "datetime"
-        }
-      },
-      "title": "Workingtime",
-      "type": "object"
-    },
-    "CreateClock": {
-      "description": "Schema for creating a clock",
-      "properties": {
-        "status": {
-          "description": "Status",
-          "example": "true",
-          "type": "boolean"
-        },
-        "time": {
-          "description": "Time",
-          "example": "2024-12-30 15:46:33",
-          "type": "datetime"
-        }
-      },
-      "required": [
-        "time"
-      ],
-      "title": "Create Clock",
-      "type": "object"
-    },
-    "Clock": {
-      "description": "Clock details",
-      "example": {
-        "status": "true",
-        "time": "2024-12-30 15:46:33",
-        "user": "User ID"
-      },
-      "properties": {
-        "status": {
-          "description": "Status",
-          "type": "boolean"
-        },
-        "time": {
-          "description": "Time",
-          "type": "datetime"
-        },
-        "user": {
-          "description": "User ID",
-          "type": "integer"
-        }
-      },
-      "title": "Clock",
-      "type": "object"
-    },
-    "UpdateWorkingtime": {
-      "description": "Schema for updating a workingtime",
-      "properties": {
-        "working_end": {
-          "description": "End",
-          "example": "2024-12-30 17:46:33",
-          "type": "datetime"
-        },
-        "working_start": {
-          "description": "Start",
-          "example": "2024-12-30 10:46:33",
-          "type": "datetime"
-        }
-      },
-      "required": [
-        "working_end",
-        "working_start"
-      ],
-      "title": "Update Workingtime",
       "type": "object"
     }
   },
@@ -459,7 +459,155 @@
         ]
       }
     },
-    "/api/workingtimes": {
+    "/api/workingtimes/{id}": {
+      "delete": {
+        "description": "Delete a user by ID",
+        "operationId": "TimemanagerWeb.WorkingTimeController.delete",
+        "parameters": [
+          {
+            "description": "Working time ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "x-example": 1
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content - Deleted Successfully"
+          }
+        },
+        "summary": "Delete User",
+        "tags": [
+          "Workingtime"
+        ]
+      },
+      "put": {
+        "description": "Update an existing user",
+        "operationId": "TimemanagerWeb.WorkingTimeController.update",
+        "parameters": [
+          {
+            "description": "working time id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "x-example": 1
+          },
+          {
+            "description": "working time update params",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateWorkingtime"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Working time updated",
+            "schema": {
+              "$ref": "#/definitions/Workingtime"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Workingtime"
+        ]
+      }
+    },
+    "/api/workingtimes/{user_id}": {
+      "get": {
+        "description": "List all working times of a user",
+        "operationId": "TimemanagerWeb.WorkingTimeController.index",
+        "parameters": [
+          {
+            "description": "User ID",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "start date",
+            "in": "query",
+            "name": "working_start",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "description": "end date",
+            "in": "query",
+            "name": "working_end",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Workingtime"
+        ]
+      }
+    },
+    "/api/workingtimes/{user_id}/": {
+      "get": {
+        "description": "Get a working time by user by id",
+        "operationId": "TimemanagerWeb.WorkingTimeController.show",
+        "parameters": [
+          {
+            "description": "Working time ID",
+            "in": "query",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "User ID",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client Error"
+          },
+          "404": {
+            "description": "No working time and/or user found with this IDs"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Workingtime"
+        ]
+      },
       "post": {
         "description": "Create workingtime",
         "operationId": "TimemanagerWeb.WorkingTimeController.create",
@@ -467,7 +615,7 @@
           {
             "description": "User ID",
             "in": "path",
-            "name": "id",
+            "name": "user_id",
             "required": true,
             "type": "integer",
             "x-example": 1
