@@ -38,7 +38,9 @@ defmodule TimemanagerWeb.Router do
     put "/workingtimes/:id", WorkingTimeController, :update
     delete "/workingtimes/:id", WorkingTimeController, :delete
 
-    resources "/clocks", ClockController
+    #Clocks routes
+    get "/clocks/:user_id", ClockController, :index
+    post "/clocks/:user_id", ClockController, :create
   end
 
   def swagger_info do
