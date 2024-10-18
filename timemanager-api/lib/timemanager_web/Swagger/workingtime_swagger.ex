@@ -71,12 +71,12 @@ defmodule TimemanagerWeb.Swagger.WorkingtimeSwagger do
       end
 
       swagger_path :create do
-        post "/api/workingtimes"
+        post "/api/workingtimes/{user_id}/"
         description "Create workingtime"
         produces "application/json"
         tag "Workingtime"
         parameters do
-          id :path, :integer, "User ID", required: true, example: 1
+          user_id :path, :integer, "User ID", required: true, example: 1
           body :body, Schema.ref(:CreateWorkingtime), "Workingtime creation params", required: true
         end
         response 201, "Success", Schema.ref(:Workingtime)

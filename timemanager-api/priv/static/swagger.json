@@ -71,50 +71,6 @@
       "title": "Update Workingtime",
       "type": "object"
     },
-    "CreateClock": {
-      "description": "Schema for creating a clock",
-      "properties": {
-        "status": {
-          "description": "Status",
-          "example": "true",
-          "type": "boolean"
-        },
-        "time": {
-          "description": "Time",
-          "example": "2024-12-30 15:46:33",
-          "type": "datetime"
-        }
-      },
-      "required": [
-        "time"
-      ],
-      "title": "Create Clock",
-      "type": "object"
-    },
-    "Clock": {
-      "description": "Clock details",
-      "example": {
-        "status": "true",
-        "time": "2024-12-30 15:46:33",
-        "user": "User ID"
-      },
-      "properties": {
-        "status": {
-          "description": "Status",
-          "type": "boolean"
-        },
-        "time": {
-          "description": "Time",
-          "type": "datetime"
-        },
-        "user": {
-          "description": "User ID",
-          "type": "integer"
-        }
-      },
-      "title": "Clock",
-      "type": "object"
-    },
     "UpdateUser": {
       "description": "Schema for updating a user",
       "properties": {
@@ -193,6 +149,50 @@
         "username"
       ],
       "title": "Create User",
+      "type": "object"
+    },
+    "CreateClock": {
+      "description": "Schema for creating a clock",
+      "properties": {
+        "status": {
+          "description": "Status",
+          "example": "true",
+          "type": "boolean"
+        },
+        "time": {
+          "description": "Time",
+          "example": "2024-12-30 15:46:33",
+          "type": "datetime"
+        }
+      },
+      "required": [
+        "time"
+      ],
+      "title": "Create Clock",
+      "type": "object"
+    },
+    "Clock": {
+      "description": "Clock details",
+      "example": {
+        "status": "true",
+        "time": "2024-12-30 15:46:33",
+        "user": "User ID"
+      },
+      "properties": {
+        "status": {
+          "description": "Status",
+          "type": "boolean"
+        },
+        "time": {
+          "description": "Time",
+          "type": "datetime"
+        },
+        "user": {
+          "description": "User ID",
+          "type": "integer"
+        }
+      },
+      "title": "Clock",
       "type": "object"
     }
   },
@@ -459,49 +459,6 @@
         ]
       }
     },
-    "/api/workingtimes": {
-      "post": {
-        "description": "Create workingtime",
-        "operationId": "TimemanagerWeb.WorkingTimeController.create",
-        "parameters": [
-          {
-            "description": "User ID",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer",
-            "x-example": 1
-          },
-          {
-            "description": "Workingtime creation params",
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CreateWorkingtime"
-            }
-          }
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "201": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/Workingtime"
-            }
-          },
-          "400": {
-            "description": "Client Error"
-          }
-        },
-        "summary": "",
-        "tags": [
-          "Workingtime"
-        ]
-      }
-    },
     "/api/workingtimes/{user_id}": {
       "get": {
         "description": "List all working times of a user",
@@ -578,6 +535,47 @@
           },
           "404": {
             "description": "No working time and/or user found with this IDs"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Workingtime"
+        ]
+      },
+      "post": {
+        "description": "Create workingtime",
+        "operationId": "TimemanagerWeb.WorkingTimeController.create",
+        "parameters": [
+          {
+            "description": "User ID",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer",
+            "x-example": 1
+          },
+          {
+            "description": "Workingtime creation params",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateWorkingtime"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Workingtime"
+            }
+          },
+          "400": {
+            "description": "Client Error"
           }
         },
         "summary": "",
