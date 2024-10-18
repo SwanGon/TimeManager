@@ -18,7 +18,7 @@ defmodule TimemanagerWeb.WorkingTimeController do
         params["working_start"] ->
           WorkingTimeManager.get_working_times_by_user_and_start(params["working_start"], params["user_id"])
         params["working_end"] ->
-          WorkingTimeManager.get_working_times_by_user_and_end(params["working_start"], params["user_id"])
+          WorkingTimeManager.get_working_times_by_user_and_end(params["working_end"], params["user_id"])
         true ->
           WorkingTimeManager.get_working_times_by_user(params["user_id"])
       end

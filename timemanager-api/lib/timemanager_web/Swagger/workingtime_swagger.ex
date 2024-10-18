@@ -82,6 +82,28 @@ defmodule TimemanagerWeb.Swagger.WorkingtimeSwagger do
         response 201, "Success", Schema.ref(:Workingtime)
         response 400, "Client Error"
       end
+
+      swagger_path :update do
+        put "/api/workingtimes/{id}"
+        description "Update an existing user"
+        produces "application/json"
+        tag "Workingtime"
+        parameters do
+          id :path, :integer, "working time id", required: true, example: 1
+          body :body, Schema.ref(:UpdateWorkingtime), "working time update params", required: true
+        end
+        response 200, "Working time updated", Schema.ref(:Workingtime)
+        response 400, "Client Error"
+      end
+
+      swagger_path :delete do
+        PhoenixSwagger.Path.delete "/api/workingtimes/{id}"
+        summary "Delete User"
+        description "Delete a user by ID"
+        tag "Workingtime"
+        parameter :id, :path, :integer, "Working time ID", required: true, example: 1
+        response 204, "No Content - Deleted Successfully"
+      end
     end
   end
 end

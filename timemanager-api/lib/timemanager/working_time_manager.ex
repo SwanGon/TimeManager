@@ -37,7 +37,7 @@ defmodule Timemanager.WorkingTimeManager do
   end
 
   def get_working_times_by_user_and_end(working_end, user_id) do
-    from(w in WorkingTime, where: w.user_id == ^user_id and w.working_end >= ^working_end)
+    from(w in WorkingTime, where: w.user_id == ^user_id and w.working_end <= ^working_end)
     |> Repo.all()
   end
 
