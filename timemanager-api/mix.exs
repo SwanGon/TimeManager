@@ -62,7 +62,7 @@ defmodule Timemanager.MixProject do
       {:bandit, "~> 1.5"},
       {:phoenix_swagger, "~> 0.8"},
       {:ex_json_schema, "~> 0.5"}, # optional
-      {:validate, "~> 1.3"}
+      {:validate, "~> 1.3"},
     ]
   end
 
