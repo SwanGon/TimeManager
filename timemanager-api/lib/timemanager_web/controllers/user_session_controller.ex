@@ -17,6 +17,10 @@ defmodule TimemanagerWeb.UserSessionController do
   def create(conn, params) do
     create(conn, params, "Welcome back!")
   end
+  def csrf_token(conn, _params) do
+    token = Plug.CSRFProtection.get_csrf_token()
+    json(conn, %{csrf_token: token})
+  end
 
   defp create(conn, %{"user" => user_params}, info) do
     %{"email" => email, "password" => password} = user_params

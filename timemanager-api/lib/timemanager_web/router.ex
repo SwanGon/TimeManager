@@ -16,7 +16,8 @@ defmodule TimemanagerWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
     plug :fetch_session
-
+    plug :fetch_current_user
+    plug :protect_from_forgery, with: :null_session
   end
 
   scope "/api/swagger" do
@@ -75,6 +76,7 @@ defmodule TimemanagerWeb.Router do
 
     post "/users/log_in", UserSessionController, :create
   end
+  get "/api/csrf_token", SessionController, :csrf_token
 
   scope "/", TimemanagerWeb do
     pipe_through [:browser, :require_authenticated_user]

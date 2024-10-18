@@ -91,11 +91,21 @@ defmodule TimemanagerWeb.UserAuth do
   and remember me token.
   """
   def fetch_current_user(conn, _opts) do
-    {user_token, conn} = ensure_user_token(conn)
-    user = user_token && UserManager.get_user_by_session_token(user_token)
-    assign(conn, :current_user, user)
+    case get_auth_token(conn) do
+      {:ok, token} ->
+        user = UserManager.get_user_by_session_token(token)
+        assign(conn, :current_user, user)
+      _ ->
+        conn
+        |> put_status(:unauthorized)
+        |> json(%{error: "Unauthorized"})
+        |> halt()
+    end
   end
-
+  def csrf_token(conn, _params) do
+    token = Plug.CSRFProtection.get_csrf_token()
+    json(conn, %{csrf_token: token})
+  end
   defp ensure_user_token(conn) do
     if token = get_session(conn, :user_token) do
       {token, conn}
@@ -109,7 +119,12 @@ defmodule TimemanagerWeb.UserAuth do
       end
     end
   end
-
+  defp get_auth_token(conn) do
+    case get_req_header(conn, "authorization") do
+      ["Bearer " <> token] -> {:ok, token}
+      _ -> :error
+    end
+  end
   @doc """
   Handles mounting and authenticating the current_user in LiveViews.
 

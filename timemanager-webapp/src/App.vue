@@ -1,19 +1,37 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link :to="'/'">Home</router-link> |
-      <router-link :to="'/user'">User</router-link> |
-      <router-link :to="'/clock/' + userId">Clock</router-link> |
-      <router-link :to="'/chart/' + userId">Charts</router-link> |
-      <router-link :to="'/workingtimes/' + userId">Working Times</router-link> |
-      <router-link :to="'/workingtime/' + userId">Working Time</router-link> |
-
-    </nav>
     <router-view></router-view>
-  </div>
-
 </template>
 
 <script setup>
-const userId = 1
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const userId = ref(null)
+
+onMounted(async () => {
+  try {
+    const token = localStorage.getItem('auth_token')
+    const response = await fetch('http://localhost:4000/api/users/me', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+
+    if (response.ok) {
+      const user = await response.json()
+      userId.value = user.id
+    } else {
+      console.error('Failed to fetch user:', response.status, response.statusText)
+      router.push('/login')
+    }
+  } catch (error) {
+    console.error('Error fetching user:', error)
+    router.push('/login')
+  }
+})
+
+
+
+
 </script>

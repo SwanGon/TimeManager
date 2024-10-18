@@ -30,6 +30,17 @@ defmodule TimemanagerWeb.UserController do
         |> json(%{error: "Unable to create user"})
     end
   end
+  def show(conn, %{"id" => "me"}) do
+    case conn.assigns do
+      %{current_user: user} when not is_nil(user) ->
+        render(conn, :show, user: user)
+      _ ->
+        conn
+        |> put_status(:unauthorized)
+        |> json(%{error: "User not authenticated"})
+    end
+  end
+
 
   def show(conn, %{"id" => id}) do
     user = UserManager.get_user!(id)
