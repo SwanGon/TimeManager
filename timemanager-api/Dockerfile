@@ -16,7 +16,7 @@ ARG OTP_VERSION=27.1.1
 ARG DEBIAN_VERSION=bullseye-20241016-slim
 
 ARG BUILDER_IMAGE="hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${DEBIAN_VERSION}"
-ARG RUNNER_IMAGE="elixir:${ELIXIR_VERSION}-slim"
+ARG RUNNER_IMAGE="debian:${DEBIAN_VERSION}"
 
 FROM ${BUILDER_IMAGE} AS builder
 
@@ -74,9 +74,9 @@ RUN apt-get update -y && \
 # Set the locale
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
 
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 
 WORKDIR "/app"
 RUN chown nobody /app
@@ -87,9 +87,6 @@ ENV MIX_ENV="prod"
 # Only copy the final release from the build stage
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/timemanager ./
 
-# Copier le script d'initialisation
-COPY entrypoint.sh /app/entrypoint.sh
-
 USER nobody
 
-CMD ["_build/prod/rel/timemanager/bin/timemanager", "start"]
+CMD ["./bin/timemanager", "start"]
