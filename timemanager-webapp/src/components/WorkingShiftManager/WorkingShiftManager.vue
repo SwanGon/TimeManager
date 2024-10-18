@@ -16,14 +16,14 @@ function convertToUTC(localDateTime) {
 }
 
 async function createWorkingShift() {
-  console.log(userId.value);
-  
+  console.log(userId.value)
+
   try {
     const newShift = {
       startTime: convertToUTC(startTime.value),
       endTime: convertToUTC(endTime.value)
     }
-    await axios.post(`http://localhost:4000/api/workingtimes/${userId.value}`, newShift)
+    await axios.post(`/api/workingtimes/${userId.value}`, newShift)
     console.log('Working shift created:', newShift)
   } catch (error) {
     console.error('Error creating working shift:', error)

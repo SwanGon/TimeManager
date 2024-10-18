@@ -24,7 +24,8 @@ defmodule TimemanagerWeb.UserController do
       |> put_resp_header("location", ~p"/api/users/#{user.id}")
       |> render(:show, user: user)
     else
-      _ ->
+      g ->
+        IO.inspect(g)
         conn
         |> put_status(:bad_request)
         |> json(%{error: "Unable to create user"})

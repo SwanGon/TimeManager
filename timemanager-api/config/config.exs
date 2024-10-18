@@ -54,7 +54,7 @@ config :tailwind,
   ]
 # Configuration de corps_plug
 config :cors_plug,
-  origin: ["http://localhost:5173"],
+  origin: ["*"],
   max_age: 86400,
   methods: ["GET", "POST", "PUT", "DELETE"]
 

@@ -11,7 +11,7 @@ const workingTimes = ref([])
 async function getWorkingTimes() {
   if (userId.value) {
     try {
-      const response = await axios.get(`http://localhost:4000/api/workingtime/${userId.value}`)
+      const response = await axios.get(`/api/workingtime/${userId.value}`)
       workingTimes.value = response.data
     } catch (error) {
       console.error('Error fetching working times:', error)
