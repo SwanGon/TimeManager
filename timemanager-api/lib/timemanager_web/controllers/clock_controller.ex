@@ -27,9 +27,18 @@ defmodule TimemanagerWeb.ClockController do
   end
 
   def show(conn, %{"id" => id}) do
-    clock = ClockManager.get_clock!(id)
-    render(conn, :show, clock: clock)
+    case ClockManager.get_clock!(id) do
+      %Clock{} = clock ->
+        render(conn, :show, clock: clock)
+      _ ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{error: "Clock not found"})
+    end
   end
+
+
+
 
   def update(conn, %{"id" => id, "clock" => clock_params}) do
     clock = ClockManager.get_clock!(id)
