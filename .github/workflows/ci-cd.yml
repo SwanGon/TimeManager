@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ 17-finishing-cicd ]
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   build-api:
     name: Build and test API
