@@ -17,9 +17,11 @@ defmodule Timemanager.ClockManager do
       [%Clock{}, ...]
 
   """
-  def list_clocks do
-    Repo.all(Clock)
+  def get_clocks_by_user(user_id) do
+    from(c in Clock, where: c.user_id == ^user_id)
+    |> Repo.all()
   end
+
 
   @doc """
   Gets a single clock.

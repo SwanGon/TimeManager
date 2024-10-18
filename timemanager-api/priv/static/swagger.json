@@ -5,6 +5,107 @@
   },
   "host": "localhost:4000",
   "definitions": {
+    "CreateUser": {
+      "description": "Schema for creating a user",
+      "properties": {
+        "email": {
+          "description": "Email address",
+          "example": "mymail@testmail.com",
+          "type": "string"
+        },
+        "role_id": {
+          "default": 1,
+          "description": "Role id",
+          "example": 1,
+          "type": "integer"
+        },
+        "username": {
+          "description": "Username",
+          "example": "JohnDoe123",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role_id",
+        "email",
+        "username"
+      ],
+      "title": "Create User",
+      "type": "object"
+    },
+    "User": {
+      "description": "User details",
+      "example": {
+        "email": "mymail@testmail.com",
+        "role_id": 1,
+        "username": "JohnDoe123"
+      },
+      "properties": {
+        "email": {
+          "description": "Email address",
+          "type": "string"
+        },
+        "role_id": {
+          "description": "Role ID",
+          "type": "integer"
+        },
+        "username": {
+          "description": "Username",
+          "type": "string"
+        }
+      },
+      "title": "User",
+      "type": "object"
+    },
+    "UpdateUser": {
+      "description": "Schema for updating a user",
+      "properties": {
+        "email": {
+          "description": "Email address",
+          "example": "updatedmail@testmail.com",
+          "type": "string"
+        },
+        "role_id": {
+          "default": 1,
+          "description": "Role id",
+          "example": 1,
+          "type": "integer"
+        },
+        "username": {
+          "description": "Username",
+          "example": "UpdatedUser123",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role_id",
+        "email",
+        "username"
+      ],
+      "title": "Update User",
+      "type": "object"
+    },
+    "CreateWorkingtime": {
+      "description": "Schema for creating a workingtime",
+      "properties": {
+        "working_end": {
+          "description": "End",
+          "example": "2024-12-30 16:46:33",
+          "type": "datetime"
+        },
+        "working_start": {
+          "description": "Start",
+          "example": "2024-12-30 09:46:33",
+          "type": "datetime"
+        }
+      },
+      "required": [
+        "working_end",
+        "working_start"
+      ],
+      "title": "Create Workingtime",
+      "type": "object"
+    },
     "Workingtime": {
       "description": "Workingtime details",
       "example": {
@@ -27,27 +128,6 @@
         }
       },
       "title": "Workingtime",
-      "type": "object"
-    },
-    "CreateWorkingtime": {
-      "description": "Schema for creating a workingtime",
-      "properties": {
-        "working_end": {
-          "description": "End",
-          "example": "2024-12-30 16:46:33",
-          "type": "datetime"
-        },
-        "working_start": {
-          "description": "Start",
-          "example": "2024-12-30 09:46:33",
-          "type": "datetime"
-        }
-      },
-      "required": [
-        "working_end",
-        "working_start"
-      ],
-      "title": "Create Workingtime",
       "type": "object"
     },
     "UpdateWorkingtime": {
@@ -114,94 +194,22 @@
       },
       "title": "Clock",
       "type": "object"
-    },
-    "UpdateUser": {
-      "description": "Schema for updating a user",
-      "properties": {
-        "email": {
-          "description": "Email address",
-          "example": "updatedmail@testmail.com",
-          "type": "string"
-        },
-        "role_id": {
-          "default": 1,
-          "description": "Role id",
-          "example": 1,
-          "type": "integer"
-        },
-        "username": {
-          "description": "Username",
-          "example": "UpdatedUser123",
-          "type": "string"
-        }
-      },
-      "required": [
-        "role_id",
-        "email",
-        "username"
-      ],
-      "title": "Update User",
-      "type": "object"
-    },
-    "User": {
-      "description": "User details",
-      "example": {
-        "email": "mymail@testmail.com",
-        "role_id": 1,
-        "username": "JohnDoe123"
-      },
-      "properties": {
-        "email": {
-          "description": "Email address",
-          "type": "string"
-        },
-        "role_id": {
-          "description": "Role ID",
-          "type": "integer"
-        },
-        "username": {
-          "description": "Username",
-          "type": "string"
-        }
-      },
-      "title": "User",
-      "type": "object"
-    },
-    "CreateUser": {
-      "description": "Schema for creating a user",
-      "properties": {
-        "email": {
-          "description": "Email address",
-          "example": "mymail@testmail.com",
-          "type": "string"
-        },
-        "role_id": {
-          "default": 1,
-          "description": "Role id",
-          "example": 1,
-          "type": "integer"
-        },
-        "username": {
-          "description": "Username",
-          "example": "JohnDoe123",
-          "type": "string"
-        }
-      },
-      "required": [
-        "role_id",
-        "email",
-        "username"
-      ],
-      "title": "Create User",
-      "type": "object"
     }
   },
   "paths": {
-    "/api/clocks": {
+    "/api/clocks/{user_id}": {
       "get": {
         "description": "List all clocks",
         "operationId": "TimemanagerWeb.ClockController.index",
-        "parameters": [],
+        "parameters": [
+          {
+            "description": "User ID",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
         "produces": [
           "application/json"
         ],
@@ -223,9 +231,9 @@
         "operationId": "TimemanagerWeb.ClockController.create",
         "parameters": [
           {
-            "description": "User ID",
+            "description": "user ID",
             "in": "path",
-            "name": "id",
+            "name": "user_id",
             "required": true,
             "type": "integer",
             "x-example": 1
@@ -249,37 +257,6 @@
             "schema": {
               "$ref": "#/definitions/Clock"
             }
-          },
-          "400": {
-            "description": "Client Error"
-          }
-        },
-        "summary": "",
-        "tags": [
-          "Clocks"
-        ]
-      }
-    },
-    "/api/clocks/{id}": {
-      "get": {
-        "description": "Get clock by id",
-        "operationId": "TimemanagerWeb.ClockController.show",
-        "parameters": [
-          {
-            "description": "Clock ID",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer",
-            "x-example": 3
-          }
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
           },
           "400": {
             "description": "Client Error"
