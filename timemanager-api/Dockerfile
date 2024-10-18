@@ -94,8 +94,7 @@ USER nobody
 # above and adding an entrypoint. See https://github.com/krallin/tini for details
 # ENTRYPOINT ["/tini", "--"]
 
-COPY entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
-ENTRYPOINT ["/app/entrypoint.sh"]
+RUN mix ecto.create
+RUN mix ecto.migrate
 
-CMD ["/app/bin/server"]
+CMD ["mix", "phx.server"]
