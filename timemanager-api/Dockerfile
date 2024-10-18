@@ -89,4 +89,4 @@ COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/timemanager .
 
 USER nobody
 
-CMD ["./bin/timemanager", "start"]
+CMD ["./bin/server"]
