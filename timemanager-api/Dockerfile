@@ -92,5 +92,4 @@ COPY entrypoint.sh /app/entrypoint.sh
 
 USER nobody
 
-# Utiliser le script d'initialisation comme point d'entrée
-ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["_build/prod/rel/timemanager/bin/timemanager", "start"]
