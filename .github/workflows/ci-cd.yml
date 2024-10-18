@@ -76,18 +76,18 @@ jobs:
           -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
           ${{ secrets.RENDER_DEPLOY_HOOK_WEBAPP }}
 
-  mirror-to-epitech-repo:
-    name: Mirror to Epitech Repository
-    runs-on: ubuntu-latest
-    steps:
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.MIRROR_TOKEN }}
-      - name: Mirror to Epitech Repository
-        run: |
-          git clone --bare git@github.com:SwanGon/TimeManager.git
-          cd TimeManager.git
-          git push --mirror git@github.com:EpitechMscProPromo2026/T-POO-700-NAN_9.git
+  # mirror-to-epitech-repo:
+  #   name: Mirror to Epitech Repository
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Log in to GitHub Container Registry
+  #       uses: docker/login-action@v2
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.MIRROR_TOKEN }}
+  #     - name: Mirror to Epitech Repository
+  #       run: |
+  #         git clone --bare git@github.com:SwanGon/TimeManager.git
+  #         cd TimeManager.git
+  #         git push --mirror git@github.com:EpitechMscProPromo2026/T-POO-700-NAN_9.git
