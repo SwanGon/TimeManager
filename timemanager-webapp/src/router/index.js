@@ -21,8 +21,8 @@ const router = createRouter({
       component: WorkingShiftManager
     },
     {
-      path: '/workingtimes/:userId',
-      name: 'workingTimes',
+      path: '/workingtimes/:userid',
+      name: 'workingtimes',
       component: WorkingTimesManager
     },
     {

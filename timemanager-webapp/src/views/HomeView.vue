@@ -2,6 +2,7 @@
 import ClockManager from '@/components/ClockManager/ClockManager.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 
+
 </script>
 
 <template>
@@ -11,7 +12,7 @@ import ButtonComponent from '@/components/general/ButtonComponent.vue';
       <ClockManager/>
       <ButtonComponent
         title = "My workingtimes"
-        path = "/wokringtimes/:userId"
+        path = "/workingtimes/:userid"
       >
       </ButtonComponent>
     </div>
@@ -41,7 +42,7 @@ import ButtonComponent from '@/components/general/ButtonComponent.vue';
     </ButtonComponent>
   </div>
 
-  
+
   <!-- <nav>
     <router-link :to="'/user'">User</router-link> |
     <router-link :to="'/clock/' + userId">Clock</router-link> |

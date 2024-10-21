@@ -1,3 +1,7 @@
+<!-- To use it do that you must add this to your script setup -->
+<!-- import DatePicker from './components/WorkingTimesManager/WorkingTimePicker.vue' -->
+<!-- then -->
+<!-- <WorkingTimePicker/> -->
 <template>
   <div class="working-time-creator">
     <h2>Create Working Time</h2>
@@ -32,16 +36,14 @@
       />
     </div>
 
-    <div class="user-selection">
-      <label>Select User IDs:</label>
-      <div v-for="user in users" :key="user.id">
-        <input
-          type="checkbox"
-          :value="user.id"
-          v-model="selectedUserIds"
-        />
-        {{ user.name }} (ID: {{ user.id }})
-      </div>
+    <div class="user-id-select">
+      <label for="user-id">User ID:</label>
+      <select v-model="userId" id="user-id">
+        <option value="" disabled>Select User ID</option>
+        <option v-for="number in numberOptions" :key="number" :value="number">
+          {{ number }}
+        </option>
+      </select>
     </div>
 
     <button @click="createWorkingTimes">Create Working Time</button>
@@ -55,20 +57,13 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { VaTimePicker } from 'vuestic-ui';
-
-// Sample user data
-const users = ref([
-  { id: 1, name: 'Leanne Graham' },
-  { id: 2, name: 'Ervin Howell' },
-  { id: 3, name: 'Clementine Bauch' },
-  // Add more users as needed
-]);
-
-const selectedUserIds = ref([]);
+import axios from 'axios';
+const numberOptions = Array.from({ length: 20 }, (_, i) => i + 1);
 const workingDate = ref('');
 const startTime = ref(null);
 const endTime = ref(null);
-const timeFormat = 'HH:mm'; // Specify the time format
+const timeFormat = 'HH:mm';
+const userId = ref(null);
 
 // Computed property to format the working time for display
 const formattedWorkingTime = computed(() => {
@@ -76,39 +71,30 @@ const formattedWorkingTime = computed(() => {
   const end = endTime.value ? `${workingDate.value} ${endTime.value.toLocaleTimeString()}` : 'Not set';
   return `${start} - ${end}`;
 });
-
-// Function to create working times by sending POST requests for each selected user
+// Function to create working times
 const createWorkingTimes = async () => {
-  if (!workingDate.value || !startTime.value || !endTime.value || selectedUserIds.value.length === 0) {
-    alert("Please fill in all fields and select at least one user.");
+  if (!workingDate.value || !startTime.value || !endTime.value || !userId.value) {
+    alert("Please fill in all fields and select a User ID.");
     return;
   }
 
   const workingTimeData = {
+    user_id: userId.value, // Include the user ID
     working_start: formatDateTime(workingDate.value, startTime.value),
     working_end: formatDateTime(workingDate.value, endTime.value),
   };
 
-  for (const userId of selectedUserIds.value) {
-    try {
-      const response = await fetch(`http://localhost:4000/api/workingtimes/${userId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(workingTimeData),
-      });
+  try {
+    const response = await axios.post(`http://localhost:4000/api/workingtimes/${userId.value}`, workingTimeData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-      if (response.ok) {
-        const result = await response.json();
-        alert(`Working time created for User ID ${userId}: ${JSON.stringify(result)}`);
-      } else {
-        alert(`Error creating working time for User ID ${userId}: ${response.statusText}`);
-      }
-    } catch (error) {
-      console.error("Error creating working time:", error);
-      alert("Failed to create working time. Please try again.");
-    }
+    alert(`Working time created: ${JSON.stringify(response.data)}`);
+  } catch (error) {
+    console.error('Error creating working time:', error);
+    alert('Failed to create working time. Please try again.');
   }
 };
 
