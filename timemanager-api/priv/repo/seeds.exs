@@ -1,4 +1,3 @@
-alias Postgrex.Extensions.Time
 alias Timemanager.Repo
 alias Timemanager.TeamManagers.Team
 alias Timemanager.RoleManager.Role
@@ -20,7 +19,6 @@ defmodule Timemanager.Seeds do
     create_users()
     create_teams()
     create_working_times()
-    # create_clocks()
   end
 
   defp create_roles do
@@ -118,22 +116,19 @@ defmodule Timemanager.Seeds do
     Enum.each(managers, fn manager ->
       team = Repo.insert!(%Team{manager_id: manager.id})
       IO.puts("Created team with ID #{team.id} for manager #{manager.username}")
-      assign_users_to_team(team.id)
     end)
+    assign_users_to_team()
   end
 
-  defp assign_users_to_team(team_id) do
+  defp assign_users_to_team() do
     role_id = Repo.one(from r in Role, where: r.title == "user", select: r.id)
     users = Repo.all(from u in User, where: u.role_id == ^role_id and is_nil(u.team_id))
+    team_ids = Repo.all(from t in Team, select: t.id)
     Enum.each(users, fn user ->
-      updated_user = Ecto.Changeset.change(user, team_id: team_id)
-      case Repo.update(updated_user) do
-        {:ok, _user} ->
-          IO.puts("Assigned user #{user.username} to team with ID #{team_id}")
-        {:error, changeset} ->
-          IO.puts("Failed to assign user #{user.username}: #{inspect(changeset.errors)}")
-      end
-    end)
+      updated_user = Ecto.Changeset.change(user, team_id: Enum.random(team_ids))
+      Repo.update(updated_user)
+    end
+    )
   end
 
 
@@ -165,12 +160,30 @@ defmodule Timemanager.Seeds do
             user_id: user.id
           })
 
-        end)
+          clock_in_offset = Enum.random([-300, 300])
+          clock_in_time = working_start |> DateTime.add(clock_in_offset)
 
+          clock_out_offset = Enum.random([-300, 300])
+          clock_out_time = working_end |> DateTime.add(clock_out_offset)
+
+          Repo.insert!(%Clock{
+            user_id: user.id,
+            time: clock_in_time,
+            status: true
+          })
+
+          Repo.insert!(%Clock{
+            user_id: user.id,
+            time: clock_out_time,
+            status: false
+          })
+        end)
         IO.puts("Created working time for team #{team.id} from #{working_start} to #{working_end}")
       end
     end)
   end
+
+
 end
 
 Timemanager.Seeds.run()
