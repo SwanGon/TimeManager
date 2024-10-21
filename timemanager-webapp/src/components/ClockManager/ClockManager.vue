@@ -45,7 +45,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="card">
+  <div class="card sm:w-56 mx-8 shadow-lg">
     <h2>Clock</h2>
     <p>Start Date Time: {{ startDateTime }}</p>
     <div class="toggle-container">
@@ -57,12 +57,12 @@ onMounted(async () => {
     </div>
   </div>
 </template>
+
 <style scoped>
 .card {
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 16px;
-  margin-bottom: 16px;
 }
 
 .toggle-container {

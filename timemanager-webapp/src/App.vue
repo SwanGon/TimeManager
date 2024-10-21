@@ -1,18 +1,11 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link :to="'/'">
-        <ButtonComponent
-          title = "Timemanager"
-        ></ButtonComponent>
-      </router-link>
-      
-    </nav>
-    <router-view></router-view>
-  </div>
+    <div class="h-screen flex flex-col">
+      <HeaderComponent/>
+      <router-view/>
+    </div>
 </template>
 
 <script setup>
-import ButtonComponent from './components/general/ButtonComponent.vue';
-
+  import HeaderComponent from './components/general/HeaderComponent.vue';
+  import "./main.css"
 </script>
