@@ -17,6 +17,9 @@ defmodule TimemanagerWeb.TeamController do
     render(conn, :index, teams: teams)
   end
 
+
+
+
   def create(conn, %{"team" => team_params}) do
     with {:ok, %Team{} = team} <- TeamManagers.create_team(team_params) do
       conn
@@ -28,6 +31,11 @@ defmodule TimemanagerWeb.TeamController do
 
   def show(conn, %{"id" => id}) do
     team = TeamManagers.get_team!(id)
+    render(conn, :show, team: team)
+  end
+
+  def manager(conn, %{"manager_id" => manager_id}) do
+    team = TeamManagers.get_team_by_manager(manager_id)
     render(conn, :show, team: team)
   end
 

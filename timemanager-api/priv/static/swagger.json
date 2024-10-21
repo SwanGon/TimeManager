@@ -314,6 +314,28 @@
         ]
       }
     },
+    "/api/managers": {
+      "get": {
+        "description": "List all users with manager Role",
+        "operationId": "TimemanagerWeb.UserController.managers",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
     "/api/teams": {
       "get": {
         "description": "List all team",
@@ -458,6 +480,39 @@
           },
           "400": {
             "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Teams"
+        ]
+      }
+    },
+    "/api/teamsmanager/{manager_id}": {
+      "get": {
+        "description": "get teams by manager's id",
+        "operationId": "TimemanagerWeb.TeamController.manager",
+        "parameters": [
+          {
+            "description": "manager ID",
+            "in": "path",
+            "name": "manager_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client Error"
+          },
+          "404": {
+            "description": "No Team found with this ID"
           }
         },
         "summary": "",

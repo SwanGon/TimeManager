@@ -43,6 +43,17 @@ defmodule TimemanagerWeb.Swagger.TeamSwagger do
         response 400, "Client Error"
       end
 
+      swagger_path :manager do
+        get "/api/teamsmanager/{manager_id}"
+        description "get teams by manager's id"
+        produces "application/json"
+        tag "Teams"
+        parameter :manager_id, :path, :integer, "manager ID", required: true
+        response 200, "Success"
+        response 400, "Client Error"
+        response 404, "No Team found with this ID"
+      end
+
       swagger_path :show do
         get "/api/teams/{id}"
         description "Get team by id"
