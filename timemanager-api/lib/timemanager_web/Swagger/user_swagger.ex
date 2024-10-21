@@ -63,7 +63,7 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
         parameter :id, :path, :integer, "User ID", required: true, example: 3
         response 200, "Success"
         response 400, "Client Error"
-        response 404, "N user found with this ID"
+        response 404, "No user found with this ID"
       end
 
       swagger_path :create do

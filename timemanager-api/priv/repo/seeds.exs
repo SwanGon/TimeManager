@@ -11,6 +11,7 @@
 # and so on) as they will fail if something goes wrong.
 
 alias Timemanager.Repo
+alias Timemanager.TeamManagers.Team
 alias Timemanager.RoleManager.Role
 alias Timemanager.UserManager.User
 alias Timemanager.ClockManager.Clock
@@ -19,16 +20,19 @@ alias Timemanager.WorkingTimeManager.WorkingTime
 IO.puts("deleting previous working users and associated...")
 Repo.delete_all Clock
 Repo.delete_all WorkingTime
+Repo.delete_all Team
 Repo.delete_all User
 Repo.delete_all Role
 # # Then we create users with:
+
+
 
 user_role = Repo.insert! %Role{
   title: "user"
 }
 
-admin_role =Repo.insert! %Role{
-  title: "admin"
+manager_role =Repo.insert! %Role{
+  title: "manager"
 }
 
 
@@ -39,28 +43,66 @@ supervisor_role = Repo.insert! %Role{
 antoine = Repo.insert! %User{
   username: "Antoine",
   email: "antoine@mail.mail",
-  role_id: supervisor_role.id
+  role_id: supervisor_role.id,
+  team_id: nil
 }
 
 marc = Repo.insert! %User{
   username: "Marc",
   email: "marc@mail.mail",
-  role_id: user_role.id
+  role_id: user_role.id,
+  team_id: nil
 }
 
 
 swan = Repo.insert! %User{
   username: "Swan",
   email: "swan@mail.mail",
-  role_id: admin_role.id
+  role_id: manager_role.id,
+  team_id: nil
 }
 
 laurent = Repo.insert! %User{
   username: "Laurent",
   email: "laurent@mail.mail",
-  role_id: user_role.id
+  role_id: user_role.id,
+  team_id: nil
 }
 
+max = Repo.insert! %User{
+  username: "Max",
+  email: "max@mail.mail",
+  role_id: user_role.id,
+  team_id: nil
+}
+
+emilie = Repo.insert! %User{
+  username: "Emilie",
+  email: "emilie@mail.mail",
+  role_id: user_role.id,
+  team_id: nil
+}
+
+rose = Repo.insert! %User{
+  username: "Rose",
+  email: "rose@mail.mail",
+  role_id: manager_role.id,
+  team_id: nil
+}
+
+
+team1 = Repo.insert! %Team{
+  manager_id: rose.id
+}
+
+team2 = Repo.insert! %Team{
+  manager_id: swan.id
+}
+
+emilie = Repo.update!(Ecto.Changeset.change(emilie, team_id: team1.id))
+max = Repo.update!(Ecto.Changeset.change(max, team_id: team1.id))
+laurent = Repo.update!(Ecto.Changeset.change(laurent, team_id: team2.id))
+marc = Repo.update!(Ecto.Changeset.change(marc, team_id: team2.id))
 
 Repo.insert! %WorkingTime{
   working_start: ~U[2024-10-08 09:00:00Z],
@@ -133,3 +175,5 @@ Enum.each([clocks_antoine,clocks_marc,clocks_swan,clocks_laurent], fn clocks ->
   )
 end
 )
+
+
