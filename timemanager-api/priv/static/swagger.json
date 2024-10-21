@@ -194,6 +194,52 @@
       },
       "title": "Clock",
       "type": "object"
+    },
+    "CreateTeam": {
+      "description": "Schema for creating a Team",
+      "properties": {
+        "manager_id": {
+          "default": 1,
+          "description": "manager_id",
+          "example": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "manager_id"
+      ],
+      "title": "Create Team",
+      "type": "object"
+    },
+    "Team": {
+      "description": "Team details",
+      "example": {
+        "manager_id": 1
+      },
+      "properties": {
+        "manager_id": {
+          "description": "manager ID",
+          "type": "integer"
+        }
+      },
+      "title": "Team",
+      "type": "object"
+    },
+    "UpdateTeam": {
+      "description": "Schema for updating a Team",
+      "properties": {
+        "manager_id": {
+          "default": 2,
+          "description": "manager_id",
+          "example": 2,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "manager_id"
+      ],
+      "title": "Update Team",
+      "type": "object"
     }
   },
   "paths": {
@@ -265,6 +311,213 @@
         "summary": "",
         "tags": [
           "Clocks"
+        ]
+      }
+    },
+    "/api/managers": {
+      "get": {
+        "description": "List all users with manager Role",
+        "operationId": "TimemanagerWeb.UserController.managers",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/api/teams": {
+      "get": {
+        "description": "List all team",
+        "operationId": "TimemanagerWeb.TeamController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Teams"
+        ]
+      },
+      "post": {
+        "description": "Create Team",
+        "operationId": "TimemanagerWeb.TeamController.create",
+        "parameters": [
+          {
+            "description": "Team creation params",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateTeam"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Team"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Teams"
+        ]
+      }
+    },
+    "/api/teams/{id}": {
+      "delete": {
+        "description": "Delete a Team by ID",
+        "operationId": "TimemanagerWeb.TeamController.delete",
+        "parameters": [
+          {
+            "description": "Team ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "x-example": 3
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content - Deleted Successfully"
+          }
+        },
+        "summary": "Delete Team",
+        "tags": [
+          "Teams"
+        ]
+      },
+      "get": {
+        "description": "Get team by id",
+        "operationId": "TimemanagerWeb.TeamController.show",
+        "parameters": [
+          {
+            "description": "Team ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client Error"
+          },
+          "404": {
+            "description": "No Team found with this ID"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Teams"
+        ]
+      },
+      "put": {
+        "description": "Update an existing team",
+        "operationId": "TimemanagerWeb.TeamController.update",
+        "parameters": [
+          {
+            "description": "Team ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "x-example": 1
+          },
+          {
+            "description": "Team update params",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateTeam"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Team updated",
+            "schema": {
+              "$ref": "#/definitions/Team"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Teams"
+        ]
+      }
+    },
+    "/api/teamsmanager/{manager_id}": {
+      "get": {
+        "description": "get teams by manager's id",
+        "operationId": "TimemanagerWeb.TeamController.manager",
+        "parameters": [
+          {
+            "description": "manager ID",
+            "in": "path",
+            "name": "manager_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client Error"
+          },
+          "404": {
+            "description": "No Team found with this ID"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Teams"
         ]
       }
     },
@@ -386,7 +639,7 @@
             "description": "Client Error"
           },
           "404": {
-            "description": "N user found with this ID"
+            "description": "No user found with this ID"
           }
         },
         "summary": "",

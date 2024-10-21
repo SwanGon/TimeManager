@@ -1,135 +1,189 @@
-# Script for populating the database. You can run it as:
-#
-#     mix run priv/repo/seeds.exs
-#
-# Inside the script, you can read and write to any of your
-# repositories directly:
-#
-#     Timemanager.Repo.insert!(%Timemanager.SomeSchema{})
-#
-# We recommend using the bang functions (`insert!`, `update!`
-# and so on) as they will fail if something goes wrong.
-
 alias Timemanager.Repo
+alias Timemanager.TeamManagers.Team
 alias Timemanager.RoleManager.Role
 alias Timemanager.UserManager.User
 alias Timemanager.ClockManager.Clock
 alias Timemanager.WorkingTimeManager.WorkingTime
-
-IO.puts("deleting previous working users and associated...")
-Repo.delete_all Clock
-Repo.delete_all WorkingTime
-Repo.delete_all User
-Repo.delete_all Role
-# # Then we create users with:
-
-user_role = Repo.insert! %Role{
-  title: "user"
-}
-
-admin_role =Repo.insert! %Role{
-  title: "admin"
-}
+import Ecto.Query
 
 
-supervisor_role = Repo.insert! %Role{
-  title: "supervisor"
-}
+defmodule Timemanager.Seeds do
 
-antoine = Repo.insert! %User{
-  username: "Antoine",
-  email: "antoine@mail.mail",
-  role_id: supervisor_role.id
-}
+  Repo.delete_all Clock
+  Repo.delete_all WorkingTime
+  Repo.delete_all Team
+  Repo.delete_all User
+  Repo.delete_all Role
 
-marc = Repo.insert! %User{
-  username: "Marc",
-  email: "marc@mail.mail",
-  role_id: user_role.id
-}
-
-
-swan = Repo.insert! %User{
-  username: "Swan",
-  email: "swan@mail.mail",
-  role_id: admin_role.id
-}
-
-laurent = Repo.insert! %User{
-  username: "Laurent",
-  email: "laurent@mail.mail",
-  role_id: user_role.id
-}
-
-
-Repo.insert! %WorkingTime{
-  working_start: ~U[2024-10-08 09:00:00Z],
-  working_end: ~U[2024-10-08 17:00:00Z],
-  user_id: antoine.id
-}
-
-Repo.insert! %WorkingTime{
-  working_start: ~U[2024-10-08 09:00:00Z],
-  working_end: ~U[2024-10-08 17:00:00Z],
-  user_id: marc.id
-}
-
-Repo.insert! %WorkingTime{
-  working_start: ~U[2024-10-08 09:00:00Z],
-  working_end: ~U[2024-10-08 17:00:00Z],
-  user_id: swan.id
-}
-
-Repo.insert! %WorkingTime{
-  working_start: ~U[2024-10-08 09:00:00Z],
-  working_end: ~U[2024-10-08 17:00:00Z],
-  user_id: laurent.id
-}
-
-
-
-
-
-# IO.puts("managing working times...")
-
-clocks_antoine = [
-  %{time: ~U[2024-10-08 09:05:23Z],status: true, user_id: antoine.id},
-  %{time: ~U[2024-10-08 17:10:33Z],status: false,user_id: antoine.id},
-  %{time: ~U[2024-10-09 08:50:12Z],status: true, user_id: antoine.id},
-  %{time: ~U[2024-10-09 16:40:45Z],status: false,user_id: antoine.id},
-]
-
-clocks_swan = [
-  %{time: ~U[2024-10-08 09:01:30Z],status: true, user_id: swan.id},
-  %{time: ~U[2024-10-08 17:02:04Z],status: false,user_id: swan.id},
-  %{time: ~U[2024-10-09 08:30:01Z],status: true, user_id: swan.id},
-  %{time: ~U[2024-10-09 16:45:30Z],status: false,user_id: swan.id},
-]
-
-clocks_marc = [
-  %{time: ~U[2024-10-08 10:09:00Z],status: true, user_id: marc.id},
-  %{time: ~U[2024-10-08 18:00:23Z],status: false,user_id: marc.id},
-  %{time: ~U[2024-10-09 09:12:00Z],status: true, user_id: marc.id},
-  %{time: ~U[2024-10-09 17:45:12Z],status: false,user_id: marc.id},
-]
-
-clocks_laurent = [
-  %{time: ~U[2024-10-08 10:09:00Z],status: true, user_id: laurent.id},
-  %{time: ~U[2024-10-08 18:00:23Z],status: false,user_id: laurent.id},
-  %{time: ~U[2024-10-09 09:12:00Z],status: true, user_id: laurent.id},
-  %{time: ~U[2024-10-09 17:45:12Z],status: false,user_id: laurent.id},
-]
-
-
-Enum.each([clocks_antoine,clocks_marc,clocks_swan,clocks_laurent], fn clocks ->
-  Enum.each(clocks, fn clock ->
-    IO.puts("creating clock...")
-    Repo.insert! %Clock{
-      time: clock.time,
-      status: clock.status,
-      user_id: clock.user_id
-    }
+  def run do
+    create_users()
+    create_teams()
+    create_working_times()
   end
-  )
+
+  defp create_roles do
+    user_role = Repo.insert!(%Role{title: "user"})
+    manager_role = Repo.insert!(%Role{title: "manager"})
+    supervisor_role = Repo.insert!(%Role{title: "supervisor"})
+
+    {user_role, manager_role, supervisor_role}
+  end
+
+  defp create_users do
+    {user_role, manager_role, supervisor_role} = create_roles()
+    users = [
+      %{
+        username: "Antoine",
+        email: "antoine@mail.mail",
+        role_id: supervisor_role.id,
+        team_id: nil
+      },
+      %{
+        username: "Marc",
+        email: "marc@mail.mail",
+        role_id: user_role.id,
+        team_id: nil
+      },
+      %{
+        username: "Swan",
+        email: "swan@mail.mail",
+        role_id: manager_role.id,
+        team_id: nil
+      },
+      %{
+        username: "Laurent",
+        email: "laurent@mail.mail",
+        role_id: supervisor_role.id,
+        team_id: nil
+      },
+      %{
+        username: "Max",
+        email: "max@mail.mail",
+        role_id: user_role.id,
+        team_id: nil
+      },
+      %{
+        username: "Emilie",
+        email: "emilie@mail.mail",
+        role_id: user_role.id,
+        team_id: nil
+      },
+      %{
+        username: "Rose",
+        email: "rose@mail.mail",
+        role_id: manager_role.id,
+        team_id: nil
+      },
+      %{
+        username: "Romain",
+        email: "romain@mail.mail",
+        role_id: user_role.id,
+        team_id: nil
+      },
+      %{
+        username: "Sophie",
+        email: "sophie@mail.mail",
+        role_id: user_role.id,
+        team_id: nil
+      },
+      %{
+        username: "Sarah",
+        email: "sarah@mail.mail",
+        role_id: user_role.id,
+        team_id: nil
+      },
+      %{
+        username: "Marius",
+        email: "marius@mail.mail",
+        role_id: user_role.id,
+        team_id: nil
+      }
+    ]
+    Enum.each(users, fn user ->
+      IO.puts("Creating user: #{user.username}")
+      Repo.insert!(%User{
+        username: user.username,
+        email: user.email,
+        role_id: user.role_id,
+        team_id: nil
+      })
+    end)
+  end
+
+  defp create_teams do
+    manager_role_id = Repo.one(from r in Role, where: r.title == "manager", select: r.id)
+    managers = Repo.all(from u in User, where: u.role_id == ^manager_role_id)
+    Enum.each(managers, fn manager ->
+      team = Repo.insert!(%Team{manager_id: manager.id})
+      IO.puts("Created team with ID #{team.id} for manager #{manager.username}")
+    end)
+    assign_users_to_team()
+  end
+
+  defp assign_users_to_team() do
+    role_id = Repo.one(from r in Role, where: r.title == "user", select: r.id)
+    users = Repo.all(from u in User, where: u.role_id == ^role_id and is_nil(u.team_id))
+    team_ids = Repo.all(from t in Team, select: t.id)
+    Enum.each(users, fn user ->
+      updated_user = Ecto.Changeset.change(user, team_id: Enum.random(team_ids))
+      Repo.update(updated_user)
+    end
+    )
+  end
+
+
+  defp create_working_times do
+
+    working_hours_ranges = [
+      {9, 17},
+      {15, 23},
+      {3, 11}
+    ]
+    teams = Repo.all(Team)
+
+    start_of_week = Date.utc_today() |> Date.beginning_of_week(:monday)
+
+    Enum.each(teams, fn team ->
+
+      users = Repo.all(from u in User, where: u.team_id == ^team.id)
+
+      {start_hour, end_hour} = Enum.at(working_hours_ranges, rem(team.id - 1, length(working_hours_ranges)))
+
+      for day <- 0..5 do
+        working_start = DateTime.utc_now() |> DateTime.truncate(:second) |> DateTime.add(day * 86400) |> DateTime.add(start_hour * 3600)
+        working_end = working_start |> DateTime.add(8 * 3600)
+
+        Enum.each(users, fn user ->
+          Repo.insert!(%WorkingTime{
+            working_start: working_start,
+            working_end: working_end,
+            user_id: user.id
+          })
+
+          clock_in_offset = Enum.random([-300, 300])
+          clock_in_time = working_start |> DateTime.add(clock_in_offset)
+
+          clock_out_offset = Enum.random([-300, 300])
+          clock_out_time = working_end |> DateTime.add(clock_out_offset)
+
+          Repo.insert!(%Clock{
+            user_id: user.id,
+            time: clock_in_time,
+            status: true
+          })
+
+          Repo.insert!(%Clock{
+            user_id: user.id,
+            time: clock_out_time,
+            status: false
+          })
+        end)
+        IO.puts("Created working time for team #{team.id} from #{working_start} to #{working_end}")
+      end
+    end)
+  end
+
+
 end
-)
+
+Timemanager.Seeds.run()

@@ -26,6 +26,7 @@ defmodule TimemanagerWeb.Router do
     #Users routes
 
     get "/users", UserController, :index
+    get "/managers", UserController, :managers
     get "/users/:id", UserController, :show
     post "/users", UserController, :create
     put "/users/:id", UserController, :update
@@ -41,6 +42,15 @@ defmodule TimemanagerWeb.Router do
     #Clocks routes
     get "/clocks/:user_id", ClockController, :index
     post "/clocks/:user_id", ClockController, :create
+
+    #Teams routes
+    get "/teams", TeamController, :index
+    get "/teams/:id", TeamController, :show
+    get "/teamsmanager/:manager_id", TeamController, :manager
+    post "/teams", TeamController, :create
+    put "/teams/:id", TeamController, :update
+    delete "/teams/:id", TeamController, :delete
+
   end
 
   def swagger_info do

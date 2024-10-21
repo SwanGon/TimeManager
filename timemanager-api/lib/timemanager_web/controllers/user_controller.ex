@@ -25,6 +25,11 @@ defmodule TimemanagerWeb.UserController do
     render(conn, :index, users: users)
   end
 
+  def managers(conn, _params) do
+    managers = UserManager.get_managers()
+    render(conn, :index, users: managers)
+  end
+
   def create(conn, %{"username" => username, "email" => email, "role_id" => role_id}) do
     user_params = %{"username" => username, "email" => email, "role_id" => role_id}
 

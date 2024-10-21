@@ -20,21 +20,6 @@ const router = createRouter({
       name: 'workingtime',
       component: WorkingShiftManager
     },
-    // {
-    //   path: '/workingtime/',
-    //   name: 'workingtime',
-    //   component: WorkingTimeManager
-    // },
-    // {
-    //   path: '/workingtime/:userId/:workingtimeId',
-    //   component: WorkingTimeManager
-
-    // },
-    // {
-    //   path: '/workingtime/:userId',
-    //   component: WorkingTimeManager
-
-    // },
     {
       path: '/workingtimes/:userId',
       name: 'workingTimes',
