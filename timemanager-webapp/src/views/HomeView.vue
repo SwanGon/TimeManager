@@ -40,7 +40,6 @@ import ButtonComponent from '@/components/general/ButtonComponent.vue';
     >
     </ButtonComponent>
   </div>
-
   
   <!-- <nav>
     <router-link :to="'/user'">User</router-link> |
