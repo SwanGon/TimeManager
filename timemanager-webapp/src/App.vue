@@ -1,4 +1,6 @@
 <template>
+    <!-- Add other navigation items as needed -->
+    <button @click="logout">Logout</button>
     <router-view></router-view>
 </template>
 
@@ -32,6 +34,11 @@ onMounted(async () => {
 })
 
 
+const logout = () => {
+  localStorage.removeItem('auth_token')
+  localStorage.removeItem('csrf_token')
+  router.push('/login')
+}
 
 
 </script>

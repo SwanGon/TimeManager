@@ -14,7 +14,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: { requiresAuth: true }
     },
     {
       path: '/login',
@@ -24,8 +25,38 @@ const router = createRouter({
     {
       path: '/workingtime/:userId',
       name: 'workingtime',
-      component: WorkingShiftManager
+      component: WorkingShiftManager,
+      meta: { requiresAuth: true }
     },
+    //{
+      //path: '/register',
+      //name: 'register',
+      //component: Registration
+    //},
+    //{
+      //path: '/profile',
+      //name: 'profile',
+      //component: ProfileManagement,
+      //meta: { requiresAuth: true }
+    //},
+    //{
+      //path: '/team/create',
+      //name: 'teamCreate',
+      //component: TeamCreation,
+      //meta: { requiresAuth: true, requiresAdmin: true }
+    //},
+    //{
+      //path: '/team/join',
+      //name: 'teamJoin',
+      //component: TeamJoining,
+      //meta: { requiresAuth: true }
+    //},
+    //{
+      //path: '/team/manage',
+      //name: 'teamManage',
+      //component: TeamManagement,
+      //meta: { requiresAuth: true, requiresAdmin: true }
+    //},
     // {
     //   path: '/workingtime/',
     //   name: 'workingtime',

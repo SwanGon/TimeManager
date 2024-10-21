@@ -41,6 +41,14 @@ config :esbuild,
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
 
+  config :timemanager, TimemanagerApi.Endpoint,
+  http: [port: 4000],
+  url: [host: "localhost", port: 4000],
+  cors: [
+    origins: ["http://localhost:5173"],
+    allow_headers: ["Content-Type", "Accept", "Authorization"],
+    allow_methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+  ]
 # Configure tailwind (the version is required)
 config :tailwind,
   version: "3.4.3",

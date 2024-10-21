@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
@@ -7,23 +7,20 @@ const router = useRouter()
 const email = ref('')
 const password = ref('')
 const rememberMe = ref(false)
-const token = localStorage.getItem("token")
+const authToken = computed(() => localStorage.getItem('auth_token'))
 
 const handleSubmit = async () => {
-    console.log(localStorage.setItem('auth_token',token.value));
-    
   try {
-    const response = await axios.post('http://localhost:4000/users/log_in', {
+    const response = await axios.post('/api/users/log_in', {
       user: {
         email: email.value,
         password: password.value,
         remember_me: rememberMe.value
       }
     })
-    token.value = response.data.token
-    localStorage.setItem('auth_token', token.value)
+    localStorage.setItem('auth_token', response.data.token)
+    localStorage.setItem('csrf_token', response.data.csrf_token)
     if (response.data.success) {
-      localStorage.setItem('auth_token', token.value)
       router.push('/home')
     } else {
       console.error('Login failed')
@@ -36,6 +33,9 @@ const handleSubmit = async () => {
 
 <template>
   <div class="card-container">
+    <header>
+      <p v-if="authToken">Auth Token: {{ authToken }}</p>
+    </header>
     <div class="card">
       <h2 class="card-title">Log in to account</h2>
 
