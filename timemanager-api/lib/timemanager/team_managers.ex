@@ -21,6 +21,10 @@ defmodule Timemanager.TeamManagers do
     Repo.all(Team)
   end
 
+  def get_team_by_manager(manager_id) do
+    from(t in Team, where: t.manager_id == ^manager_id)
+    |>  Repo.one()
+  end
   @doc """
   Gets a single team.
 
