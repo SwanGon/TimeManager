@@ -10,13 +10,28 @@ defmodule TimemanagerWeb.UserController do
 
   Module.eval_quoted(__MODULE__, UserSwagger.paths())
 
-  def index(conn, _params) do
-    users = UserManager.list_users()
+  def index(conn, params) do
+    users =
+      cond do
+        params["email"] && params["username"] ->
+          UserManager.get_users_by_email_and_username(params["email"], params["username"])
+        params["email"] ->
+          UserManager.get_users_by_email(params["email"])
+        params["username"] ->
+          UserManager.get_users_by_username(params["username"])
+        true ->
+          UserManager.list_users()
+        end
     render(conn, :index, users: users)
   end
 
-  def create(conn, %{"username" => username, "email" => email}) do
-    user_params = %{"username" => username, "email" => email}
+  def managers(conn, _params) do
+    managers = UserManager.get_managers()
+    render(conn, :index, users: managers)
+  end
+
+  def create(conn, %{"username" => username, "email" => email, "role_id" => role_id}) do
+    user_params = %{"username" => username, "email" => email, "role_id" => role_id}
 
     with {:ok, %User{} = user} <- UserManager.create_user(user_params) do
       conn
@@ -24,7 +39,8 @@ defmodule TimemanagerWeb.UserController do
       |> put_resp_header("location", ~p"/api/users/#{user.id}")
       |> render(:show, user: user)
     else
-      _ ->
+      g ->
+        IO.inspect(g)
         conn
         |> put_status(:bad_request)
         |> json(%{error: "Unable to create user"})

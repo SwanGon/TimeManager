@@ -13,6 +13,12 @@
           "example": "mymail@testmail.com",
           "type": "string"
         },
+        "role_id": {
+          "default": 1,
+          "description": "Role id",
+          "example": 1,
+          "type": "integer"
+        },
         "username": {
           "description": "Username",
           "example": "JohnDoe123",
@@ -20,6 +26,7 @@
         }
       },
       "required": [
+        "role_id",
         "email",
         "username"
       ],
@@ -30,12 +37,17 @@
       "description": "User details",
       "example": {
         "email": "mymail@testmail.com",
+        "role_id": 1,
         "username": "JohnDoe123"
       },
       "properties": {
         "email": {
           "description": "Email address",
           "type": "string"
+        },
+        "role_id": {
+          "description": "Role ID",
+          "type": "integer"
         },
         "username": {
           "description": "Username",
@@ -53,6 +65,12 @@
           "example": "updatedmail@testmail.com",
           "type": "string"
         },
+        "role_id": {
+          "default": 1,
+          "description": "Role id",
+          "example": 1,
+          "type": "integer"
+        },
         "username": {
           "description": "Username",
           "example": "UpdatedUser123",
@@ -60,54 +78,11 @@
         }
       },
       "required": [
+        "role_id",
         "email",
         "username"
       ],
       "title": "Update User",
-      "type": "object"
-    },
-    "CreateClock": {
-      "description": "Schema for creating a clock",
-      "properties": {
-        "status": {
-          "description": "Status",
-          "example": "true",
-          "type": "boolean"
-        },
-        "time": {
-          "description": "Time",
-          "example": "2024-12-30 15:46:33",
-          "type": "datetime"
-        }
-      },
-      "required": [
-        "time"
-      ],
-      "title": "Create Clock",
-      "type": "object"
-    },
-    "Clock": {
-      "description": "Clock details",
-      "example": {
-        "status": "true",
-        "time": "2024-12-30 15:46:33",
-        "user": "User ID"
-      },
-      "properties": {
-        "status": {
-          "description": "Status",
-          "type": "boolean"
-        },
-        "time": {
-          "description": "Time",
-          "type": "datetime"
-        },
-        "user": {
-          "description": "User ID",
-          "type": "integer"
-        }
-      },
-      "title": "Clock",
       "type": "object"
     },
     "CreateWorkingtime": {
@@ -175,14 +150,112 @@
       ],
       "title": "Update Workingtime",
       "type": "object"
+    },
+    "CreateClock": {
+      "description": "Schema for creating a clock",
+      "properties": {
+        "status": {
+          "description": "Status",
+          "example": "true",
+          "type": "boolean"
+        },
+        "time": {
+          "description": "Time",
+          "example": "2024-12-30 15:46:33",
+          "type": "datetime"
+        }
+      },
+      "required": [
+        "time"
+      ],
+      "title": "Create Clock",
+      "type": "object"
+    },
+    "Clock": {
+      "description": "Clock details",
+      "example": {
+        "status": "true",
+        "time": "2024-12-30 15:46:33",
+        "user": "User ID"
+      },
+      "properties": {
+        "status": {
+          "description": "Status",
+          "type": "boolean"
+        },
+        "time": {
+          "description": "Time",
+          "type": "datetime"
+        },
+        "user": {
+          "description": "User ID",
+          "type": "integer"
+        }
+      },
+      "title": "Clock",
+      "type": "object"
+    },
+    "CreateTeam": {
+      "description": "Schema for creating a Team",
+      "properties": {
+        "manager_id": {
+          "default": 1,
+          "description": "manager_id",
+          "example": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "manager_id"
+      ],
+      "title": "Create Team",
+      "type": "object"
+    },
+    "Team": {
+      "description": "Team details",
+      "example": {
+        "manager_id": 1
+      },
+      "properties": {
+        "manager_id": {
+          "description": "manager ID",
+          "type": "integer"
+        }
+      },
+      "title": "Team",
+      "type": "object"
+    },
+    "UpdateTeam": {
+      "description": "Schema for updating a Team",
+      "properties": {
+        "manager_id": {
+          "default": 2,
+          "description": "manager_id",
+          "example": 2,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "manager_id"
+      ],
+      "title": "Update Team",
+      "type": "object"
     }
   },
   "paths": {
-    "/api/clocks": {
+    "/api/clocks/{user_id}": {
       "get": {
         "description": "List all clocks",
         "operationId": "TimemanagerWeb.ClockController.index",
-        "parameters": [],
+        "parameters": [
+          {
+            "description": "User ID",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
         "produces": [
           "application/json"
         ],
@@ -204,9 +277,9 @@
         "operationId": "TimemanagerWeb.ClockController.create",
         "parameters": [
           {
-            "description": "User ID",
+            "description": "user ID",
             "in": "path",
-            "name": "id",
+            "name": "user_id",
             "required": true,
             "type": "integer",
             "x-example": 1
@@ -241,20 +314,11 @@
         ]
       }
     },
-    "/api/clocks/{id}": {
+    "/api/managers": {
       "get": {
-        "description": "Get clock by id",
-        "operationId": "TimemanagerWeb.ClockController.show",
-        "parameters": [
-          {
-            "description": "Clock ID",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer",
-            "x-example": 3
-          }
-        ],
+        "description": "List all users with manager Role",
+        "operationId": "TimemanagerWeb.UserController.managers",
+        "parameters": [],
         "produces": [
           "application/json"
         ],
@@ -268,7 +332,192 @@
         },
         "summary": "",
         "tags": [
-          "Clocks"
+          "Users"
+        ]
+      }
+    },
+    "/api/teams": {
+      "get": {
+        "description": "List all team",
+        "operationId": "TimemanagerWeb.TeamController.index",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Teams"
+        ]
+      },
+      "post": {
+        "description": "Create Team",
+        "operationId": "TimemanagerWeb.TeamController.create",
+        "parameters": [
+          {
+            "description": "Team creation params",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateTeam"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Team"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Teams"
+        ]
+      }
+    },
+    "/api/teams/{id}": {
+      "delete": {
+        "description": "Delete a Team by ID",
+        "operationId": "TimemanagerWeb.TeamController.delete",
+        "parameters": [
+          {
+            "description": "Team ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "x-example": 3
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content - Deleted Successfully"
+          }
+        },
+        "summary": "Delete Team",
+        "tags": [
+          "Teams"
+        ]
+      },
+      "get": {
+        "description": "Get team by id",
+        "operationId": "TimemanagerWeb.TeamController.show",
+        "parameters": [
+          {
+            "description": "Team ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client Error"
+          },
+          "404": {
+            "description": "No Team found with this ID"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Teams"
+        ]
+      },
+      "put": {
+        "description": "Update an existing team",
+        "operationId": "TimemanagerWeb.TeamController.update",
+        "parameters": [
+          {
+            "description": "Team ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "x-example": 1
+          },
+          {
+            "description": "Team update params",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateTeam"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Team updated",
+            "schema": {
+              "$ref": "#/definitions/Team"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Teams"
+        ]
+      }
+    },
+    "/api/teamsmanager/{manager_id}": {
+      "get": {
+        "description": "get teams by manager's id",
+        "operationId": "TimemanagerWeb.TeamController.manager",
+        "parameters": [
+          {
+            "description": "manager ID",
+            "in": "path",
+            "name": "manager_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client Error"
+          },
+          "404": {
+            "description": "No Team found with this ID"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Teams"
         ]
       }
     },
@@ -276,7 +525,22 @@
       "get": {
         "description": "List all users",
         "operationId": "TimemanagerWeb.UserController.index",
-        "parameters": [],
+        "parameters": [
+          {
+            "description": "Email address of the user",
+            "in": "query",
+            "name": "email",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "description": "Username of the user",
+            "in": "query",
+            "name": "username",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "produces": [
           "application/json"
         ],
@@ -373,6 +637,9 @@
           },
           "400": {
             "description": "Client Error"
+          },
+          "404": {
+            "description": "No user found with this ID"
           }
         },
         "summary": "",
@@ -422,7 +689,155 @@
         ]
       }
     },
-    "/api/workingtimes": {
+    "/api/workingtimes/{id}": {
+      "delete": {
+        "description": "Delete a user by ID",
+        "operationId": "TimemanagerWeb.WorkingTimeController.delete",
+        "parameters": [
+          {
+            "description": "Working time ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "x-example": 1
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content - Deleted Successfully"
+          }
+        },
+        "summary": "Delete User",
+        "tags": [
+          "Workingtime"
+        ]
+      },
+      "put": {
+        "description": "Update an existing user",
+        "operationId": "TimemanagerWeb.WorkingTimeController.update",
+        "parameters": [
+          {
+            "description": "working time id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "x-example": 1
+          },
+          {
+            "description": "working time update params",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateWorkingtime"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Working time updated",
+            "schema": {
+              "$ref": "#/definitions/Workingtime"
+            }
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Workingtime"
+        ]
+      }
+    },
+    "/api/workingtimes/{user_id}": {
+      "get": {
+        "description": "List all working times of a user",
+        "operationId": "TimemanagerWeb.WorkingTimeController.index",
+        "parameters": [
+          {
+            "description": "User ID",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "start date",
+            "in": "query",
+            "name": "working_start",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "description": "end date",
+            "in": "query",
+            "name": "working_end",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client Error"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Workingtime"
+        ]
+      }
+    },
+    "/api/workingtimes/{user_id}/": {
+      "get": {
+        "description": "Get a working time by user by id",
+        "operationId": "TimemanagerWeb.WorkingTimeController.show",
+        "parameters": [
+          {
+            "description": "Working time ID",
+            "in": "query",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "User ID",
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Client Error"
+          },
+          "404": {
+            "description": "No working time and/or user found with this IDs"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Workingtime"
+        ]
+      },
       "post": {
         "description": "Create workingtime",
         "operationId": "TimemanagerWeb.WorkingTimeController.create",
@@ -430,7 +845,7 @@
           {
             "description": "User ID",
             "in": "path",
-            "name": "id",
+            "name": "user_id",
             "required": true,
             "type": "integer",
             "x-example": 1

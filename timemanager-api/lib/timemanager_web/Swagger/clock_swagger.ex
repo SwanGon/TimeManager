@@ -31,36 +31,39 @@ defmodule TimemanagerWeb.Swagger.ClockSwagger do
   def paths do
     quote do
       swagger_path :index do
-        get "/api/clocks"
+        get "/api/clocks/{user_id}"
         description "List all clocks"
         produces "application/json"
         tag "Clocks"
+
+        parameter :user_id, :path, :integer, "User ID", required: true
+
         response 200, "Success"
         response 400, "Client Error"
       end
 
       swagger_path :create do
-        post "/api/clocks"
+        post "/api/clocks/{user_id}"
         description "Create clock"
         produces "application/json"
         tag "Clocks"
         parameters do
-          id :path, :integer, "User ID", required: true, example: 1
+          user_id :path, :integer, "user ID", required: true, example: 1
           body :body, Schema.ref(:CreateClock), "Clock creation params", required: true
         end
         response 201, "Success", Schema.ref(:Clock)
         response 400, "Client Error"
       end
 
-      swagger_path :show do
-        get "/api/clocks/{id}"
-        description "Get clock by id"
-        produces "application/json"
-        tag "Clocks"
-        parameter :id, :path, :integer, "Clock ID", required: true, example: 3
-        response 200, "Success"
-        response 400, "Client Error"
-      end
+      # swagger_path :show do
+      #   get "/api/clocks/{id}"
+      #   description "Get clock by id"
+      #   produces "application/json"
+      #   tag "Clocks"
+      #   parameter :id, :path, :integer, "Clock ID", required: true, example: 3
+      #   response 200, "Success"
+      #   response 400, "Client Error"
+      # end
     end
   end
 end
