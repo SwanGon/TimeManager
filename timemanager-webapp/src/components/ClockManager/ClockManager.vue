@@ -1,122 +1,84 @@
 <script setup>
 import axios from 'axios'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const userId = ref(route.params.userId)
-const startDateTime = ref(null)
+const userId = ref(1)
+const startDateTime = ref('not clocked in')
 const clockIn = ref(false)
+const clocks = ref(undefined)
 
-function refresh(data) {
-  if (data && data.time) {
-    clockIn.value = data.status
-    if (data.status) {
-      startDateTime.value = data.time
-    }
-  } else {
-    console.error('Unexpected data structure:', data)
+
+const refresh = async () => {
+  try {
+    const response = await axios.get(`http://localhost:4000/api/clocks/${userId.value}`)
+    alert(`Found clocks: ${JSON.stringify(response.data)}`)
+  } catch (error) {
+    console.error('Error fetching clock data:', error)
   }
 }
-const toggleClock = async()=>{
-  const currentTime = new Date().toISOString()
+const toggleClock = async () => {
+  const clockingTime = new Date(Date.now())
+  const clockData = {
+    status: clockIn.value,
+    time: clockingTime.toISOString().slice(0, 19).replace('T', ' ')
+  }
   try {
-    const response = await axios.post(`/api/clocks/${userId.value}`, {
-      status: !clockIn.value,
-      time: currentTime
-    })
-    refresh(response.data)
-    if (!clockIn.value) {
-      startDateTime.value = currentTime
+    const response = await axios.post(
+      `http://localhost:4000/api/clocks/${userId.value}`,
+      clockData,
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    refresh()
+    alert(`Working time created: ${JSON.stringify(response.data)}`);
+    if (clockIn.value) {
+      startDateTime.value = clockingTime.toLocaleTimeString()
+    }else{
+      startDateTime.value = 'not clocked in'
     }
   } catch (error) {
     console.error('Error toggling clock:', error)
   }
 }
+
 onMounted(async () => {
-  try {
-    const response = await axios.get(`/api/clocks/${userId.value}`)
-    refresh(response.data)
-  } catch (error) {
-    console.error('Error fetching clock data:', error)
-  }
+  refresh()
+
+})
+
+watch(clockIn, () => {
+  toggleClock()
 })
 </script>
 
 <template>
-  <div class="card sm:w-56 mx-8 shadow-lg">
-    <h2>Clock</h2>
+  <div class="sm:w-56 shadow-lg shrink">
     <p>Start Date Time: {{ startDateTime }}</p>
-    <div class="toggle-container">
-      <div class="toggle-slider">
-        <input type="checkbox" id="clock-toggle" v-model="clockIn" @change="toggleClock">
-        <label for="clock-toggle"></label>
-      </div>
-      <span class="toggle-label">{{ clockIn ? 'Clocked In' : 'Clocked Out' }}</span>
-    </div>
+    <br>
+    <VaSwitch v-model="clockIn" size="large" true-label="Clocked-in" false-label="Clocked-out" />
+  </div>
+  <div class="mt-8">
+    <p>My Clocks</p>
+    <VaList>
+    <VaListItem
+      v-for="(clock, index) in clocks"
+      :key="index"
+      class="list__item"
+    >
+      <VaListItemSection>
+        <VaListItemLabel>
+          {{ clock.time }}
+        </VaListItemLabel>
+      </VaListItemSection>
+    </VaListItem>
+  </VaList>
   </div>
 </template>
 
-<style scoped>
-.card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 16px;
-}
-
-.toggle-container {
-  display: flex;
-  align-items: center;
-}
-
-.toggle-slider {
-  display: inline-block;
-  position: relative;
-  width: 60px;
-  height: 34px;
-  margin-right: 10px;
-}
-
-.toggle-slider input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.toggle-slider label {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: .4s;
-  border-radius: 34px;
-}
-
-.toggle-slider label:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  transition: .4s;
-  border-radius: 50%;
-}
-
-input:checked + label {
-  background-color: #2196F3;
-}
-
-input:checked + label:before {
-  transform: translateX(26px);
-}
-
-.toggle-label {
-  font-size: 14px;
-}
-</style>
+<style scoped></style>

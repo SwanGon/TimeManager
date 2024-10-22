@@ -79,7 +79,7 @@ const createWorkingTimes = async () => {
   }
 
   const workingTimeData = {
-    user_id: userId.value, // Include the user ID
+    user_id: userId.value,
     working_start: formatDateTime(workingDate.value, startTime.value),
     working_end: formatDateTime(workingDate.value, endTime.value),
   };
@@ -107,6 +107,7 @@ function formatDateTime(date, time) {
 
 <style scoped>
 .working-time-creator {
+  color: black;
   max-width: 600px; /* Adjust width as needed */
   margin: 20px auto;
   padding: 20px;
