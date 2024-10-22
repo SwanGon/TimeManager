@@ -2,11 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ClockManager from '../components/ClockManager/ClockManager.vue'
 import ChartManager from '../components/ChartManager/ChartManager.vue'
+import Register from '@/components/Login/Register.vue'
+import TeamManager from'@/components/UserManager/TeamManager.vue'
+import Profil from '@/components/Login/Profil.vue'
 import UserManager from '@/components/UserManager/UserManager.vue'
 import WorkingTimesManager from '@/components/WorkingTimesManager/WorkingTimesManager.vue'
 import WorkingShiftManager from '@/components/WorkingShiftManager/WorkingShiftManager.vue'
 import Login from '@/components/Login/Login.vue'
-
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,7 +22,14 @@ const router = createRouter({
     {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: Login,
+      meta: { requiresAuth: false }
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register,
+      meta: { requiresAuth: false }
     },
     {
       path: '/workingtime/:userId',
@@ -28,50 +37,19 @@ const router = createRouter({
       component: WorkingShiftManager,
       meta: { requiresAuth: true }
     },
-    //{
-      //path: '/register',
-      //name: 'register',
-      //component: Registration
-    //},
-    //{
-      //path: '/profile',
-      //name: 'profile',
-      //component: ProfileManagement,
-      //meta: { requiresAuth: true }
-    //},
-    //{
-      //path: '/team/create',
-      //name: 'teamCreate',
-      //component: TeamCreation,
-      //meta: { requiresAuth: true, requiresAdmin: true }
-    //},
-    //{
-      //path: '/team/join',
-      //name: 'teamJoin',
-      //component: TeamJoining,
-      //meta: { requiresAuth: true }
-    //},
-    //{
-      //path: '/team/manage',
-      //name: 'teamManage',
-      //component: TeamManagement,
-      //meta: { requiresAuth: true, requiresAdmin: true }
-    //},
-    // {
-    //   path: '/workingtime/',
-    //   name: 'workingtime',
-    //   component: WorkingTimeManager
-    // },
-    // {
-    //   path: '/workingtime/:userId/:workingtimeId',
-    //   component: WorkingTimeManager
 
-    // },
-    // {
-    //   path: '/workingtime/:userId',
-    //   component: WorkingTimeManager
-
-    // },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: Profil,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/teams',
+      name: 'teams',
+      component: TeamManager,
+      meta: { requiresAuth: true }
+    },
     {
       path: '/workingtimes/:userId',
       name: 'workingTimes',
@@ -91,8 +69,27 @@ const router = createRouter({
       path: '/chart/:userId',
       name: 'chartManager',
       component: ChartManager
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: '/login'
     }
   ]
 })
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = !!localStorage.getItem('jwt')
+  const userRole = localStorage.getItem('userRole')
+  const publicPages = ['/login', '/register']
+  const authRequired = !publicPages.includes(to.path)
+
+  if (authRequired && !isAuthenticated) {
+    next('/login')
+  } else if (isAuthenticated && userRole === 'supervisor' && to.path === '/') {
+    next('/teams')
+  } else {
+    next()
+  }
+})
+
 
 export default router

@@ -66,9 +66,13 @@ config :timemanager, TimemanagerWeb.Endpoint,
 
 # Enable dev routes for dashboard and mailbox
 config :timemanager, dev_routes: true
-
+config :timemanager, Timemanager.UserManager.Guardian,
+  issuer: "timemanager",
+  secret_key: "cv2jzvCbAawDHCSsPYkml3zXudBHTKM8WwFkQA7Lqn6XKXOwh0yhR4P0AEK3SkXC"
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
+config :timemanager, Timemanager.JWTToken,
+  secret_key: "vDXvkj5DmWITJ9itQx161xs1R3DdwsiHMIrvwQ/lR3ReYeCxE3BxLGmIz1Zguozn"
 
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.

@@ -11,6 +11,7 @@ config :timemanager,
   ecto_repos: [Timemanager.Repo],
   generators: [timestamp_type: :utc_datetime]
 
+
 # Configures the endpoint
 config :timemanager, TimemanagerWeb.Endpoint,
   url: [host: "localhost"],
@@ -83,7 +84,15 @@ config :timemanager, :phoenix_swagger,
   }
 
 config :phoenix_swagger, json_library: Jason
-
+config :joken,
+  rsa_key: [
+    signer_alg: "RS256",
+    key_pem: """
+    -----BEGIN PUBLIC KEY-----
+    ...vDXvkj5DmWITJ9itQx161xs1R3DdwsiHMIrvwQ/lR3ReYeCxE3BxLGmIz1Zguozn...
+    -----END PUBLIC KEY-----
+    """
+  ]
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

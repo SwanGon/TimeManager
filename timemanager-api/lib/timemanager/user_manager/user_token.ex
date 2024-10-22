@@ -41,10 +41,11 @@ defmodule Timemanager.UserManager.UserToken do
   and devices in the UI and allow users to explicitly expire any
   session they deem invalid.
   """
-  def build_session_token(user) do
-    token = :crypto.strong_rand_bytes(@rand_size)
-    {token, %UserToken{token: token, context: "session", user_id: user.id}}
-  end
+def build_session_token(user) do
+  {token, _claims} = Timemanager.JWTToken.generate_and_sign(user)
+  {token, %UserToken{token: :crypto.hash(:sha256, token), context: "session", user_id: user.id}}
+end
+
 
   @doc """
   Checks if the token is valid and returns its underlying lookup query.
@@ -55,14 +56,26 @@ defmodule Timemanager.UserManager.UserToken do
   not expired (after @session_validity_in_days).
   """
   def verify_session_token_query(token) do
-    query =
-      from token in by_token_and_context_query(token, "session"),
-        join: user in assoc(token, :user),
-        where: token.inserted_at > ago(@session_validity_in_days, "day"),
-        select: user
+    case Timemanager.JWTToken.verify_token(token) do
+      {:ok, claims} ->
+        query =
+          from token in by_token_and_context_query(:crypto.hash(:sha256, token), "session"),
+            join: user in assoc(token, :user),
+            where: token.inserted_at > ago(@session_validity_in_days, "day"),
+            select: user
 
-    {:ok, query}
+        {:ok, query}
+      {:error, _reason} ->
+        :error
+    end
   end
+  def generate_csrf_token do
+    :crypto.strong_rand_bytes(32) |> Base.url_encode64(padding: false)
+  end
+  def verify_csrf_token(stored_token, received_token) do
+    Plug.Crypto.secure_compare(stored_token, received_token)
+  end
+
 
   @doc """
   Builds a token and its hash to be delivered to the user's email.

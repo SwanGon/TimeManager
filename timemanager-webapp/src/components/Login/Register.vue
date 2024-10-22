@@ -1,45 +1,45 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
 const router = useRouter()
+const username = ref('')
 const email = ref('')
 const password = ref('')
-const rememberMe = ref(false)
-const isAuthenticated = computed(() => !!localStorage.getItem('jwt'))
-const goToRegister = () => {
-  router.push('/register')
-}
+const confirmPassword = ref('')
+
 const handleSubmit = async () => {
+  if (password.value !== confirmPassword.value) {
+    console.error('Passwords do not match')
+    return
+  }
+
   try {
-    const response = await axios.post('/api/users/log_in', {
+    const response = await axios.post('/api/users/register', {
       user: {
+        username: username.value,
         email: email.value,
-        password: password.value,
-        remember_me: rememberMe.value
+        password: password.value
       }
     })
-    const { jwt, csrf_token } = response.data
-    localStorage.setItem('jwt', jwt)
-    localStorage.setItem('csrf_token', csrf_token)
-    axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`
-    axios.defaults.headers.common['X-CSRF-Token'] = csrf_token
-    router.push('/')
+    console.log('Registration successful', response.data)
+    router.push('/login')
   } catch (error) {
-    console.error('Login error:', error)
+    console.error('Registration error:', error)
   }
 }
-
 </script>
 
 <template>
   <div class="card-container">
-    
     <div class="card">
-      <h2 class="card-title">Log in to account</h2>
-
+      <h2 class="card-title">Register</h2>
       <form @submit.prevent="handleSubmit" class="card-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input id="username" v-model="username" type="text" required />
+        </div>
         <div class="form-group">
           <label for="email">Email</label>
           <input id="email" v-model="email" type="email" required />
@@ -48,20 +48,11 @@ const handleSubmit = async () => {
           <label for="password">Password</label>
           <input id="password" v-model="password" type="password" required />
         </div>
-        <div class="form-options">
-          <label class="remember-me">
-            <input type="checkbox" v-model="rememberMe" />
-            Keep me logged in
-          </label>
-          <button
-            type="button"
-            @click="goToRegister"
-            class="card-button bg-green-500 hover:bg-green-600"
-          >
-            Register
-          </button>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input id="confirmPassword" v-model="confirmPassword" type="password" required />
         </div>
-        <button type="submit" class="card-button">Log in →</button>
+        <button type="submit" class="card-button">Register</button>
       </form>
     </div>
   </div>

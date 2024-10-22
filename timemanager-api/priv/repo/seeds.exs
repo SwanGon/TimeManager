@@ -44,6 +44,7 @@ antoine = Repo.insert! %User{
   username: "Antoine",
   email: "antoine@mail.mail",
   role_id: supervisor_role.id,
+  hashed_password: Bcrypt.hash_pwd_salt("antoine"),
   team_id: nil
 }
 
@@ -51,6 +52,7 @@ marc = Repo.insert! %User{
   username: "Marc",
   email: "marc@mail.mail",
   role_id: user_role.id,
+  hashed_password: Bcrypt.hash_pwd_salt("marc"),
   team_id: nil
 }
 
@@ -59,6 +61,7 @@ swan = Repo.insert! %User{
   username: "Swan",
   email: "swan@mail.mail",
   role_id: manager_role.id,
+  hashed_password: Bcrypt.hash_pwd_salt("swan"),
   team_id: nil
 }
 
@@ -66,6 +69,7 @@ laurent = Repo.insert! %User{
   username: "Laurent",
   email: "laurent@mail.mail",
   role_id: user_role.id,
+  hashed_password: Bcrypt.hash_pwd_salt("laurent"),
   team_id: nil
 }
 
@@ -73,6 +77,7 @@ max = Repo.insert! %User{
   username: "Max",
   email: "max@mail.mail",
   role_id: user_role.id,
+  hashed_password: Bcrypt.hash_pwd_salt("max"),
   team_id: nil
 }
 
@@ -80,6 +85,7 @@ emilie = Repo.insert! %User{
   username: "Emilie",
   email: "emilie@mail.mail",
   role_id: user_role.id,
+  hashed_password: Bcrypt.hash_pwd_salt("emilie"),
   team_id: nil
 }
 
@@ -87,6 +93,7 @@ rose = Repo.insert! %User{
   username: "Rose",
   email: "rose@mail.mail",
   role_id: manager_role.id,
+  hashed_password: Bcrypt.hash_pwd_salt("rose"),
   team_id: nil
 }
 
@@ -175,5 +182,3 @@ Enum.each([clocks_antoine,clocks_marc,clocks_swan,clocks_laurent], fn clocks ->
   )
 end
 )
-
-

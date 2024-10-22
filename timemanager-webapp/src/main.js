@@ -33,27 +33,6 @@ const checkUserPermission = (requiredRole) => {
   return userRole === requiredRole
 }
 
-router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem('auth_token')
-  
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!token) {
-      next('/login')
-    } else {
-      if (to.matched.some(record => record.meta.requiresAdmin)) {
-        if (checkUserPermission('admin')) {
-          next()
-        } else {
-          next('/unauthorized')
-        }
-      } else {
-        next()
-      }
-    }
-  } else {
-    next()
-  }
-})
 axios.interceptors.request.use(config => {
   const token = localStorage.getItem('auth_token')
   const csrfToken = localStorage.getItem('csrf_token')

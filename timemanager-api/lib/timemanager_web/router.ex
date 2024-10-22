@@ -15,9 +15,9 @@ defmodule TimemanagerWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug :fetch_session
-    plug :fetch_current_user
-    plug :protect_from_forgery, with: :null_session
+    # plug :fetch_session
+    # plug :fetch_current_user
+    # plug :protect_from_forgery, with: :null_session
   end
 
   scope "/api/swagger" do
@@ -35,6 +35,7 @@ defmodule TimemanagerWeb.Router do
     post "/users", UserController, :create
     put "/users/:id", UserController, :update
     delete "/users/:id", UserController, :delete
+    post "/users/register", UserController, :create
 
     #Working times routes
     get "/workingtimes/:user_id", WorkingTimeController, :index
@@ -95,10 +96,14 @@ defmodule TimemanagerWeb.Router do
       live "/users/reset_password", UserForgotPasswordLive, :new
       live "/users/reset_password/:token", UserResetPasswordLive, :edit
     end
+  end
 
-    post "/users/log_in", UserSessionController, :create
+  scope "/api", TimemanagerWeb do
+    pipe_through :api
+    post "/users/log_in", UserController, :log_in
   end
   get "/api/csrf_token", SessionController, :csrf_token
+  get "/", PageController, :index
 
   scope "/", TimemanagerWeb do
     pipe_through [:browser, :require_authenticated_user]

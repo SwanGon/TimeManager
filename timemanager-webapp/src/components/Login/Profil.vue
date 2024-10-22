@@ -1,67 +1,45 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
-const router = useRouter()
-const email = ref('')
-const password = ref('')
-const rememberMe = ref(false)
-const isAuthenticated = computed(() => !!localStorage.getItem('jwt'))
-const goToRegister = () => {
-  router.push('/register')
-}
-const handleSubmit = async () => {
+const user = ref(null)
+
+const fetchUserProfile = async () => {
   try {
-    const response = await axios.post('/api/users/log_in', {
-      user: {
-        email: email.value,
-        password: password.value,
-        remember_me: rememberMe.value
-      }
-    })
-    const { jwt, csrf_token } = response.data
-    localStorage.setItem('jwt', jwt)
-    localStorage.setItem('csrf_token', csrf_token)
-    axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`
-    axios.defaults.headers.common['X-CSRF-Token'] = csrf_token
-    router.push('/')
+    const response = await axios.get('/api/users/profile')
+    user.value = response.data
   } catch (error) {
-    console.error('Login error:', error)
+    console.error('Error fetching user profile:', error)
   }
 }
 
+onMounted(fetchUserProfile)
+
+const updateProfile = async () => {
+  try {
+    const response = await axios.put('/api/users/profile', { user: user.value })
+    console.log('Profile updated successfully', response.data)
+  } catch (error) {
+    console.error('Error updating profile:', error)
+  }
+}
 </script>
 
 <template>
-  <div class="card-container">
-    
+  <div class="card-container" v-if="user">
     <div class="card">
-      <h2 class="card-title">Log in to account</h2>
-
-      <form @submit.prevent="handleSubmit" class="card-form">
+      <h2 class="card-title">User Profile</h2>
+      <form @submit.prevent="updateProfile" class="card-form">
         <div class="form-group">
           <label for="email">Email</label>
-          <input id="email" v-model="email" type="email" required />
+          <input id="email" v-model="user.email" type="email" required />
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input id="password" v-model="password" type="password" required />
+          <input id="password" v-model="user.password" type="password" required />
         </div>
-        <div class="form-options">
-          <label class="remember-me">
-            <input type="checkbox" v-model="rememberMe" />
-            Keep me logged in
-          </label>
-          <button
-            type="button"
-            @click="goToRegister"
-            class="card-button bg-green-500 hover:bg-green-600"
-          >
-            Register
-          </button>
-        </div>
-        <button type="submit" class="card-button">Log in →</button>
+        <!-- Add more fields as needed -->
+        <button type="submit" class="card-button">Update Profile</button>
       </form>
     </div>
   </div>
@@ -194,3 +172,4 @@ const handleSubmit = async () => {
   background-color: #2980b9;
 }
 </style>
+

@@ -1,44 +1,12 @@
 <template>
-    <!-- Add other navigation items as needed -->
-    <button @click="logout">Logout</button>
+  <div class="h-screen flex flex-col">
+    <HeaderComponent />
     <router-view></router-view>
+  </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-const userId = ref(null)
-
-onMounted(async () => {
-  try {
-    const token = localStorage.getItem('auth_token')
-    const response = await fetch('http://localhost:4000/api/users/me', {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-
-    if (response.ok) {
-      const user = await response.json()
-      userId.value = user.id
-    } else {
-      console.error('Failed to fetch user:', response.status, response.statusText)
-      router.push('/login')
-    }
-  } catch (error) {
-    console.error('Error fetching user:', error)
-    router.push('/login')
-  }
-})
-
-
-const logout = () => {
-  localStorage.removeItem('auth_token')
-  localStorage.removeItem('csrf_token')
-  router.push('/login')
-}
-
+import HeaderComponent from './components/general/HeaderComponent.vue'
+import './main.css'
 
 </script>
