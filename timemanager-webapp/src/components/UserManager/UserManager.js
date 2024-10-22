@@ -20,7 +20,7 @@ const getUsers = () => {
 
 const getUser = (userId) => {
   return axios.get(domain+route+"/"+userId)
-  .then(response => response.data)
+  .then(response => response.data.data)
 }
 
 const deleteUser = (userId) => {

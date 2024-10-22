@@ -16,11 +16,9 @@ onMounted(() => {
   UserManager.getUser(3)
   .then(json => {
     console.log(json);
-    
     currentUser.value = json
   }) 
 })
-
 </script>
 
 <template>
@@ -45,7 +43,7 @@ onMounted(() => {
     </ButtonComponent>
     <ButtonComponent
         title = "My team"
-        path = "/team/:teamId"
+        path = "/teams/1"
       >
     </ButtonComponent>
     <ButtonComponent
@@ -59,14 +57,5 @@ onMounted(() => {
     >
     </ButtonComponent>
   </div>
-  
-  <!-- <nav>
-    <router-link :to="'/user'">User</router-link> |
-    <router-link :to="'/clock/' + userId">Clock</router-link> |
-    <router-link :to="'/chart/' + userId">Charts</router-link> |
-    <router-link :to="'/workingtimes/' + userId">Working Times</router-link> |
-    <router-link :to="'/workingtime/' + userId">Working Time</router-link> |
-
-  </nav> -->
   <router-view></router-view>
 </template>

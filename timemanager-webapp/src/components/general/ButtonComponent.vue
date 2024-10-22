@@ -9,7 +9,6 @@
 
 <script setup>
     import { defineProps } from 'vue';
-
     const { title, path } = defineProps(["title", "path"])
 
 </script>

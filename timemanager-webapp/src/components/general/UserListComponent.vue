@@ -5,7 +5,7 @@
             <th class="p-3">Email</th>
         </thead>
         <tbody>
-            <tr :key="user.id" v-for="user in users"
+            <tr :key="user.id" v-for="user in userlist"
                 class="border-black bg-gray-100 border border-collapse"
             >
                 <td class="p-3 text-center border-r border-black">{{ user.username }}</td>
@@ -16,20 +16,8 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-import UserManager from '../UserManager/UserManager';
-
-let users = ref([
-    {
-        id: null,
-        username: '',
-        email: ''
-    }
+import { defineProps } from 'vue';
+const {userlist} = defineProps([
+  "userlist"
 ])
-
-onMounted(() => {
-    UserManager.getUsers().then(json => {
-        users.value = json
-    })
-})
 </script>

@@ -28,6 +28,7 @@ defmodule TimemanagerWeb.Router do
     get "/users", UserController, :index
     get "/managers", UserController, :managers
     get "/users/:id", UserController, :show
+    get "/teams/:team_id/users", UserController, :get_users_by_team_id
     post "/users", UserController, :create
     put "/users/:id", UserController, :update
     delete "/users/:id", UserController, :delete
@@ -50,7 +51,6 @@ defmodule TimemanagerWeb.Router do
     post "/teams", TeamController, :create
     put "/teams/:id", TeamController, :update
     delete "/teams/:id", TeamController, :delete
-
   end
 
   def swagger_info do

@@ -74,6 +74,11 @@ defmodule TimemanagerWeb.UserController do
     end
   end
 
+  def get_users_by_team_id(conn, %{"team_id" => team_id}) do
+    users = UserManager.get_users_by_team_id(team_id)
+    render(conn, :index, users: users)
+  end
+
   def swagger_definitions do
     UserSwagger.swagger_definitions()
   end

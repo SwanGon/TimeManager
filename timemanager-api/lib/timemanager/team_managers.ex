@@ -1,9 +1,10 @@
 defmodule Timemanager.TeamManagers do
   @moduledoc """
-  The TeamManagers context.
+  The TeamManager context.
   """
 
   import Ecto.Query, warn: false
+  alias Timemanager.UserManager.User
   alias Timemanager.Repo
 
   alias Timemanager.TeamManagers.Team

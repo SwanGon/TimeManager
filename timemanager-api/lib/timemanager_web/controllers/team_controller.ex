@@ -17,9 +17,6 @@ defmodule TimemanagerWeb.TeamController do
     render(conn, :index, teams: teams)
   end
 
-
-
-
   def create(conn, %{"team" => team_params}) do
     with {:ok, %Team{} = team} <- TeamManagers.create_team(team_params) do
       conn
