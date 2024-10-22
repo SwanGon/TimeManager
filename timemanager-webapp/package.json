@@ -21,7 +21,8 @@
     "vue-chartjs": "^5.3.1",
     "vue-chartmaker": "^1.4.4",
     "vue-cordova": "^0.1.2",
-    "vue-router": "^4.4.5"
+    "vue-router": "^4.4.5",
+    "vuestic-ui": "^1.10.3"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",

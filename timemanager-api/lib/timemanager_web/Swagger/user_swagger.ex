@@ -55,6 +55,15 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
         response 400, "Client Error"
       end
 
+      swagger_path :managers do
+        get "/api/managers"
+        description "List all users with manager Role"
+        produces "application/json"
+        tag "Users"
+        response 200, "Success"
+        response 400, "Client Error"
+      end
+
       swagger_path :show do
         get "/api/users/{id}"
         description "Get user by id"

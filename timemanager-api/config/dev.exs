@@ -31,6 +31,10 @@ config :timemanager, TimemanagerWeb.Endpoint,
     tailwind: {Tailwind, :install_and_run, [:timemanager, ~w(--watch)]}
   ]
 
+config :cors_plug,
+  origin: ["http://localhost:5173"],
+  methods: ["GET", "POST", "OPTIONS"],
+  headers: ["Authorization", "Content-Type"]
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed

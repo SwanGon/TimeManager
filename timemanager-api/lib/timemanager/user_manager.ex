@@ -7,6 +7,7 @@ defmodule Timemanager.UserManager do
   alias Timemanager.Repo
 
   alias Timemanager.UserManager.User
+  alias Timemanager.RoleManager.Role
 
   @doc """
   Returns the list of users.
@@ -35,6 +36,23 @@ defmodule Timemanager.UserManager do
     from(u in User, where: u.email == ^email and u.username == ^username)
   |> Repo.all()
   end
+
+  def get_managers() do
+    case get_manager_role_id() do
+      nil -> []
+      manager_role_id ->
+        from(u in User, where: u.role_id == ^manager_role_id)
+        |> Repo.all()
+    end
+  end
+
+  defp get_manager_role_id() do
+    Role
+    |> where([r], r.title == "manager")
+    |> select([r], r.id)
+    |> Repo.one()
+  end
+
   @doc """
   Gets a single user.
 
