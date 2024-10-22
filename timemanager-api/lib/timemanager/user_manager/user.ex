@@ -11,6 +11,8 @@ defmodule Timemanager.UserManager.User do
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
     field :team_id, :integer
+    has_many :clocks, Timemanager.ClockManager.Clock
+    has_many :working_times, Timemanager.WorkingTimeManager.WorkingTime
     timestamps(type: :utc_datetime)
   end
 

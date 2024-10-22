@@ -23,6 +23,7 @@ const handleSubmit = async () => {
     const { jwt, csrf_token } = response.data
     localStorage.setItem('jwt', jwt)
     localStorage.setItem('csrf_token', csrf_token)
+    localStorage.setItem('userRole', response.data.data.role_id)
     axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`
     axios.defaults.headers.common['X-CSRF-Token'] = csrf_token
     router.push('/')
