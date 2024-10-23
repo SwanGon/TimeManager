@@ -10,12 +10,10 @@ const togglePdf = ()=>{
 </script>
 <template>
     <div>
-        <ButtonComponent title="Contracts" @click="togglePdf">
-        </ButtonComponent>
+        <ButtonComponent title="Contracts" @click="togglePdf"/>
         <div :style="{ width: '100vw', height: '100vh' }" v-if="showPdf" >
             <VPdfViewer :src="pdfUrl"/>
         </div>
-        <ButtonComponent title="Contact">
-        </ButtonComponent>
+        <ButtonComponent title="Contact"/>
     </div>
 </template>
