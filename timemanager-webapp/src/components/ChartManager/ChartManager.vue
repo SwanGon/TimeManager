@@ -25,9 +25,8 @@ const chartData = ref({
 })
 </script>
 <template>
-  <div>
-    <h2>Chart Manager</h2>
-    <Bar :data="chartData" />
-    <Pie :data="chartData" />
+  <div class="flex flex-col">
+    <Bar :data="chartData"/>
+    <Pie :data="chartData"/>
   </div>
 </template>

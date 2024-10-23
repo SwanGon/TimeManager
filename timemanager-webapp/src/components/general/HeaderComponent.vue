@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex w-full shrink p-4 bg-bg-primary justify-between align-center items-end sticky top-0 shadow-md"
+    class="flex w-full shrink p-4 bg-bg-primary justify-between align-center items-end shadow-md"
   >
     <ButtonComponent title="Timemanager" path="/"> </ButtonComponent>
     <span class="shrink font-bold text-2xl flex">
