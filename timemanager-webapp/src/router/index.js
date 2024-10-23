@@ -2,13 +2,14 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ClockManager from '../components/ClockManager/ClockManager.vue'
 import ChartManager from '../components/ChartManager/ChartManager.vue'
-import Register from '@/components/Login/Register.vue'
 import TeamManager from'@/components/UserManager/TeamManager.vue'
-import Profil from '@/components/Login/Profil.vue'
 import UserManager from '@/components/UserManager/UserManager.vue'
 import WorkingTimesManager from '@/components/WorkingTimesManager/WorkingTimesManager.vue'
 import WorkingShiftManager from '@/components/WorkingShiftManager/WorkingShiftManager.vue'
-import Login from '@/components/Login/Login.vue'
+import LoginView from '@/views/Authentication/LoginView.vue'
+import RegisterView from '@/views/Authentication/RegisterView.vue'
+import ProfilView from '@/views/Authentication/ProfilView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,13 +23,13 @@ const router = createRouter({
     {
       path: '/login',
       name: 'Login',
-      component: Login,
+      component: LoginView,
       meta: { requiresAuth: false }
     },
     {
       path: '/register',
       name: 'Register',
-      component: Register,
+      component: RegisterView,
       meta: { requiresAuth: false }
     },
     {
@@ -37,11 +38,10 @@ const router = createRouter({
       component: WorkingShiftManager,
       meta: { requiresAuth: true }
     },
-
     {
       path: '/profile',
       name: 'profile',
-      component: Profil,
+      component: ProfilView,
       meta: { requiresAuth: true }
     },
     {
@@ -76,6 +76,7 @@ const router = createRouter({
     }
   ]
 })
+
 router.beforeEach((to, from, next) => {
   const isAuthenticated = !!localStorage.getItem('jwt')
   const userRole = localStorage.getItem('userRole')
@@ -90,6 +91,5 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
-
 
 export default router
