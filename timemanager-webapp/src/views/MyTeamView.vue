@@ -16,7 +16,6 @@ import { onMounted, ref } from 'vue';
 
 let userlist = ref()
 
-
 onMounted(() => {
     TeamManager.getUsers(1).then(json => {
         userlist.value = json.data
