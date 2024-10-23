@@ -13,6 +13,7 @@ defmodule Timemanager.UserManager.User do
     field :team_id, :integer
     has_many :clocks, Timemanager.ClockManager.Clock
     has_many :working_times, Timemanager.WorkingTimeManager.WorkingTime
+    has_one :users_token, Timemanager.UserManager.User
     timestamps(type: :utc_datetime)
   end
 

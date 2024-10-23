@@ -17,7 +17,7 @@ defmodule Timemanager.UserManager.UserToken do
     field :token, :binary
     field :context, :string
     field :sent_to, :string
-    belongs_to :user, Timemanager.UserManager.User
+    belongs_to :user_id, Timemanager.UserManager.User
 
     timestamps(type: :utc_datetime, updated_at: false)
   end
