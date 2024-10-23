@@ -1,26 +1,24 @@
 <script setup>
 import axios from 'axios'
-import { ref, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
-
-const route = useRoute()
+import { ref, onMounted, watch} from 'vue'
+import ClockCard from './ClockCard.vue'
 
 const userId = ref(1)
 const startDateTime = ref('not clocked in')
 const clockIn = ref(false)
-const clocks = ref(undefined)
-
+const clocks = ref('')
 
 const refresh = async () => {
   try {
     const response = await axios.get(`http://localhost:4000/api/clocks/${userId.value}`)
-    alert(`Found clocks: ${JSON.stringify(response.data)}`)
+    clocks.value = response.data.data.slice().reverse()
+    console.log(`Found clocks: ${JSON.stringify(response.data)}`)
   } catch (error) {
     console.error('Error fetching clock data:', error)
   }
 }
 const toggleClock = async () => {
-  const clockingTime = new Date(Date.now())
+  const clockingTime = new Date(Date.now() + 2 * 60 * 60 * 1000)
   const clockData = {
     status: clockIn.value,
     time: clockingTime.toISOString().slice(0, 19).replace('T', ' ')
@@ -36,10 +34,10 @@ const toggleClock = async () => {
       }
     )
     refresh()
-    alert(`Working time created: ${JSON.stringify(response.data)}`);
+    console.log(`Working time created: ${JSON.stringify(response.data)}`)
     if (clockIn.value) {
       startDateTime.value = clockingTime.toLocaleTimeString()
-    }else{
+    } else {
       startDateTime.value = 'not clocked in'
     }
   } catch (error) {
@@ -49,7 +47,6 @@ const toggleClock = async () => {
 
 onMounted(async () => {
   refresh()
-
 })
 
 watch(clockIn, () => {
@@ -58,26 +55,18 @@ watch(clockIn, () => {
 </script>
 
 <template>
-  <div class="sm:w-56 shadow-lg shrink">
-    <p>Start Date Time: {{ startDateTime }}</p>
-    <br>
-    <VaSwitch v-model="clockIn" size="large" true-label="Clocked-in" false-label="Clocked-out" />
-  </div>
-  <div class="mt-8">
-    <p>My Clocks</p>
-    <VaList>
-    <VaListItem
-      v-for="(clock, index) in clocks"
-      :key="index"
-      class="list__item"
-    >
-      <VaListItemSection>
-        <VaListItemLabel>
-          {{ clock.time }}
-        </VaListItemLabel>
-      </VaListItemSection>
-    </VaListItem>
-  </VaList>
+  <div class="h-4/5 flex flex-col ">
+    <div class="sm:w-56 shadow-lg shrink text-center m-auto">
+      <p class="text-3xl">Start Date Time: {{ startDateTime }}</p>
+      <br />
+      <VaSwitch v-model="clockIn" size="large" true-label="Clocked-in" false-label="Clocked-out" />
+      <p class="my-4 text-2xl underline">My Clocks</p>
+    </div>
+    <div class="overflow-auto">
+      <div v-for="(clock, index) in clocks" :key="index">
+        <ClockCard :time="clock.time" :status="clock.status" />
+      </div>
+    </div>
   </div>
 </template>
 

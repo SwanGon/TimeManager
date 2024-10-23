@@ -6,9 +6,9 @@ import ProfilComponent from '@/components/general/ProfilComponent.vue'
 
 <template>
   <div class="flex md:flex-row justify-between flex-col gap-4 bg-bg-tertiary">
-    <div class="flex flex-col shrink bg-bg-primary rounded mt-3 px-2">
-      <ProfilComponent />
-      <ClockManager />
+    <div class=" max-h-screen flex flex-col bg-bg-primary rounded mt-3 px-2">
+        <ProfilComponent />
+        <ClockManager />
     </div>
     <div class="bg-bg-primary rounded mt-3">
       <ButtonComponent title="Contracts" path="/contracts"> </ButtonComponent>
