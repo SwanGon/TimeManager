@@ -14,6 +14,6 @@ const togglePdf = ()=>{
         <div :style="{ width: '100vw', height: '100vh' }" v-if="showPdf" >
             <VPdfViewer :src="pdfUrl"/>
         </div>
-        <ButtonComponent title="Contact"/>
+        <ButtonComponent title="Contact" path="/contact"/>
     </div>
 </template>
