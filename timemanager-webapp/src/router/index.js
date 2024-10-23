@@ -5,6 +5,7 @@ import ChartManager from '../components/ChartManager/ChartManager.vue'
 import UserManager from '@/components/UserManager/UserManager.vue'
 import WorkingTimesManager from '@/components/WorkingTimesManager/WorkingTimesManager.vue'
 import WorkingShiftManager from '@/components/WorkingShiftManager/WorkingShiftManager.vue'
+import Contracts from '@/views/Contracts.vue'
 
 
 const router = createRouter({
@@ -14,6 +15,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
+    },
+    {
+      path: '/contracts',
+      name: 'contracts',
+      component: Contracts
     },
     {
       path: '/workingtime/:userId',

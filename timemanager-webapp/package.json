@@ -13,8 +13,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@vue-pdf-viewer/viewer": "^1.4.3",
     "axios": "^1.7.7",
     "chart.js": "^4.4.4",
+    "pdf-viewer-vue": "^0.2.7",
     "pinia": "^2.1.7",
     "timemanager-webapp": "file:",
     "vue": "^3.4.29",
