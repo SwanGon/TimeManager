@@ -16,3 +16,8 @@ const formatDate = (datetimeStr) => {
   return `${time} ${date.split('-').reverse().join('/')}`
 }
 </script>
+
+<!--
+<div v-for="(clock, index) in clocks" :key="index">
+  <ClockCard :time="clock.time" :status="clock.status" />
+</div> -->

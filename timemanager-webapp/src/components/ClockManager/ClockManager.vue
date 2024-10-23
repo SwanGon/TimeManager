@@ -1,10 +1,9 @@
 <script setup>
 import axios from 'axios'
-import { ref, onMounted, watch} from 'vue'
-import ClockCard from './ClockCard.vue'
+import { ref, onMounted, watch } from 'vue'
 
 const userId = ref(1)
-const startDateTime = ref('not clocked in')
+const startDateTime = ref('Please clock-in')
 const clockIn = ref(false)
 const clocks = ref('')
 
@@ -36,9 +35,9 @@ const toggleClock = async () => {
     refresh()
     console.log(`Working time created: ${JSON.stringify(response.data)}`)
     if (clockIn.value) {
-      startDateTime.value = clockingTime.toLocaleTimeString()
+      startDateTime.value = "You clocked-in at: " + clockingTime.toLocaleTimeString()
     } else {
-      startDateTime.value = 'not clocked in'
+      startDateTime.value = 'Please clock-in'
     }
   } catch (error) {
     console.error('Error toggling clock:', error)
@@ -55,17 +54,10 @@ watch(clockIn, () => {
 </script>
 
 <template>
-  <div class="h-4/5 flex flex-col ">
-    <div class="sm:w-56 shadow-lg shrink text-center m-auto">
-      <p class="text-3xl">Start Date Time: {{ startDateTime }}</p>
-      <br />
-      <VaSwitch v-model="clockIn" size="large" true-label="Clocked-in" false-label="Clocked-out" />
-      <p class="my-4 text-2xl underline">My Clocks</p>
-    </div>
-    <div class="overflow-auto">
-      <div v-for="(clock, index) in clocks" :key="index">
-        <ClockCard :time="clock.time" :status="clock.status" />
-      </div>
+  <div class="flex flex-col justify-between bg-bg-primary w-4/5 p-4 min-h-44 rounded-lg shadow-lg shrink text-center">
+    <p class="text-3xl shrink">{{ startDateTime }}</p>
+    <div class="shrink">
+      <VaSwitch v-model="clockIn" size="large" />
     </div>
   </div>
 </template>

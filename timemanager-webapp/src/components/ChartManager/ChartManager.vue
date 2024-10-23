@@ -25,8 +25,12 @@ const chartData = ref({
 })
 </script>
 <template>
-  <div class="flex flex-col">
-    <Bar :data="chartData"/>
-    <Pie :data="chartData"/>
+  <div class="flex gap-8 shrink mx-4 justify-center items-center">
+    <div class="bg-bg-primary rounded-lg w-1/2">
+      <Bar :data="chartData"/>
+    </div>
+    <div class="bg-bg-primary rounded-lg w-1/2">
+      <Pie :data="chartData"/>
+    </div>
   </div>
 </template>

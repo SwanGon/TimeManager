@@ -6,21 +6,20 @@ import ChartManager from '@/components/ChartManager/ChartManager.vue'
 </script>
 
 <template>
-  <div class="flex md:flex-row flex-col gap-4 bg-bg-tertiary overflow-hidden">
-    <div class="w-1/4 flex flex-col bg-bg-primary rounded mt-3 px-2 flex-1">
+  <div class="flex md:flex-row flex-col overflow-hidden">
+    <div class="w-2/6 flex flex-col gap-8 justify-center items-center rounded mt-3 px-2">
       <ProfilComponent />
       <ClockManager />
+      <ButtonComponent title="My Clocks" path="/" />
+      <ButtonComponent title="WorkingTime" path="/workingtimes/:userid" />
     </div>
-    <div class="w-3/4 flex flex-col bg-bg-primary rounded mt-3 px-2 overflow-auto flex-1">
-      <div class="sticky top-0 bg-bg-primary z-10 shadow-lg">
-          <div class="flex justify-around p-3">
-            <ButtonComponent title="Contracts" path="/contracts" />
-            <ButtonComponent title="My team" path="/team/id" />
-            <ButtonComponent title="Tutorial" path="/???" />
-            <ButtonComponent title="WorkingTime" path="/workingtimes/:userid" />
-          </div>
-        </div>
+    <div class="w-4/6 flex flex-col gap-8 justify-center rounded mx-15 mt-3 px-2">
       <ChartManager />
+      <div class="flex justify-around p-3 shrink">
+        <ButtonComponent title="Contracts" path="/contracts" />
+        <ButtonComponent title="My team" path="/team/id" />
+        <ButtonComponent title="Tutorial" path="/???" />
+      </div>
     </div>
   </div>
 </template>
