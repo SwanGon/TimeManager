@@ -1,7 +1,9 @@
 <template>
-  <div class="flex flex-col size-full">
+  <div class="flex flex-col h-screen bg-bg-tertiary">
     <HeaderComponent />
-    <router-view />
+    <div class="flex-1 flex overflow-hidden">
+      <router-view />
+    </div>
   </div>
 </template>
 
