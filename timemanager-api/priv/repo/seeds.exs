@@ -6,7 +6,6 @@ alias Timemanager.ClockManager.Clock
 alias Timemanager.WorkingTimeManager.WorkingTime
 import Ecto.Query
 
-
 defmodule Timemanager.Seeds do
 
   Repo.delete_all Clock
@@ -35,66 +34,77 @@ defmodule Timemanager.Seeds do
       %{
         username: "Antoine",
         email: "antoine@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: supervisor_role.id,
         team_id: nil
       },
       %{
         username: "Marc",
         email: "marc@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Swan",
         email: "swan@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: manager_role.id,
         team_id: nil
       },
       %{
         username: "Laurent",
         email: "laurent@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: supervisor_role.id,
         team_id: nil
       },
       %{
         username: "Max",
         email: "max@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Emilie",
         email: "emilie@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Rose",
         email: "rose@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: manager_role.id,
         team_id: nil
       },
       %{
         username: "Romain",
         email: "romain@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Sophie",
         email: "sophie@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Sarah",
         email: "sarah@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Marius",
         email: "marius@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: user_role.id,
         team_id: nil
       }
@@ -104,6 +114,7 @@ defmodule Timemanager.Seeds do
       Repo.insert!(%User{
         username: user.username,
         email: user.email,
+        hashed_password: user.hashed_password,
         role_id: user.role_id,
         team_id: nil
       })
@@ -182,8 +193,6 @@ defmodule Timemanager.Seeds do
       end
     end)
   end
-
-
 end
 
 Timemanager.Seeds.run()

@@ -21,6 +21,7 @@
     "pinia": "^2.1.7",
     "timemanager-webapp": "file:",
     "vue": "^3.4.29",
+    "vue-axios-cors": "^1.0.1",
     "vue-chartjs": "^5.3.1",
     "vue-chartmaker": "^1.4.4",
     "vue-cordova": "^0.1.2",

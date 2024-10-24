@@ -9,7 +9,8 @@ const clocks = ref('')
 
 const refresh = async () => {
   try {
-    const response = await axios.get(`http://localhost:4000/api/clocks/${userId.value}`)
+    const response = await axios.get(`/api/clocks/${userId.value}`)
+    
     clocks.value = response.data.data.slice().reverse()
     console.log(`Found clocks: ${JSON.stringify(response.data)}`)
   } catch (error) {
@@ -24,7 +25,7 @@ const toggleClock = async () => {
   }
   try {
     const response = await axios.post(
-      `http://localhost:4000/api/clocks/${userId.value}`,
+      `/api/clocks/${userId.value}`,
       clockData,
       {
         headers: {

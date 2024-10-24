@@ -8,12 +8,14 @@
       <span class="mx-1">|</span>
       <div>{{ formattedTime }}</div>
     </span>
+    <LogoutComponent/>
     <ButtonComponent title="profil" path="/"> </ButtonComponent>
   </div>
 </template>
 
 <script setup>
 import ButtonComponent from './ButtonComponent.vue'
+import LogoutComponent from '../authentication/LogoutComponent.vue'
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 
 const currentTime = ref(new Date())
