@@ -53,6 +53,23 @@ defmodule Timemanager.UserManager do
     |> Repo.one()
   end
 
+  def get_supervisors() do
+    case get_supervisor_role_id() do
+      nil -> []
+      supervisor_role_id ->
+        from(u in User, where: u.role_id == ^supervisor_role_id)
+        |> Repo.all()
+    end
+  end
+
+  defp get_supervisor_role_id() do
+    Role
+    |> where([r], r.title == "supervisor")
+    |> select([r], r.id)
+    |> Repo.one()
+  end
+
+
   @doc """
   Gets a single user.
 
