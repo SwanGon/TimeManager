@@ -26,7 +26,10 @@ onMounted(async () => {
             axios.get('/api/supervisors')
         ]);
         
-        managers.value = [...managersResponse.data.data, ...supervisorsResponse.data.data];
+        managers.value = [
+            ...managersResponse.data.data.map(manager => ({ ...manager, role: { title: 'manager' } })),
+            ...supervisorsResponse.data.data.map(supervisor => ({ ...supervisor, role: { title: 'supervisor' } }))
+        ];
     } catch (error) {
         console.error('Error fetching managers and supervisors:', error);
     }
@@ -56,7 +59,7 @@ onMounted(async () => {
                 <select v-model="selectedManager" class="bg-button text-button-text py-2 px-4 rounded mr-2 w-small mb-4">
                 <option value="" disabled>Select a manager or supervisor</option>
                 <option v-for="manager in managers" :key="manager.id" :value="manager.email">
-                    - {{ manager.username }}
+                    - {{ manager.username }} ({{ manager.email }}, {{ manager.role ? manager.role.title:'' }})
                 </option>
                 </select>
 
