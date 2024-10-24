@@ -1,11 +1,13 @@
 <template>
-  <div class="h-screen flex flex-col size-full">
+  <div class="flex flex-col h-screen bg-bg-tertiary">
     <HeaderComponent />
-    <router-view></router-view>
+    <div class="flex-1 flex overflow-hidden">
+      <router-view />
+    </div>
   </div>
 </template>
 
 <script setup>
-import HeaderComponent from './components/general/HeaderComponent.vue'
-import './main.css'
+  import HeaderComponent from './components/general/HeaderComponent.vue'
+  import './main.css'
 </script>

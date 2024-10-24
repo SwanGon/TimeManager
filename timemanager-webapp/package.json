@@ -6,21 +6,26 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "cordova-dev": "vite build --outDir ./timemanager-mobile/www/ && cd timemanager-mobile/ && cordova run android",
     "preview": "vite preview",
     "test:unit": "vitest",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@vue-pdf-viewer/viewer": "^1.4.3",
     "axios": "^1.7.7",
     "chart.js": "^4.4.4",
+    "pdf-viewer-vue": "^0.2.7",
     "pinia": "^2.1.7",
     "timemanager-webapp": "file:",
     "vue": "^3.4.29",
     "vue-axios-cors": "^1.0.1",
     "vue-chartjs": "^5.3.1",
     "vue-chartmaker": "^1.4.4",
-    "vue-router": "^4.4.5"
+    "vue-cordova": "^0.1.2",
+    "vue-router": "^4.4.5",
+    "vuestic-ui": "^1.10.3"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
@@ -28,7 +33,7 @@
     "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/test-utils": "^2.4.6",
     "autoprefixer": "^10.4.20",
-    "eslint": "^8.57.0",  
+    "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.23.0",
     "jsdom": "^24.1.0",
     "postcss": "^8.4.47",

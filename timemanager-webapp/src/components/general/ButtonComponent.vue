@@ -1,15 +1,16 @@
 <template>
-    <router-link
-        class="bg-red-300 hover:bg-red-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
-        :to="{ path }"
-        >
-        <span>{{ title }}</span>
-    </router-link>
+  <router-link
+    class="bg-button hover:bg-button-hover text-button-text text-center shrink py-2 px-4 rounded items-center w-56 text-2xl underline"
+    :to="{ path }"
+    @click="$emit('action')"
+  >  
+    <span>{{ title }}</span>
+  </router-link>
 </template>
 
 <script setup>
-    import { defineProps } from 'vue';
+import { defineProps, defineEmits } from 'vue'
 
-    const { title, path } = defineProps(["title", "path"])
-
+const { title, path } = defineProps(['title', 'path'])
+defineEmits('action')
 </script>

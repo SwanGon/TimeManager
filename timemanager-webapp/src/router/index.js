@@ -9,7 +9,7 @@ import WorkingShiftManager from '@/components/WorkingShiftManager/WorkingShiftMa
 import LoginView from '@/views/Authentication/LoginView.vue'
 import RegisterView from '@/views/Authentication/RegisterView.vue'
 import ProfilView from '@/views/Authentication/ProfilView.vue'
-
+import Contracts from '@/views/Contracts.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +33,11 @@ const router = createRouter({
       meta: { requiresAuth: false }
     },
     {
+      path: '/contracts',
+      name: 'contracts',
+      component: Contracts
+    },
+    {
       path: '/workingtime/:userId',
       name: 'workingtime',
       component: WorkingShiftManager,
@@ -51,8 +56,8 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/workingtimes/:userId',
-      name: 'workingTimes',
+      path: '/workingtimes/:userid',
+      name: 'workingtimes',
       component: WorkingTimesManager
     },
     {

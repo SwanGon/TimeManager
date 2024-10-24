@@ -1,15 +1,3 @@
-# Script for populating the database. You can run it as:
-#
-#     mix run priv/repo/seeds.exs
-#
-# Inside the script, you can read and write to any of your
-# repositories directly:
-#
-#     Timemanager.Repo.insert!(%Timemanager.SomeSchema{})
-#
-# We recommend using the bang functions (`insert!`, `update!`
-# and so on) as they will fail if something goes wrong.
-
 alias Timemanager.Repo
 alias Timemanager.TeamManagers.Team
 alias Timemanager.RoleManager.Role
@@ -20,21 +8,17 @@ import Ecto.Query
 
 defmodule Timemanager.Seeds do
 
-  IO.puts("deleting previous working users and associated...")
   Repo.delete_all Clock
   Repo.delete_all WorkingTime
   Repo.delete_all Team
   Repo.delete_all User
   Repo.delete_all Role
-  # # Then we create users with:
-
 
   def run do
     create_users()
     create_teams()
     create_working_times()
   end
-
 
   defp create_roles do
     user_role = Repo.insert!(%Role{title: "user"})
