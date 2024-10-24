@@ -22,7 +22,21 @@ defmodule Timemanager.ClockManager do
     |> Repo.all()
   end
 
+  def list_clocks_by_user_and_date(user_id, datetime_string) do
+    case DateTime.from_iso8601(datetime_string) do
+      {:ok, datetime, _offset} ->
+        date = DateTime.to_date(datetime)
 
+        start_of_day = DateTime.new!(date, ~T[00:00:00], "Etc/UTC")
+        end_of_day = DateTime.new!(date, ~T[23:59:59], "Etc/UTC")
+
+        from(c in Clock, where: c.user_id == ^user_id and c.time >= ^start_of_day and c.time <= ^end_of_day )
+        |> Repo.all()
+
+      {:error, reason} ->
+        {:error, "Invalid DateTime format: #{reason}"}
+    end
+  end
   @doc """
   Gets a single clock.
 
