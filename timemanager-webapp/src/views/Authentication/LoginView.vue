@@ -8,9 +8,11 @@ const email = ref('')
 const password = ref('')
 const rememberMe = ref(false)
 const isAuthenticated = computed(() => !!localStorage.getItem('jwt'))
+
 const goToRegister = () => {
   router.push('/register')
 }
+
 const handleSubmit = async () => {
   try {
     const response = await axios.post('/api/login', {
@@ -18,12 +20,15 @@ const handleSubmit = async () => {
         password: password.value,
         remember_me: rememberMe.value
     })
-    console.log(response.data);
+    console.log(response.data.user);
     
-    const { token, csrf_token } = response.data
+    const {token, csrf_token} = response.data
+    const user = response.data.user
+    console.log(user.role_id)
     localStorage.setItem('jwt', token)
     localStorage.setItem('csrf_token', csrf_token)
-    // localStorage.setItem('userRole', response.data.data.role_id)
+    localStorage.setItem('userId', user.id),
+    localStorage.setItem('roleId', user.role_id)
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     axios.defaults.headers.common['X-CSRF-Token'] = csrf_token
     router.push('/')
