@@ -38,6 +38,11 @@ const router = createRouter({
       component: Contracts
     },
     {
+      path: '/contracts',
+      name: 'contracts',
+      component: Contracts
+    },
+    {
       path: '/workingtime/:userId',
       name: 'workingtime',
       component: WorkingShiftManager,

@@ -77,6 +77,12 @@ defmodule TimemanagerWeb.UserController do
     render(conn, :show, user: user)
   end
 
+  def supervisors(conn, _params) do
+    supervisors = UserManager.get_supervisors()
+    render(conn, :index, users: supervisors)
+  end
+
+
   def update(conn, %{"id" => id, "username" => username, "email" => email}) do
     user = UserManager.get_user!(id)
     user_params = %{"username" => username, "email" => email}
