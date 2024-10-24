@@ -39,8 +39,7 @@ defmodule TimemanagerWeb do
   def controller do
     quote do
       use Phoenix.Controller,
-        formats: [:html, :json],
-        layouts: [html: TimemanagerWeb.Layouts]
+        formats: [:json]
 
       import Plug.Conn
       import TimemanagerWeb.Gettext

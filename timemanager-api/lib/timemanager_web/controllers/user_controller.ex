@@ -102,21 +102,4 @@ defmodule TimemanagerWeb.UserController do
   def swagger_definitions do
     UserSwagger.swagger_definitions()
   end
-  def log_in(conn, %{"user" => user_params}) do
-    %{"email" => email, "password" => password} = user_params
-
-
-    if user = UserManager.get_user_by_email_and_password(email, password) do
-      token = Timemanager.JWTToken.generate_user_token(user)
-      csrf_token = Timemanager.UserManager.UserToken.generate_csrf_token()
-
-      conn
-      |> put_status(:ok)
-      |> render("login.json", %{user: user, token: token, csrf_token: csrf_token})
-    else
-      conn
-      |> put_status(:unauthorized)
-      |> json(%{error: "Invalid email or password"})
-    end
-  end
 end

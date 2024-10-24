@@ -5,6 +5,7 @@ defmodule Config.DevSecrets do
     System.put_env("DATABASE_HOST", "localhost")
     System.put_env("DATABASE_NAME", "timemanager_dev")
     System.put_env("PORT", "4000")
+    System.put_env("JWT_PASSPHRASE", "blaaaa")
   end
 end
 

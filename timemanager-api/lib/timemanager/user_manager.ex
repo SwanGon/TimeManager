@@ -22,6 +22,14 @@ defmodule Timemanager.UserManager do
     Repo.all(User)
   end
 
+  @doc """
+  Retrieves a user by ID.
+  """
+  def get_user_by_id(id) do
+    query = from u in User, where: u.id == ^id, select: u
+    Repo.one(query)
+  end
+
   def get_users_by_email(email) do
     from(u in User, where: u.email == ^email)
     |> Repo.all()

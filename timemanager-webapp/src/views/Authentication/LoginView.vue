@@ -13,12 +13,10 @@ const goToRegister = () => {
 }
 const handleSubmit = async () => {
   try {
-    const response = await axios.post('/api/users/log_in', {
-      user: {
+    const response = await axios.post('/api/login', {
         email: email.value,
         password: password.value,
         remember_me: rememberMe.value
-      }
     })
     console.log(response.data);
     
