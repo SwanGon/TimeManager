@@ -14,6 +14,7 @@ defmodule TimemanagerWeb.UserJSON do
   def show(%{user: user}) do
     %{data: data(user)}
   end
+  
   def error(%{changeset: changeset}) do
     %{errors: Ecto.Changeset.traverse_errors(changeset, &translate_error/1)}
   end
@@ -32,6 +33,7 @@ defmodule TimemanagerWeb.UserJSON do
       role_id: user.role_id
     }
   end
+
   def login(%{user: user, token: token, csrf_token: csrf_token}) do
     %{
       data: data(user),

@@ -1,5 +1,4 @@
 defmodule TimemanagerWeb.Token do
-  @secret Joken.Signer.create("HS256", System.get_env("JWT_PASSPHRASE"))
 
   @doc """
   Create token for given data
@@ -11,7 +10,7 @@ defmodule TimemanagerWeb.Token do
 
     claims = Map.merge(data, %{"exp" => exp, "iat" => iat})
 
-    case Joken.encode_and_sign(claims, @secret) do
+    case Joken.encode_and_sign(claims, Joken.Signer.create("HS256", System.get_env("JWT_PASSPHRASE"))) do
       {:ok, token, _full_claims} -> {:ok, token}
       _error -> {:error, :unauthenticated}
     end
@@ -22,7 +21,7 @@ defmodule TimemanagerWeb.Token do
   Verify token
   """
   def verifyJWT(token) do
-    case Joken.verify_and_validate(%{}, token, @secret) do
+    case Joken.verify_and_validate(%{}, token, Joken.Signer.create("HS256", System.get_env("JWT_PASSPHRASE"))) do
       {:ok, data} -> {:ok, data}
       _error -> {:error, :unauthenticated}
     end
