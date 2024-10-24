@@ -36,7 +36,7 @@ onMounted(async () => {
 
 <template>
     <div class="flex justify-center items-center h-screen px-4">
-        <div class="flex gap-4 flex-col max-w-md">
+        <div class="flex gap-4 flex-col max-w-md mx-auto">
         <ButtonComponent title="Contracts" @click="togglePdf" class="text-center"/>
         <div :style="{ width: '100vw', height: '100vh' }" v-if="showPdf">
             <VPdfViewer :src="pdfUrl"/>
