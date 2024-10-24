@@ -15,8 +15,8 @@ import {
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 const dataDates = ref([])
-const userId = 1
-const requiredMinutes = 450 //in minutes
+const userId = 2
+const requiredMinutes = 477 //in minutes
 
 const chartData = computed(() => ({
   labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -34,25 +34,37 @@ const chartData = computed(() => ({
 
 const chartOptions = {
   responsive: true,
+  maintainAspectRatio: false,
   plugins: {
     legend: {
-      position: 'top'
+      position: 'top',
     },
     title: {
       display: true,
-      text: 'Weekly Time Differences'
-    }
+      text: 'Weekly Time Differences',
+    },
   },
   scales: {
     y: {
       beginAtZero: true,
       title: {
         display: true,
-        text: 'Hours'
-      }
-    }
-  }
+        text: 'Hours Worked',
+      },
+      ticks: {
+        callback: function(value) {
+          return formatHours(value); // format the y-axis labels
+        },
+      },
+    },
+  },
+};
+
+function formatHours(hours) {
+  const totalMinutes = Math.round(hours * 60);
+  return `${totalMinutes} min`;
 }
+
 
 onMounted(async () => {
   getDates()
@@ -68,7 +80,6 @@ function calculateTimeWorkedForDay(entries) {
     if (startEntry && endEntry && startEntry.status === true && endEntry.status === false) {
       const startTime = new Date(startEntry.time)
       const endTime = new Date(endEntry.time)
-
       totalMilliseconds += endTime - startTime
     }
   }
@@ -78,7 +89,7 @@ function calculateTimeWorkedForDay(entries) {
 
 const timeDifferences = computed(() => {
   return dataDates.value.map((dayData) => {
-    if (dayData.data == 0){
+    if (dayData.data == 0) {
       return null
     }
     const entries = dayData.data
@@ -95,17 +106,17 @@ async function getDates() {
     const daysToSubtract = dayOfWeek === 0 ? 6 : dayOfWeek - 1
     const monday = new Date(today)
     monday.setDate(today.getDate() - daysToSubtract)
-    const url = `http://localhost:4000/api/clocks/${userId}`
+    const url = `/api/clocks/today/${userId}`
     const promises = []
 
     for (let i = 0; i < 7; i++) {
       const currentDay = new Date(monday)
       currentDay.setDate(monday.getDate() + i)
-      const dateString = currentDay.toISOString()
       promises.push(
         axios.get(url, {
           params: {
-            time: dateString
+            start_of_day : currentDay.toISOString().replace(/T[\d:.]+Z$/, 'T00:00:00Z'),
+            end_of_day : currentDay.toISOString().replace(/T[\d:.]+Z$/, 'T23:59:59Z')
           },
           headers: {
             Accept: 'application/json'
@@ -115,17 +126,15 @@ async function getDates() {
     }
 
     const responses = await Promise.all(promises)
+    console.log(responses);
     dataDates.value = responses.map((response) => response.data)
-    console.log('Responses:', dataDates.value)
   } catch (error) {
     console.error('Error:', error)
   }
 }
 </script>
 <template>
-  <div class="flex gap-8 shrink mx-4 justify-center items-center">
-    <div class="bg-bg-primary rounded-lg w-1/2">
-      <Bar :data="chartData" :options="chartOptions" />
-    </div>
+  <div class="bg-bg-primary rounded-lg relative mx-4 h-full">
+    <Bar :data="chartData" :options="chartOptions" style="width: 100%; height: 100%;" />
   </div>
 </template>

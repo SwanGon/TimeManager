@@ -4,7 +4,7 @@ defmodule TimemanagerWeb.WorkingTimeController do
 
   alias Timemanager.WorkingTimeManager
   alias Timemanager.WorkingTimeManager.WorkingTime
-  
+
   alias TimemanagerWeb.Swagger.WorkingtimeSwagger
 
   action_fallback TimemanagerWeb.FallbackController
@@ -24,6 +24,11 @@ defmodule TimemanagerWeb.WorkingTimeController do
           WorkingTimeManager.get_working_times_by_user(params["user_id"])
       end
     render(conn, "index.json", working_times: working_times)
+  end
+
+  def today(conn, %{ "user_id"=> user_id, "start_of_day" => start_of_day , "end_of_day" => end_of_day}) do
+    working_times = WorkingTimeManager.get_todays_working_times(user_id, start_of_day, end_of_day)
+    render(conn, :index, working_times: working_times)
   end
 
   def show(conn, %{"id" => id, "user_id"=> user_id}) do

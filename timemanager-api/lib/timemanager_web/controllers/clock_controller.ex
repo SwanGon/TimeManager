@@ -11,13 +11,12 @@ defmodule TimemanagerWeb.ClockController do
   Module.eval_quoted(__MODULE__, ClockSwagger.paths())
 
   def index(conn, params) do
-    clocks =
-      cond do
-        params["time"] && params["user_id"]->
-          ClockManager.list_clocks_by_user_and_date(params["user_id"],params["time"])
-        true ->
-          ClockManager.get_clocks_by_user(params["user_id"])
-      end
+    clocks = ClockManager.get_clocks_by_user(params["user_id"])
+    render(conn, :index, clocks: clocks)
+  end
+
+  def today(conn, %{ "user_id"=> user_id, "start_of_day" => start_of_day , "end_of_day" => end_of_day}) do
+    clocks = ClockManager.get_todays_clocks(user_id, start_of_day, end_of_day)
     render(conn, :index, clocks: clocks)
   end
 

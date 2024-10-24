@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ClockManager from '../components/ClockManager/ClockManager.vue'
-import ChartManager from '../components/ChartManager/ChartManager.vue'
 import UserManager from '@/components/UserManager/UserManager.vue'
 import WorkingTimesManager from '@/components/WorkingTimesManager/WorkingTimesManager.vue'
 import WorkingShiftManager from '@/components/WorkingShiftManager/WorkingShiftManager.vue'
@@ -40,11 +39,6 @@ const router = createRouter({
       path: '/clock/:userId',
       name: 'clockManager',
       component: ClockManager
-    },
-    {
-      path: '/chart/:userId',
-      name: 'chartManager',
-      component: ChartManager
     }
   ]
 })

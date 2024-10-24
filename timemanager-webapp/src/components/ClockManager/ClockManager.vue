@@ -2,13 +2,13 @@
 import axios from 'axios'
 import { ref, watch } from 'vue'
 
-const userId = ref(1)
+const userId = ref(2)
 const startDateTime = ref('Please clock-in')
 const clockIn = ref(false)
 
 
 const toggleClock = async () => {
-  const clockingTime = new Date(Date.now() + 2 * 60 * 60 * 1000)
+  const clockingTime = new Date(Date.now())
   const clockData = {
     status: clockIn.value,
     time: clockingTime.toISOString().slice(0, 19).replace('T', ' ')
