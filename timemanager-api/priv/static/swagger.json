@@ -5,56 +5,74 @@
   },
   "host": "localhost:4000",
   "definitions": {
-    "CreateUser": {
-      "description": "Schema for creating a user",
+    "Clock": {
+      "description": "Clock details",
+      "example": {
+        "status": "true",
+        "time": "2024-12-30 15:46:33",
+        "user": "User ID"
+      },
       "properties": {
-        "email": {
-          "description": "Email address",
-          "example": "mymail@testmail.com",
-          "type": "string"
+        "status": {
+          "description": "Status",
+          "type": "boolean"
         },
-        "role_id": {
-          "default": 1,
-          "description": "Role id",
-          "example": 1,
+        "time": {
+          "description": "Time",
+          "type": "datetime"
+        },
+        "user": {
+          "description": "User ID",
           "type": "integer"
-        },
-        "username": {
-          "description": "Username",
-          "example": "JohnDoe123",
-          "type": "string"
+        }
+      },
+      "title": "Clock",
+      "type": "object"
+    },
+    "UpdateTeam": {
+      "description": "Schema for updating a Team",
+      "properties": {
+        "manager_id": {
+          "default": 2,
+          "description": "manager_id",
+          "example": 2,
+          "type": "integer"
         }
       },
       "required": [
-        "role_id",
-        "email",
-        "username"
+        "manager_id"
       ],
-      "title": "Create User",
+      "title": "Update Team",
       "type": "object"
     },
-    "User": {
-      "description": "User details",
+    "Team": {
+      "description": "Team details",
       "example": {
-        "email": "mymail@testmail.com",
-        "role_id": 1,
-        "username": "JohnDoe123"
+        "manager_id": 1
       },
       "properties": {
-        "email": {
-          "description": "Email address",
-          "type": "string"
-        },
-        "role_id": {
-          "description": "Role ID",
+        "manager_id": {
+          "description": "manager ID",
           "type": "integer"
-        },
-        "username": {
-          "description": "Username",
-          "type": "string"
         }
       },
-      "title": "User",
+      "title": "Team",
+      "type": "object"
+    },
+    "CreateTeam": {
+      "description": "Schema for creating a Team",
+      "properties": {
+        "manager_id": {
+          "default": 1,
+          "description": "manager_id",
+          "example": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "manager_id"
+      ],
+      "title": "Create Team",
       "type": "object"
     },
     "UpdateUser": {
@@ -85,17 +103,69 @@
       "title": "Update User",
       "type": "object"
     },
-    "CreateWorkingtime": {
-      "description": "Schema for creating a workingtime",
+    "User": {
+      "description": "User details",
+      "example": {
+        "email": "mymail@testmail.com",
+        "role_id": 1,
+        "username": "JohnDoe123"
+      },
+      "properties": {
+        "email": {
+          "description": "Email address",
+          "type": "string"
+        },
+        "role_id": {
+          "description": "Role ID",
+          "type": "integer"
+        },
+        "username": {
+          "description": "Username",
+          "type": "string"
+        }
+      },
+      "title": "User",
+      "type": "object"
+    },
+    "CreateUser": {
+      "description": "Schema for creating a user",
+      "properties": {
+        "email": {
+          "description": "Email address",
+          "example": "mymail@testmail.com",
+          "type": "string"
+        },
+        "role_id": {
+          "default": 1,
+          "description": "Role id",
+          "example": 1,
+          "type": "integer"
+        },
+        "username": {
+          "description": "Username",
+          "example": "JohnDoe123",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role_id",
+        "email",
+        "username"
+      ],
+      "title": "Create User",
+      "type": "object"
+    },
+    "UpdateWorkingtime": {
+      "description": "Schema for updating a workingtime",
       "properties": {
         "working_end": {
           "description": "End",
-          "example": "2024-12-30 16:46:33",
+          "example": "2024-12-30 17:46:33",
           "type": "datetime"
         },
         "working_start": {
           "description": "Start",
-          "example": "2024-12-30 09:46:33",
+          "example": "2024-12-30 10:46:33",
           "type": "datetime"
         }
       },
@@ -103,7 +173,7 @@
         "working_end",
         "working_start"
       ],
-      "title": "Create Workingtime",
+      "title": "Update Workingtime",
       "type": "object"
     },
     "Workingtime": {
@@ -130,17 +200,17 @@
       "title": "Workingtime",
       "type": "object"
     },
-    "UpdateWorkingtime": {
-      "description": "Schema for updating a workingtime",
+    "CreateWorkingtime": {
+      "description": "Schema for creating a workingtime",
       "properties": {
         "working_end": {
           "description": "End",
-          "example": "2024-12-30 17:46:33",
+          "example": "2024-12-30 16:46:33",
           "type": "datetime"
         },
         "working_start": {
           "description": "Start",
-          "example": "2024-12-30 10:46:33",
+          "example": "2024-12-30 09:46:33",
           "type": "datetime"
         }
       },
@@ -148,7 +218,7 @@
         "working_end",
         "working_start"
       ],
-      "title": "Update Workingtime",
+      "title": "Create Workingtime",
       "type": "object"
     },
     "CreateClock": {
@@ -170,76 +240,6 @@
       ],
       "title": "Create Clock",
       "type": "object"
-    },
-    "Clock": {
-      "description": "Clock details",
-      "example": {
-        "status": "true",
-        "time": "2024-12-30 15:46:33",
-        "user": "User ID"
-      },
-      "properties": {
-        "status": {
-          "description": "Status",
-          "type": "boolean"
-        },
-        "time": {
-          "description": "Time",
-          "type": "datetime"
-        },
-        "user": {
-          "description": "User ID",
-          "type": "integer"
-        }
-      },
-      "title": "Clock",
-      "type": "object"
-    },
-    "CreateTeam": {
-      "description": "Schema for creating a Team",
-      "properties": {
-        "manager_id": {
-          "default": 1,
-          "description": "manager_id",
-          "example": 1,
-          "type": "integer"
-        }
-      },
-      "required": [
-        "manager_id"
-      ],
-      "title": "Create Team",
-      "type": "object"
-    },
-    "Team": {
-      "description": "Team details",
-      "example": {
-        "manager_id": 1
-      },
-      "properties": {
-        "manager_id": {
-          "description": "manager ID",
-          "type": "integer"
-        }
-      },
-      "title": "Team",
-      "type": "object"
-    },
-    "UpdateTeam": {
-      "description": "Schema for updating a Team",
-      "properties": {
-        "manager_id": {
-          "default": 2,
-          "description": "manager_id",
-          "example": 2,
-          "type": "integer"
-        }
-      },
-      "required": [
-        "manager_id"
-      ],
-      "title": "Update Team",
-      "type": "object"
     }
   },
   "paths": {
@@ -254,6 +254,13 @@
             "name": "user_id",
             "required": true,
             "type": "integer"
+          },
+          {
+            "description": "date",
+            "in": "query",
+            "name": "date",
+            "required": false,
+            "type": "string"
           }
         ],
         "produces": [
