@@ -8,6 +8,8 @@ import { ref } from 'vue'
 
 const clockStatus = ref(false)
 
+const userId = localStorage.getItem('userId')
+
 const updateClockStatus = (newStatus) => {
   clockStatus.value = newStatus;
 };
@@ -18,15 +20,15 @@ const updateClockStatus = (newStatus) => {
   <div class="flex md:flex-row flex-col overflow-hidden">
     <div class="w-2/6 flex flex-col gap-8 justify-center items-center rounded mt-3 px-2">
       <ProfilComponent />
-      <ClockManager :clockStatus="clockStatus" @updateClockStatus="updateClockStatus" />
+      <ClockManager :clockStatus="clockStatus" :userId="userId" @updateClockStatus="updateClockStatus" />
       <ButtonComponent title="My Clocks" path="/" />
       <ButtonComponent title="WorkingTime" path="/workingtimes/:userid" />
     </div>
     <div class="w-4/6 flex flex-col gap-8 justify-center rounded mx-15 mt-3 px-2">
       <div class="h-1/6 flex justify-evenly items-center mt-10">
-        <ProgressBar :clockStatus="clockStatus" />
+        <ProgressBar :clockStatus="clockStatus" :userId="userId"/>
       </div>
-      <BarChart />
+      <BarChart :userId="userId" />
       <div class="h-1/6 flex justify-around p-3 shrink">
         <ButtonComponent title="Contracts" path="/contracts" />
         <ButtonComponent title="My team" path="/team/id" />

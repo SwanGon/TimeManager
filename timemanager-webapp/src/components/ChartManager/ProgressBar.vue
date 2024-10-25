@@ -7,7 +7,6 @@ const workingEnd = ref('')
 const haveWorkingTime = ref(false)
 const firstClock = ref(null)
 const todaysClocks = ref(null)
-const userId = 4
 const barValue = computed(() =>{
   const value = (totalMinutesWorked.value/baseWorkingTime.value)*100
   return Math.min(value, 100)
@@ -19,12 +18,13 @@ const totalMinutesWorked = ref(0)
 const workingMinuteLeft = computed(() => baseWorkingTime.value - totalMinutesWorked.value);
 
 const props = defineProps({
-  clockStatus: Boolean
+  clockStatus: Boolean,
+  userId: String
 })
 
 async function getWorkingtime() {
   try {
-    const response = await axios.get(`/api/workingtimes/today/${userId}`, {
+    const response = await axios.get(`/api/workingtimes/today/${props.userId}`, {
       params: {
         start_of_day: new Date().toISOString().replace(/T[\d:.]+Z$/, 'T00:00:00Z'),
         end_of_day: new Date().toISOString().replace(/T[\d:.]+Z$/, 'T23:59:59Z')
@@ -46,7 +46,7 @@ async function getWorkingtime() {
 
 async function getClocks() {
   try {
-    const response = await axios.get(`/api/clocks/today/${userId}`, {
+    const response = await axios.get(`/api/clocks/today/${props.userId}`, {
       params: {
         start_of_day: new Date().toISOString().replace(/T[\d:.]+Z$/, 'T00:00:00Z'),
         end_of_day: new Date().toISOString().replace(/T[\d:.]+Z$/, 'T23:59:59Z')

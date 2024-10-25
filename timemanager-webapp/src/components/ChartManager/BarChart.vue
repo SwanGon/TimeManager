@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, defineProps } from 'vue'
 import { Bar } from 'vue-chartjs'
 import axios from 'axios'
 import {
@@ -11,16 +11,18 @@ import {
   CategoryScale,
   LinearScale
 } from 'chart.js'
-
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
+const props = defineProps({
+  userId: String
+})
+
 const dataDates = ref([])
-const userId = 4
 const baseWorkingTime = ref(0)
 
 async function getWorkingtime() {
   try {
-    const response = await axios.get(`/api/workingtimes/today/${userId}`, {
+    const response = await axios.get(`/api/workingtimes/today/${props.userId}`, {
       params: {
         start_of_day: new Date().toISOString().replace(/T[\d:.]+Z$/, 'T00:00:00Z'),
         end_of_day: new Date().toISOString().replace(/T[\d:.]+Z$/, 'T23:59:59Z')
@@ -126,7 +128,7 @@ async function getDates() {
     const daysToSubtract = dayOfWeek === 0 ? 6 : dayOfWeek - 1
     const monday = new Date(today)
     monday.setDate(today.getDate() - daysToSubtract)
-    const url = `/api/clocks/today/${userId}`
+    const url = `/api/clocks/today/${props.userId}`
     const promises = []
 
     for (let i = 0; i < 7; i++) {
