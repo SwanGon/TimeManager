@@ -41,6 +41,7 @@ defmodule TimemanagerWeb.Router do
     get "/managers", UserController, :managers
     get "/users/:id", UserController, :show
     get "/supervisors", UserController, :supervisors
+    get "/contract", ContractController, :index
     post "/users", UserController, :create
     put "/users/:id", UserController, :update
     delete "/users/:id", UserController, :delete

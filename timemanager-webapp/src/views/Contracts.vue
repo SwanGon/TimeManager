@@ -1,6 +1,5 @@
 <script setup>
 import ButtonComponent from "@/components/general/ButtonComponent.vue";
-import { VPdfViewer } from "@vue-pdf-viewer/viewer";
 import { ref, onMounted } from "vue";
 import { VaModal } from 'vuestic-ui';
 import axios from 'axios';
@@ -9,8 +8,7 @@ const showPdf = ref(false);
 const showManagerSelect = ref(false);
 const managers = ref([]);
 const selectedManager = ref('');
-const pdfUrl = new URL('../asset/contract/Contrat de travail.pdf', import.meta.url).href;
-
+const contractUrl =ref('')
 const togglePdf = () => {
     showPdf.value = !showPdf.value;
 }
@@ -25,13 +23,14 @@ onMounted(async () => {
             axios.get('/api/managers'),
             axios.get('/api/supervisors')
         ]);
-        
+        const response = await axios.get('/api/contract', { responseType: 'blob' })
+        contractUrl.value = URL.createObjectURL(response.data)
         managers.value = [
             ...managersResponse.data.data.map(manager => ({ ...manager, role: { title: 'manager' } })),
             ...supervisorsResponse.data.data.map(supervisor => ({ ...supervisor, role: { title: 'supervisor' } }))
         ];
     } catch (error) {
-        console.error('Error fetching managers and supervisors:', error);
+        console.error( 'Error fetching data:', error);
     }
 });
 
@@ -42,7 +41,7 @@ onMounted(async () => {
         <div class="flex gap-4 flex-col max-w-md mx-auto">
         <ButtonComponent title="Contracts" @click="togglePdf" class="text-center"/>
         <div :style="{ width: '100vw', height: '100vh' }" v-if="showPdf">
-            <VPdfViewer :src="pdfUrl"/>
+            <embed :src="contractUrl" type="application/pdf" width="100%" height="100%">
             <button @click="togglePdf" class="bg-button hover:bg-button-hover text-button-text shrink py-2 px-4 rounded items-center absolute top-4 right-4">
                 <span class="text-button-text">Fermer</span>
             </button>
