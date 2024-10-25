@@ -46,7 +46,6 @@ onMounted(async () => {
                 <span class="text-button-text">Fermer</span>
             </button>
         </div>
-
         <button @click="toggleManagerSelect" class="bg-button hover:bg-button-hover text-button-text shrink py-2 px-4 rounded items-center">
             <span class="text-button-text">Contact</span>
         </button>

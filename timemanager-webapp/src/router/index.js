@@ -91,7 +91,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const isAuthenticated = !!localStorage.getItem('jwt')
-  const userRole = localStorage.getItem('userRole')
+  // const userRole = localStorage.getItem('userRole')
   const publicPages = ['/login', '/register']
   const authRequired = !publicPages.includes(to.path)
   const loggedUserId = localStorage.getItem('userId')
@@ -99,7 +99,7 @@ router.beforeEach((to, from, next) => {
 
   if (authRequired && !isAuthenticated && to.path !== '/login' && to.path !== '/register') {
     next('/login')
-  } else if (isAuthenticated && userRole === 'supervisor' && to.path === '/') {
+  } else if (isAuthenticated /* && userRole */=== 'supervisor' && to.path === '/') {
     next('/teams')
   } else {
     
