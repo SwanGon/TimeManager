@@ -26,10 +26,6 @@ const router = createRouter({
       name: 'NotFound', 
       component: NotFoundView 
     },
-    {
-      path: '/:pathMatch(.*)*',
-      redirect: '/404'
-    },
 
     {
       path: '/login',
@@ -42,11 +38,6 @@ const router = createRouter({
       name: 'Register',
       component: RegisterView,
       meta: { requiresAuth: false }
-    },
-    {
-      path: '/contracts',
-      name: 'contracts',
-      component: Contracts
     },
     {
       path: '/contracts',
@@ -109,7 +100,13 @@ router.beforeEach((to, from, next) => {
   } else if (isAuthenticated && userRole === 'supervisor' && to.path === '/') {
     next('/teams')
   } else {
-    next()
+    const loggedUserId = localStorage.getItem('userId')
+    const userId = to.params.userId
+    if (to.meta.requiresAuth && loggedUserId !== userId) {
+      next({ name: 'NotFound' })
+    } else {
+      next()
+    }
   }
 })
 
