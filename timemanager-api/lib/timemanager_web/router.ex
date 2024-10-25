@@ -19,7 +19,7 @@ defmodule TimemanagerWeb.Router do
   pipeline :authenticated do
     plug TimemanagerWeb.Plug.Authenticate
     plug TimemanagerWeb.Plug.CSRFProtection
-    #plug TimemanagerWeb.Plug.CheckUserAccess
+    # plug TimemanagerWeb.Plug.CheckUserAccess
   end
 
   scope "/api/swagger" do
