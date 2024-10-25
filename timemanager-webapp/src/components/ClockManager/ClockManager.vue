@@ -2,7 +2,6 @@
 import axios from 'axios'
 import { ref, watch, defineProps} from 'vue'
 
-
 const props = defineProps({
   clockStatus: Boolean,
   userId: String
@@ -11,6 +10,7 @@ const emit = defineEmits(['updateClockStatus']);
 const toggleClockStatus = () => {
   emit('updateClockStatus', !props.clockStatus);
 };
+
 const startDateTime = ref('Please clock-in')
 const clockIn = ref(false)
 
