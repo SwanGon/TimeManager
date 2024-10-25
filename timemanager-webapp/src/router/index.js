@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ClockManager from '../components/ClockManager/ClockManager.vue'
 import ChartManager from '../components/ChartManager/ChartManager.vue'
+import NotFoundView from '../views/NotFoundView.vue'
 import TeamManager from'@/components/UserManager/TeamManager.vue'
 import UserManager from '@/components/UserManager/UserManager.vue'
 import WorkingTimesManager from '@/components/WorkingTimesManager/WorkingTimesManager.vue'
@@ -20,6 +21,12 @@ const router = createRouter({
       component: HomeView,
       meta: { requiresAuth: true }
     },
+    { 
+      path: '/404', 
+      name: 'NotFound', 
+      component: NotFoundView 
+    },
+
     {
       path: '/login',
       name: 'Login',
@@ -31,11 +38,6 @@ const router = createRouter({
       name: 'Register',
       component: RegisterView,
       meta: { requiresAuth: false }
-    },
-    {
-      path: '/contracts',
-      name: 'contracts',
-      component: Contracts
     },
     {
       path: '/contracts',
@@ -82,7 +84,7 @@ const router = createRouter({
     },
     {
       path: '/:pathMatch(.*)*',
-      redirect: '/login'
+      redirect: '/404'
     }
   ]
 })
@@ -92,13 +94,23 @@ router.beforeEach((to, from, next) => {
   // const userRole = localStorage.getItem('userRole')
   const publicPages = ['/login', '/register']
   const authRequired = !publicPages.includes(to.path)
+  const loggedUserId = localStorage.getItem('userId')
+  const userId = to.params.userId
 
-  if (authRequired && !isAuthenticated) {
+  if (authRequired && !isAuthenticated && to.path !== '/login' && to.path !== '/register') {
     next('/login')
   } else if (isAuthenticated /* && userRole */=== 'supervisor' && to.path === '/') {
     next('/teams')
   } else {
-    next()
+    
+    console.log('userId', userId)
+    console.log('loggedUserId', loggedUserId)
+    if (to.meta.requiresAuth && loggedUserId !== userId && to.path !== '/404' && userId !== undefined) {
+        next({ name: 'NotFound' })
+      
+    } else {
+      next()
+    }
   }
 })
 
