@@ -1,8 +1,9 @@
 defmodule TimemanagerWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :timemanager
-  
-  plug CORSPlug
-  
+
+  plug CORSPlug, origin: ["http://localhost:5173"]
+
+
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
@@ -41,7 +42,7 @@ defmodule TimemanagerWeb.Endpoint do
   #  cookie_key: "request_logger"
   #plug Plug.Session, store: :cookie, key: "_timemanager_key", signing_salt: "12qADr+I"
   #plug :fetch_session
-  
+
   #plug Plug.CSRFProtection
   plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
