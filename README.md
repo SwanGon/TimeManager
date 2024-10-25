@@ -1,6 +1,6 @@
 # T-POO-700-NAN_9
 
-## TIME MANAGER 
+## TIME MANAGER
 A comprehensive time management solution with web and mobile applications.
 
 ## Overview
@@ -27,7 +27,7 @@ Access the application at: https://timemanager-webapp-latest.onrender.com
 - Working time visualization
 - Team management features
 
-### Mobile Application 
+### Mobile Application
 - Cross-platform (iOS/Android)
 - Built with Apache Cordova
 - Hybrid mobile application
@@ -49,7 +49,7 @@ Access the application at: https://timemanager-webapp-latest.onrender.com
 ### Web Application
 1. Navigate to `timemanager-webapp`
 2. Run `npm install`
-3. Configure API endpoint in environment files 
+3. Configure API endpoint in environment files
 4. Start development server with `npm run dev`
 
 ### Mobile Application (Cordova)
@@ -72,7 +72,7 @@ Access the application at: https://timemanager-webapp-latest.onrender.com
 - Working time management
 - Team organization
 - Real-time updates
-- Reports and analytics
+- Reports and analytics in charts
 - Cross-platform accessibility
 
 ## Technology Stack
