@@ -8,7 +8,7 @@ const logout = () => {
   localStorage.removeItem('jwt')
   localStorage.removeItem('csrf_token')
   localStorage.removeItem('userId')
-  localStorage.removeItem('roleId')
+  localStorage.removeItem('userRole')
   delete axios.defaults.headers.common['Authorization']
   delete axios.defaults.headers.common['X-CSRF-Token']
   router.push('/login')

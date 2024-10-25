@@ -8,7 +8,7 @@ const router = useRouter()
 const email = ref('')
 const password = ref('')
 const rememberMe = ref(false)
-let role = ref()
+const role = ref('')
 const isAuthenticated = computed(() => !!localStorage.getItem('jwt'))
 
 const goToRegister = () => {
@@ -22,21 +22,21 @@ const handleSubmit = async () => {
         password: password.value,
         remember_me: rememberMe.value
     })
-    console.log(response.data.user);
-    
+
     const {token, csrf_token} = response.data
-    const user = response.data.user
-    console.log(user.role_id)
 
-    RolesApi.getRole(user.role_id).then(json => {
-
-      console.log(json)
-      role.value = json.data
-    })
     localStorage.setItem('jwt', token)
     localStorage.setItem('csrf_token', csrf_token)
+
+    const user = response.data.user
+
+    await RolesApi.getRole(user.role_id).then(json => {
+      role.value = json.name
+      console.log(role.value);
+    })
+
     localStorage.setItem('userId', user.id),
-    localStorage.setItem('roleId', user.role_id)
+    localStorage.setItem('userRole', role.value)
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     axios.defaults.headers.common['X-CSRF-Token'] = csrf_token
     router.push('/')
@@ -44,7 +44,6 @@ const handleSubmit = async () => {
     console.error('Login error:', error)
   }
 }
-
 </script>
 
 <template>
