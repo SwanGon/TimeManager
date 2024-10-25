@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ClockManager from '../components/ClockManager/ClockManager.vue'
-import ChartManager from '../components/ChartManager/ChartManager.vue'
 import NotFoundView from '../views/NotFoundView.vue'
 import TeamManager from'@/components/UserManager/TeamManager.vue'
 import UserManager from '@/components/UserManager/UserManager.vue'
@@ -76,11 +75,6 @@ const router = createRouter({
       path: '/clock/:userId',
       name: 'clockManager',
       component: ClockManager
-    },
-    {
-      path: '/chart/:userId',
-      name: 'chartManager',
-      component: ChartManager
     },
     {
       path: '/:pathMatch(.*)*',

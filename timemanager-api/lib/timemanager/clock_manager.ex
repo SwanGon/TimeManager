@@ -22,6 +22,11 @@ defmodule Timemanager.ClockManager do
     |> Repo.all()
   end
 
+  def get_todays_clocks(user_id, start_of_day, end_of_day) do
+    from(c in Clock, where: c.user_id == ^user_id and ^start_of_day <= c.time and c.time <= ^end_of_day )
+    |> Repo.all()
+  end
+
 
   @doc """
   Gets a single clock.

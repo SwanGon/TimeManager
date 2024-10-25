@@ -1,10 +1,3 @@
-<template>
-  <div class="flex justify-around text-center text-text-primary bg-bg-tertiary p-3 rounded my-3 mr-3">
-    <h1 v-if="status">Clock-in</h1>
-    <h1 v-if="!status">Clock-out</h1>
-    <p class="">{{ formatDate(time) }}</p>
-  </div>
-</template>
 
 <script setup>
 import { defineProps } from 'vue'
@@ -16,8 +9,14 @@ const formatDate = (datetimeStr) => {
   return `${time} ${date.split('-').reverse().join('/')}`
 }
 </script>
-
 <!--
-<div v-for="(clock, index) in clocks" :key="index">
+  <div v-for="(clock, index) in clocks" :key="index">
   <ClockCard :time="clock.time" :status="clock.status" />
 </div> -->
+<template>
+  <div class="flex justify-around text-center text-text-primary bg-bg-tertiary p-3 rounded my-3 mr-3">
+    <h1 v-if="status">Clock-in</h1>
+    <h1 v-if="!status">Clock-out</h1>
+    <p class="">{{ formatDate(time) }}</p>
+  </div>
+</template>
