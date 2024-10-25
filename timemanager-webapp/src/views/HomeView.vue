@@ -2,6 +2,8 @@
 import ClockManager from '@/components/ClockManager/ClockManager.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue'
 import ProfilComponent from '@/components/general/ProfilComponent.vue'
+
+const teamId = localStorage.getItem("teamId")
 </script>
 
 <template>
@@ -15,7 +17,7 @@ import ProfilComponent from '@/components/general/ProfilComponent.vue'
     <div class="w-4/6 flex flex-col gap-8 justify-center rounded mx-15 mt-3 px-2">
       <div class="flex justify-around p-3 shrink">
         <ButtonComponent title="Contracts" path="/contracts" />
-        <ButtonComponent title="My team" path="/team/id" />
+        <ButtonComponent title="My team" :path="`/team/${teamId}`" />
         <ButtonComponent title="Tutorial" path="/???" />
       </div>
     </div>

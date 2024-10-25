@@ -12,9 +12,10 @@ defmodule TimemanagerWeb.UserJSON do
   Renders a single user.
   """
   def show(%{user: user}) do
+    IO.inspect(user)
     %{data: data(user)}
   end
-  
+
   def error(%{changeset: changeset}) do
     %{errors: Ecto.Changeset.traverse_errors(changeset, &translate_error/1)}
   end
@@ -30,7 +31,8 @@ defmodule TimemanagerWeb.UserJSON do
       id: user.id,
       username: user.username,
       email: user.email,
-      role_id: user.role_id
+      role_id: user.role_id,
+      team_id: user.team_id
     }
   end
 

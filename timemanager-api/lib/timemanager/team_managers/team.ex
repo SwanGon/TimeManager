@@ -6,6 +6,7 @@ defmodule Timemanager.TeamManagers.Team do
   schema "teams" do
 
     field :manager_id, :id
+    has_many :users, Timemanager.UserManager.User
 
     timestamps(type: :utc_datetime)
   end

@@ -6,11 +6,11 @@ defmodule Timemanager.UserManager.User do
     field :username, :string
     field :email, :string
     field :password, :string, virtual: true, redact: true
-    field :role_id, :integer
+    field :role_id, :id
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
-    field :team_id, :integer
+    field :team_id, :id
     has_many :clocks, Timemanager.ClockManager.Clock
     has_many :working_times, Timemanager.WorkingTimeManager.WorkingTime
     has_many :sessions, Timemanager.Sessions.Session, on_delete: :delete_all

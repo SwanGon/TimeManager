@@ -30,12 +30,14 @@ const handleSubmit = async () => {
 
     const user = response.data.user
 
+    console.log(user);
+    
     await RolesApi.getRole(user.role_id).then(json => {
       role.value = json.name
-      console.log(role.value);
     })
 
     localStorage.setItem('userId', user.id),
+    localStorage.setItem('teamId', user.team_id),
     localStorage.setItem('userRole', role.value)
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     axios.defaults.headers.common['X-CSRF-Token'] = csrf_token

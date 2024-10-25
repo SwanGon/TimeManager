@@ -44,6 +44,11 @@ defmodule Timemanager.UserManager do
   |> Repo.all()
   end
 
+  def get_users_by_team_id(team_id) do
+    from(u in User, where: u.team_id == ^team_id)
+    |> Repo.all()
+  end
+
   def get_managers() do
     case get_manager_role_id() do
       nil -> []
