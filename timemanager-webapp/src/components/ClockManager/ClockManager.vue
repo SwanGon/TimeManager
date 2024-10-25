@@ -1,33 +1,29 @@
 <script setup>
 import axios from 'axios'
-import { ref, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, watch, defineProps} from 'vue'
 
-const route = useRoute()
+const props = defineProps({
+  clockStatus: Boolean,
+  userId: String
+});
+const emit = defineEmits(['updateClockStatus']);
+const toggleClockStatus = () => {
+  emit('updateClockStatus', !props.clockStatus);
+};
 
-const userId = ref(1)
-const startDateTime = ref('not clocked in')
+const startDateTime = ref('Please clock-in')
 const clockIn = ref(false)
-const clocks = ref(undefined)
 
 
-const refresh = async () => {
-  try {
-    const response = await axios.get(`http://localhost:4000/api/clocks/${userId.value}`)
-    alert(`Found clocks: ${JSON.stringify(response.data)}`)
-  } catch (error) {
-    console.error('Error fetching clock data:', error)
-  }
-}
-const toggleClock = async () => {
+async function toggleClock (){
   const clockingTime = new Date(Date.now())
   const clockData = {
     status: clockIn.value,
-    time: clockingTime.toISOString().slice(0, 19).replace('T', ' ')
+    time: new Date().toISOString().replace(/T[\d:.]+Z$/, `T${clockingTime.toLocaleTimeString()}Z`)
   }
   try {
     const response = await axios.post(
-      `http://localhost:4000/api/clocks/${userId.value}`,
+      `/api/clocks/${props.userId}`,
       clockData,
       {
         headers: {
@@ -35,22 +31,17 @@ const toggleClock = async () => {
         }
       }
     )
-    refresh()
-    alert(`Working time created: ${JSON.stringify(response.data)}`);
+    console.log(`Working time created: ${JSON.stringify(response.data)}`)
     if (clockIn.value) {
-      startDateTime.value = clockingTime.toLocaleTimeString()
-    }else{
-      startDateTime.value = 'not clocked in'
+      startDateTime.value = "You clocked-in at: " + clockingTime.toLocaleTimeString()
+    } else {
+      startDateTime.value = 'Please clock-in'
     }
+    toggleClockStatus()
   } catch (error) {
     console.error('Error toggling clock:', error)
   }
 }
-
-onMounted(async () => {
-  refresh()
-
-})
 
 watch(clockIn, () => {
   toggleClock()
@@ -58,26 +49,11 @@ watch(clockIn, () => {
 </script>
 
 <template>
-  <div class="sm:w-56 shadow-lg shrink">
-    <p>Start Date Time: {{ startDateTime }}</p>
-    <br>
-    <VaSwitch v-model="clockIn" size="large" true-label="Clocked-in" false-label="Clocked-out" />
-  </div>
-  <div class="mt-8">
-    <p>My Clocks</p>
-    <VaList>
-    <VaListItem
-      v-for="(clock, index) in clocks"
-      :key="index"
-      class="list__item"
-    >
-      <VaListItemSection>
-        <VaListItemLabel>
-          {{ clock.time }}
-        </VaListItemLabel>
-      </VaListItemSection>
-    </VaListItem>
-  </VaList>
+  <div class="flex flex-col justify-between bg-bg-primary w-4/5 p-4 min-h-44 rounded-lg shadow-lg shrink text-center">
+    <p class="text-3xl shrink">{{ startDateTime }}</p>
+    <div class="shrink">
+      <VaSwitch v-model="clockIn" size="large" />
+    </div>
   </div>
 </template>
 

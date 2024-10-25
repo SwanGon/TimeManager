@@ -19,5 +19,8 @@
     "platforms": [
       "android"
     ]
+  },
+  "dependencies": {
+    "io.cordova.hellocordova": "file:"
   }
 }

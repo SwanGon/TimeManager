@@ -6,7 +6,6 @@ alias Timemanager.ClockManager.Clock
 alias Timemanager.WorkingTimeManager.WorkingTime
 import Ecto.Query
 
-
 defmodule Timemanager.Seeds do
 
   Repo.delete_all Clock
@@ -35,66 +34,77 @@ defmodule Timemanager.Seeds do
       %{
         username: "Antoine",
         email: "antoine@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: supervisor_role.id,
         team_id: nil
       },
       %{
         username: "Marc",
         email: "marc@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Swan",
         email: "swan@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: manager_role.id,
         team_id: nil
       },
       %{
         username: "Laurent",
         email: "laurent@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: supervisor_role.id,
         team_id: nil
       },
       %{
         username: "Max",
         email: "max@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Emilie",
         email: "emilie@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Rose",
         email: "rose@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: manager_role.id,
         team_id: nil
       },
       %{
         username: "Romain",
         email: "romain@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Sophie",
         email: "sophie@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Sarah",
         email: "sarah@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Marius",
         email: "marius@mail.mail",
+        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
         role_id: user_role.id,
         team_id: nil
       }
@@ -104,6 +114,7 @@ defmodule Timemanager.Seeds do
       Repo.insert!(%User{
         username: user.username,
         email: user.email,
+        hashed_password: user.hashed_password,
         role_id: user.role_id,
         team_id: nil
       })
@@ -133,26 +144,21 @@ defmodule Timemanager.Seeds do
 
 
   defp create_working_times do
-
-    working_hours_ranges = [
-      {9, 17},
-      {15, 23},
-      {3, 11}
-    ]
     teams = Repo.all(Team)
-
-    start_of_week = Date.utc_today() |> Date.beginning_of_week(:monday)
+    today = Date.utc_today()
+    start_of_week = today |> Date.beginning_of_week(:monday)
+    days_difference = Date.diff(start_of_week, today)
+    days_range = days_difference + 4
 
     Enum.each(teams, fn team ->
 
       users = Repo.all(from u in User, where: u.team_id == ^team.id)
 
-      {start_hour, end_hour} = Enum.at(working_hours_ranges, rem(team.id - 1, length(working_hours_ranges)))
+      start_hour = Enum.random([-2,-0, 2])
 
-      for day <- 0..5 do
+      for day <- days_difference..days_range do
         working_start = DateTime.utc_now() |> DateTime.truncate(:second) |> DateTime.add(day * 86400) |> DateTime.add(start_hour * 3600)
         working_end = working_start |> DateTime.add(8 * 3600)
-
         Enum.each(users, fn user ->
           Repo.insert!(%WorkingTime{
             working_start: working_start,
@@ -160,10 +166,10 @@ defmodule Timemanager.Seeds do
             user_id: user.id
           })
 
-          clock_in_offset = Enum.random([-300, 300])
+          clock_in_offset = Enum.random([-150, 150])
           clock_in_time = working_start |> DateTime.add(clock_in_offset)
 
-          clock_out_offset = Enum.random([-300, 300])
+          clock_out_offset = Enum.random([-150, 150])
           clock_out_time = working_end |> DateTime.add(clock_out_offset)
 
           Repo.insert!(%Clock{
@@ -178,12 +184,9 @@ defmodule Timemanager.Seeds do
             status: false
           })
         end)
-        IO.puts("Created working time for team #{team.id} from #{working_start} to #{working_end}")
       end
     end)
   end
-
-
 end
 
 Timemanager.Seeds.run()

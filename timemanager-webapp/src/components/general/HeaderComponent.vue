@@ -1,36 +1,24 @@
-<template>
-  <div
-    class="flex w-full shrink p-4 bg-bg-primary justify-between align-center items-end sticky shadow-md"
-  >
-    <ButtonComponent title="Timemanager" path="/"> </ButtonComponent>
-    <span class="shrink font-bold text-2xl flex">
-      <div>{{ formattedDate }}</div>
-      <span class="mx-1">|</span>
-      <div>{{ formattedTime }}</div>
-    </span>
-    <ButtonComponent title="profil" path="/"> </ButtonComponent>
-  </div>
-</template>
-
 <script setup>
 import ButtonComponent from './ButtonComponent.vue'
+import LogoutComponent from '../authentication/LogoutComponent.vue'
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 
-const currentTime = ref(new Date())
+const today = ref(new Date())
+
 const updateTime = () => {
-  currentTime.value = new Date()
+  today.value = new Date()
 }
+
 onMounted(() => {
   const interval = setInterval(updateTime, 1000)
   onUnmounted(() => {
     clearInterval(interval)
   })
 })
-const formattedTime = computed(() => {
-  return currentTime.value.toLocaleTimeString()
-})
 
-const today = ref(new Date())
+const formattedTime = computed(() => {
+  return today.value.toLocaleTimeString()
+})
 
 const formattedDate = computed(() => {
   return today.value.toLocaleDateString('fr-FR', {
@@ -39,4 +27,19 @@ const formattedDate = computed(() => {
     year: 'numeric'
   })
 })
+
 </script>
+<template>
+  <div
+    class="flex w-full shrink p-4 bg-bg-primary justify-between align-center items-end shadow-md"
+  >
+    <ButtonComponent title="Timemanager" path="/"> </ButtonComponent>
+    <span class="shrink font-bold text-2xl flex">
+      <div>{{ formattedDate }}</div>
+      <span class="mx-1">|</span>
+      <div>{{ formattedTime }}</div>
+    </span>
+    <LogoutComponent/>
+    <ButtonComponent title="profil" path="/"> </ButtonComponent>
+  </div>
+</template>
