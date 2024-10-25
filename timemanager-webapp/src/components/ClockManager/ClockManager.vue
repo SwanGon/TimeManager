@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { ref, onMounted, watch } from 'vue'
 
-const userId = ref(localStorage.getItem('userId'))
+const userId = ref(1)
 const startDateTime = ref('Please clock-in')
 const clockIn = ref(false)
 const clocks = ref('')
