@@ -8,6 +8,6 @@
 </template>
 
 <script setup>
-import HeaderComponent from './components/general/HeaderComponent.vue'
-import './main.css'
+  import HeaderComponent from './components/general/HeaderComponent.vue'
+  import './main.css'
 </script>

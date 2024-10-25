@@ -14,8 +14,16 @@ const toggleClockStatus = () => {
 const userId = ref(4)
 const startDateTime = ref('Please clock-in')
 const clockIn = ref(false)
-
-
+const refresh = async () => {
+  try {
+    const response = await axios.get(`/api/clocks/${userId.value}`)
+    
+    clocks.value = response.data.data.slice().reverse()
+    console.log(`Found clocks: ${JSON.stringify(response.data)}`)
+  } catch (error) {
+    console.error('Error fetching clock data:', error)
+  }
+}
 const toggleClock = async () => {
   const clockingTime = new Date(Date.now())
   const clockData = {
@@ -24,7 +32,7 @@ const toggleClock = async () => {
   }
   try {
     const response = await axios.post(
-      `http://localhost:4000/api/clocks/${userId.value}`,
+      `/api/clocks/${userId.value}`,
       clockData,
       {
         headers: {

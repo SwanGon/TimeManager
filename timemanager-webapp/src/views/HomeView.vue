@@ -1,5 +1,5 @@
 <script setup>
-import ClockManager from '@/components/ClockManager/ClockManager.vue'
+import ClockManager from '@/components/ClockManager/ClockManager.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue'
 import ProfilComponent from '@/components/general/ProfilComponent.vue'
 import BarChart from '@/components/ChartManager/BarChart.vue'

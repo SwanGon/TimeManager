@@ -46,11 +46,42 @@ defmodule TimemanagerWeb.UserController do
         |> json(%{error: "Unable to create user"})
     end
   end
+  def create(conn, %{"user" => user_params}) do
+    with {:ok, %User{} = user} <- UserManager.create_user(user_params) do
+      conn
+      |> put_status(:created)
+      |> put_resp_header("location", ~p"/api/users/#{user.id}")
+      |> render(:show, user: user)
+    else
+      {:error, changeset} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> render(:error, changeset: changeset)
+    end
+  end
+
+  def show(conn, %{"id" => "me"}) do
+    case conn.assigns do
+      %{current_user: user} when not is_nil(user) ->
+        render(conn, :show, user: user)
+      _ ->
+        conn
+        |> put_status(:unauthorized)
+        |> json(%{error: "User not authenticated"})
+    end
+  end
+
 
   def show(conn, %{"id" => id}) do
     user = UserManager.get_user!(id)
     render(conn, :show, user: user)
   end
+
+  def supervisors(conn, _params) do
+    supervisors = UserManager.get_supervisors()
+    render(conn, :index, users: supervisors)
+  end
+
 
   def update(conn, %{"id" => id, "username" => username, "email" => email}) do
     user = UserManager.get_user!(id)
