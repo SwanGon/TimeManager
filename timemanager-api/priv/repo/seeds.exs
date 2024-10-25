@@ -143,7 +143,7 @@ defmodule Timemanager.Seeds do
 
       users = Repo.all(from u in User, where: u.team_id == ^team.id)
 
-      start_hour = Enum.random([-15,-12,-10])
+      start_hour = Enum.random([-2,-0, 2])
 
       for day <- days_difference..days_range do
         working_start = DateTime.utc_now() |> DateTime.truncate(:second) |> DateTime.add(day * 86400) |> DateTime.add(start_hour * 3600)

@@ -1,8 +1,17 @@
 <script setup>
 import axios from 'axios'
-import { ref, watch } from 'vue'
+import { ref, watch, defineEmits, defineProps} from 'vue'
 
-const userId = ref(2)
+const props = defineProps({
+  clockStatus: Boolean,
+});
+
+const emit = defineEmits(['updateClockStatus']);
+
+const toggleClockStatus = () => {
+  emit('updateClockStatus', !props.clockStatus);
+};
+const userId = ref(4)
 const startDateTime = ref('Please clock-in')
 const clockIn = ref(false)
 
@@ -11,7 +20,7 @@ const toggleClock = async () => {
   const clockingTime = new Date(Date.now())
   const clockData = {
     status: clockIn.value,
-    time: clockingTime.toISOString().slice(0, 19).replace('T', ' ')
+    time: new Date().toISOString().replace(/T[\d:.]+Z$/, `T${clockingTime.toLocaleTimeString()}Z`)
   }
   try {
     const response = await axios.post(
@@ -29,6 +38,7 @@ const toggleClock = async () => {
     } else {
       startDateTime.value = 'Please clock-in'
     }
+    toggleClockStatus()
   } catch (error) {
     console.error('Error toggling clock:', error)
   }

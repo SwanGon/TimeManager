@@ -1,3 +1,34 @@
+
+<script setup>
+import ButtonComponent from './ButtonComponent.vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+
+const today = ref(new Date())
+
+const updateTime = () => {
+  today.value = new Date()
+}
+
+onMounted(() => {
+  const interval = setInterval(updateTime, 1000)
+  onUnmounted(() => {
+    clearInterval(interval)
+  })
+})
+
+const formattedTime = computed(() => {
+  return today.value.toLocaleTimeString()
+})
+
+const formattedDate = computed(() => {
+  return today.value.toLocaleDateString('fr-FR', {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric'
+  })
+})
+
+</script>
 <template>
   <div
     class="flex w-full shrink p-4 bg-bg-primary justify-between align-center items-end shadow-md"
@@ -11,32 +42,3 @@
     <ButtonComponent title="profil" path="/"> </ButtonComponent>
   </div>
 </template>
-
-<script setup>
-import ButtonComponent from './ButtonComponent.vue'
-import { ref, onMounted, onUnmounted, computed } from 'vue'
-
-const currentTime = ref(new Date())
-const updateTime = () => {
-  currentTime.value = new Date()
-}
-onMounted(() => {
-  const interval = setInterval(updateTime, 1000)
-  onUnmounted(() => {
-    clearInterval(interval)
-  })
-})
-const formattedTime = computed(() => {
-  return currentTime.value.toLocaleTimeString()
-})
-
-const today = ref(new Date())
-
-const formattedDate = computed(() => {
-  return today.value.toLocaleDateString('fr-FR', {
-    day: 'numeric',
-    month: 'numeric',
-    year: 'numeric'
-  })
-})
-</script>

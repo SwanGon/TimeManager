@@ -15,8 +15,27 @@ import {
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 const dataDates = ref([])
-const userId = 2
-const requiredMinutes = 477 //in minutes
+const userId = 4
+const baseWorkingTime = ref(0)
+
+async function getWorkingtime() {
+  try {
+    const response = await axios.get(`/api/workingtimes/today/${userId}`, {
+      params: {
+        start_of_day: new Date().toISOString().replace(/T[\d:.]+Z$/, 'T00:00:00Z'),
+        end_of_day: new Date().toISOString().replace(/T[\d:.]+Z$/, 'T23:59:59Z')
+      },
+      headers: {
+        Accept: 'application/json'
+      }
+    })
+    if (response.data.data) {
+      baseWorkingTime.value = (new Date(response.data.data[0].end) - new Date(response.data.data[0].start))/60000
+    }
+  } catch (error) {
+    console.error('Error: get working times', error)
+  }
+}
 
 const chartData = computed(() => ({
   labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -68,6 +87,7 @@ function formatHours(hours) {
 
 onMounted(async () => {
   getDates()
+  getWorkingtime()
 })
 
 function calculateTimeWorkedForDay(entries) {
@@ -95,7 +115,7 @@ const timeDifferences = computed(() => {
     const entries = dayData.data
     const totalMilliseconds = entries.length > 0 ? calculateTimeWorkedForDay(entries) : 0
     const totalMinutesWorked = Math.floor(totalMilliseconds / 60000)
-    return (totalMinutesWorked - requiredMinutes) / 60
+    return (totalMinutesWorked - baseWorkingTime.value) / 60
   })
 })
 
@@ -124,9 +144,7 @@ async function getDates() {
         })
       )
     }
-
     const responses = await Promise.all(promises)
-    console.log(responses);
     dataDates.value = responses.map((response) => response.data)
   } catch (error) {
     console.error('Error:', error)
