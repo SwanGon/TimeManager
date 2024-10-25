@@ -6,15 +6,24 @@ defmodule TimemanagerWeb.Plug.CheckUserAccess do
 
   def call(conn, _opts) do
     user_id = conn.assigns[:current_user].id
-    params_user_id = String.to_integer(conn.params["user_id"])
+    params_user_id = conn.params["user_id"]
 
-    if user_id != params_user_id do
+    if params_user_id == nil do
       conn
-      |> put_status(:unauthorized)
-      |> json(%{error: "Unauthorized"})
+      |> put_status(:bad_request)
+      |> json(%{error: "Missing user_id parameter"})
       |> halt()
     else
-      conn
+      params_user_id = String.to_integer(params_user_id)
+
+      if user_id != params_user_id do
+        conn
+        |> put_status(:unauthorized)
+        |> json(%{error: "Unauthorized"})
+        |> halt()
+      else
+        conn
+      end
     end
   end
 end
