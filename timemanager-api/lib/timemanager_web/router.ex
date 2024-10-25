@@ -36,7 +36,6 @@ defmodule TimemanagerWeb.Router do
     delete "/logout", SessionController, :logout
 
     #Users routes
-
     get "/users", UserController, :index
     get "/managers", UserController, :managers
     get "/users/:id", UserController, :show
@@ -65,6 +64,9 @@ defmodule TimemanagerWeb.Router do
     put "/teams/:id", TeamController, :update
     delete "/teams/:id", TeamController, :delete
 
+    #Roles routes
+    get "roles", RoleController, :index
+    get "roles/:id", RoleController, :show
   end
 
   def swagger_info do

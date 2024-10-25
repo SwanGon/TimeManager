@@ -2,11 +2,13 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import RolesApi from "@/api/RolesApi"
 
 const router = useRouter()
 const email = ref('')
 const password = ref('')
 const rememberMe = ref(false)
+let role = ref()
 const isAuthenticated = computed(() => !!localStorage.getItem('jwt'))
 
 const goToRegister = () => {
@@ -25,6 +27,12 @@ const handleSubmit = async () => {
     const {token, csrf_token} = response.data
     const user = response.data.user
     console.log(user.role_id)
+
+    RolesApi.getRole(user.role_id).then(json => {
+
+      console.log(json)
+      role.value = json.data
+    })
     localStorage.setItem('jwt', token)
     localStorage.setItem('csrf_token', csrf_token)
     localStorage.setItem('userId', user.id),
