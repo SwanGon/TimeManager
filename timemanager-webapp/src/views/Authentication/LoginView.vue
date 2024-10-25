@@ -2,15 +2,19 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import RolesApi from "@/api/RolesApi"
 
 const router = useRouter()
 const email = ref('')
 const password = ref('')
 const rememberMe = ref(false)
+const role = ref('')
 const isAuthenticated = computed(() => !!localStorage.getItem('jwt'))
+
 const goToRegister = () => {
   router.push('/register')
 }
+
 const handleSubmit = async () => {
   try {
     const response = await axios.post('/api/login', {
@@ -18,12 +22,21 @@ const handleSubmit = async () => {
         password: password.value,
         remember_me: rememberMe.value
     })
-    console.log(response.data);
-    
-    const { token, csrf_token } = response.data
+
+    const {token, csrf_token} = response.data
+
     localStorage.setItem('jwt', token)
     localStorage.setItem('csrf_token', csrf_token)
-    // localStorage.setItem('userRole', response.data.data.role_id)
+
+    const user = response.data.user
+
+    await RolesApi.getRole(user.role_id).then(json => {
+      role.value = json.name
+      console.log(role.value);
+    })
+
+    localStorage.setItem('userId', user.id),
+    localStorage.setItem('userRole', role.value)
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     axios.defaults.headers.common['X-CSRF-Token'] = csrf_token
     router.push('/')
@@ -31,7 +44,6 @@ const handleSubmit = async () => {
     console.error('Login error:', error)
   }
 }
-
 </script>
 
 <template>
