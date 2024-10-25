@@ -94,16 +94,20 @@ router.beforeEach((to, from, next) => {
   const userRole = localStorage.getItem('userRole')
   const publicPages = ['/login', '/register']
   const authRequired = !publicPages.includes(to.path)
+  const loggedUserId = localStorage.getItem('userId')
+  const userId = to.params.userId
 
-  if (authRequired && !isAuthenticated) {
+  if (authRequired && !isAuthenticated && to.path !== '/login' && to.path !== '/register') {
     next('/login')
   } else if (isAuthenticated && userRole === 'supervisor' && to.path === '/') {
     next('/teams')
   } else {
-    const loggedUserId = localStorage.getItem('userId')
-    const userId = to.params.userId
-    if (to.meta.requiresAuth && loggedUserId !== userId) {
-      next({ name: 'NotFound' })
+    
+    console.log('userId', userId)
+    console.log('loggedUserId', loggedUserId)
+    if (to.meta.requiresAuth && loggedUserId !== userId && to.path !== '/404' && userId !== undefined) {
+        next({ name: 'NotFound' })
+      
     } else {
       next()
     }

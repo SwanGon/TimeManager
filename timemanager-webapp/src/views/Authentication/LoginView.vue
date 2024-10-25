@@ -20,8 +20,9 @@ const handleSubmit = async () => {
     })
     console.log(response.data);
     
-    const { token, csrf_token } = response.data
+    const { token, csrf_token, user:{ id: userId} } = response.data
     localStorage.setItem('jwt', token)
+    localStorage.setItem('userId', userId)
     localStorage.setItem('csrf_token', csrf_token)
     // localStorage.setItem('userRole', response.data.data.role_id)
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
