@@ -2,22 +2,15 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ClockManager from '../components/ClockManager/ClockManager.vue'
 import ChartManager from '../components/ChartManager/ChartManager.vue'
-<<<<<<< HEAD
 // import UserManager from '@/components/UserManager/UserManager'
 import WorkingTimesManager from '@/components/WorkingTimesManager/WorkingTimesManager.vue'
 import WorkingShiftManager from '@/components/WorkingShiftManager/WorkingShiftManager.vue'
 import MyTeamView from '@/views/MyTeamView.vue'
-
-=======
 import TeamManager from'@/components/UserManager/TeamManager.vue'
-import UserManager from '@/components/UserManager/UserManager.vue'
-import WorkingTimesManager from '@/components/WorkingTimesManager/WorkingTimesManager.vue'
-import WorkingShiftManager from '@/components/WorkingShiftManager/WorkingShiftManager.vue'
 import LoginView from '@/views/Authentication/LoginView.vue'
 import RegisterView from '@/views/Authentication/RegisterView.vue'
 import ProfilView from '@/views/Authentication/ProfilView.vue'
 import Contracts from '@/views/Contracts.vue'
->>>>>>> init
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
