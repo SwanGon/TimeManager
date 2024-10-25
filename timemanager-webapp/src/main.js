@@ -17,7 +17,7 @@ axios.defaults.withCredentials = true
 axios.interceptors.request.use(config => {
   const token = localStorage.getItem('jwt')
   const csrfToken = localStorage.getItem('csrf_token')
-  if (token) {
+  if (token) {    
     config.headers['Authorization'] = `Bearer ${token}`
   }
   if (csrfToken) {
