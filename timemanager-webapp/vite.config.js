@@ -16,9 +16,9 @@ export default defineConfig({
     }
   },
   server: {
-    proxy:{
-      "^/api":{
-        target: "http://localhost:4000",
+    proxy: {
+      "^/api": {
+        target: process.env.NODE_ENV === 'production' ? process.env.API_URL : "http://localhost:4000",
         ws: true
       }
     }
