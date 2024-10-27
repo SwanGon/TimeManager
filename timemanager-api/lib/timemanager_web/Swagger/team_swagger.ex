@@ -13,22 +13,6 @@ defmodule TimemanagerWeb.Swagger.TeamSwagger do
           manager_id: 1
         }
       end,
-
-      CreateTeam: swagger_schema do
-        title "Create Team"
-        description "Schema for creating a Team"
-        properties do
-          manager_id :integer, "manager_id", example: 1, required: true, default: 1
-        end
-      end,
-
-      UpdateTeam: swagger_schema do
-        title "Update Team"
-        description "Schema for updating a Team"
-        properties do
-          manager_id :integer, "manager_id", example: 2, required: true, default: 2
-        end
-      end,
     }
   end
 
@@ -48,7 +32,7 @@ defmodule TimemanagerWeb.Swagger.TeamSwagger do
         description "Get a team by id"
         produces "application/json"
         tag "Teams"
-        parameter :id, :path, :integer, "Team ID", required: true
+        parameter :id, :path, :integer, "Team ID", required: true, default: 1
         response 200, "Success"
         response 400, "Client Error"
         response 404, "No Team found with this ID"
@@ -59,7 +43,7 @@ defmodule TimemanagerWeb.Swagger.TeamSwagger do
         description "get a team by manager's id"
         produces "application/json"
         tag "Teams"
-        parameter :manager_id, :path, :integer, "manager ID", required: true
+        parameter :manager_id, :path, :integer, "manager ID", required: true, default: 3
         response 200, "Success"
         response 400, "Client Error"
         response 404, "No Team found with this ID"
@@ -71,9 +55,7 @@ defmodule TimemanagerWeb.Swagger.TeamSwagger do
         description "Create Team"
         produces "application/json"
         tag "Teams"
-        parameters do
-          body :body, Schema.ref(:CreateTeam), "Team creation params", required: true
-        end
+        parameter :manager_id, :query, :integer, "manager ID", required: true, default: 7
         response 201, "Success", Schema.ref(:Team)
         response 400, "Client Error"
       end
@@ -83,10 +65,8 @@ defmodule TimemanagerWeb.Swagger.TeamSwagger do
         description "Update an existing team"
         produces "application/json"
         tag "Teams"
-        parameters do
-          id :path, :integer, "Team ID", required: true, example: 1
-          body :body, Schema.ref(:UpdateTeam), "Team update params", required: true
-        end
+        parameter :id, :path, :integer, "Team ID", required: true, default: 1
+        parameter :manager_id, :query, :integer, "manager ID", required: true, default: 7
         response 200, "Team updated", Schema.ref(:Team)
         response 400, "Client Error"
       end
@@ -95,7 +75,7 @@ defmodule TimemanagerWeb.Swagger.TeamSwagger do
         PhoenixSwagger.Path.delete "/api/teams/{id}"
         description "Delete a team by ID"
         tag "Teams"
-        parameter :id, :path, :integer, "Team ID", required: true, example: 3
+        parameter :id, :path, :integer, "Team ID", required: true
         response 204, "No Content - Deleted Successfully"
       end
     end

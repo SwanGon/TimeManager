@@ -105,7 +105,6 @@ function calculateTimeWorkedForDay(entries) {
       const startTime = new Date(startEntry.time)
       const endTime = new Date(endEntry.time)
 
-      console.log(startTime, endTime);
 
       totalMilliseconds += endTime - startTime
     }
@@ -122,8 +121,7 @@ const timeDifferences = computed(() => {
     const entries = dayData.data
     const totalMilliseconds = entries.length > 0 ? calculateTimeWorkedForDay(entries) : 0
     const totalMinutesWorked = Math.floor(totalMilliseconds / 60000)
-    console.log(totalMinutesWorked);
-    console.log(baseWorkingTime.value + 'oui');
+
 
     return (totalMinutesWorked - baseWorkingTime.value) / 60
   })
@@ -136,7 +134,6 @@ async function getDates() {
     const daysToSubtract = dayOfWeek === 0 ? 6 : dayOfWeek - 1
     const monday = new Date(today)
     monday.setDate(today.getDate() - daysToSubtract + (currentWeekIndex.value * 7))
-    console.log(monday.toISOString());
 
     const url = `/api/clocks/today/${props.userId}`
     const promises = []
@@ -157,7 +154,7 @@ async function getDates() {
       )
     }
     const responses = await Promise.all(promises)
-    console.log(promises);
+
 
     dataDates.value = responses.map((response) => response.data)
   } catch (error) {

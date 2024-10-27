@@ -5,6 +5,48 @@
   },
   "host": "localhost:4000",
   "definitions": {
+    "Team": {
+      "description": "Team details",
+      "example": {
+        "manager_id": 1
+      },
+      "properties": {
+        "manager_id": {
+          "description": "manager ID",
+          "type": "integer"
+        }
+      },
+      "title": "Team",
+      "type": "object"
+    },
+    "CreateUser": {
+      "description": "Schema for creating a user",
+      "properties": {
+        "email": {
+          "description": "Email address",
+          "example": "mymail@testmail.com",
+          "type": "string"
+        },
+        "role_id": {
+          "default": 1,
+          "description": "Role id",
+          "example": 1,
+          "type": "integer"
+        },
+        "username": {
+          "description": "Username",
+          "example": "JohnDoe123",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role_id",
+        "email",
+        "username"
+      ],
+      "title": "Create User",
+      "type": "object"
+    },
     "UpdateUser": {
       "description": "Schema for updating a user",
       "properties": {
@@ -57,101 +99,6 @@
       "title": "User",
       "type": "object"
     },
-    "CreateUser": {
-      "description": "Schema for creating a user",
-      "properties": {
-        "email": {
-          "description": "Email address",
-          "example": "mymail@testmail.com",
-          "type": "string"
-        },
-        "role_id": {
-          "default": 1,
-          "description": "Role id",
-          "example": 1,
-          "type": "integer"
-        },
-        "username": {
-          "description": "Username",
-          "example": "JohnDoe123",
-          "type": "string"
-        }
-      },
-      "required": [
-        "role_id",
-        "email",
-        "username"
-      ],
-      "title": "Create User",
-      "type": "object"
-    },
-    "UpdateTeam": {
-      "description": "Schema for updating a Team",
-      "properties": {
-        "manager_id": {
-          "default": 2,
-          "description": "manager_id",
-          "example": 2,
-          "type": "integer"
-        }
-      },
-      "required": [
-        "manager_id"
-      ],
-      "title": "Update Team",
-      "type": "object"
-    },
-    "Team": {
-      "description": "Team details",
-      "example": {
-        "manager_id": 1
-      },
-      "properties": {
-        "manager_id": {
-          "description": "manager ID",
-          "type": "integer"
-        }
-      },
-      "title": "Team",
-      "type": "object"
-    },
-    "CreateTeam": {
-      "description": "Schema for creating a Team",
-      "properties": {
-        "manager_id": {
-          "default": 1,
-          "description": "manager_id",
-          "example": 1,
-          "type": "integer"
-        }
-      },
-      "required": [
-        "manager_id"
-      ],
-      "title": "Create Team",
-      "type": "object"
-    },
-    "UpdateWorkingtime": {
-      "description": "Schema for updating a workingtime",
-      "properties": {
-        "working_end": {
-          "description": "End",
-          "example": "2024-12-30 17:46:33",
-          "type": "datetime"
-        },
-        "working_start": {
-          "description": "Start",
-          "example": "2024-12-30 10:46:33",
-          "type": "datetime"
-        }
-      },
-      "required": [
-        "working_end",
-        "working_start"
-      ],
-      "title": "Update Workingtime",
-      "type": "object"
-    },
     "Workingtime": {
       "description": "Workingtime details",
       "example": {
@@ -176,59 +123,11 @@
       "title": "Workingtime",
       "type": "object"
     },
-    "CreateWorkingtime": {
-      "description": "Schema for creating a workingtime",
-      "properties": {
-        "working_end": {
-          "description": "End",
-          "example": "2024-12-30 16:46:33",
-          "type": "datetime"
-        },
-        "working_start": {
-          "description": "Start",
-          "example": "2024-12-30 09:46:33",
-          "type": "datetime"
-        }
-      },
-      "required": [
-        "working_end",
-        "working_start"
-      ],
-      "title": "Create Workingtime",
-      "type": "object"
-    },
-    "CreateClock": {
-      "description": "Schema for creating a clock",
-      "properties": {
-        "status": {
-          "description": "Status",
-          "example": "true",
-          "type": "boolean"
-        },
-        "time": {
-          "description": "Time",
-          "example": "2024-10-29 16:00:00",
-          "type": "datetime"
-        },
-        "user_id": {
-          "description": "User id",
-          "example": 1,
-          "type": "integer"
-        }
-      },
-      "required": [
-        "user_id",
-        "status",
-        "time"
-      ],
-      "title": "Create Clock",
-      "type": "object"
-    },
     "Clock": {
       "description": "Clock details",
       "example": {
         "status": "true",
-        "time": "2024-10-29 16:00:00",
+        "time": "2024-10-29T15:00:00Z",
         "user_id": "User ID"
       },
       "properties": {
@@ -290,28 +189,28 @@
         "operationId": "TimemanagerWeb.ClockController.today",
         "parameters": [
           {
+            "default": 1,
             "description": "user id",
             "in": "path",
             "name": "user_id",
             "required": true,
-            "type": "integer",
-            "x-example": 1
+            "type": "integer"
           },
           {
+            "default": "2024-10-28T00:00:00Z",
             "description": "today at 00:00",
             "in": "query",
             "name": "start_of_day",
             "required": true,
-            "type": "datetime",
-            "x-example": "2024-10-29 00:00:00"
+            "type": "string"
           },
           {
+            "default": "2024-10-28T23:59:59Z",
             "description": "today at 23:59",
             "in": "query",
             "name": "end_of_day",
             "required": true,
-            "type": "datetime",
-            "x-example": "2024-10-29 23:59:59"
+            "type": "string"
           }
         ],
         "produces": [
@@ -337,18 +236,12 @@
         "operationId": "TimemanagerWeb.ClockController.index",
         "parameters": [
           {
+            "default": 1,
             "description": "User ID",
             "in": "path",
             "name": "user_id",
             "required": true,
             "type": "integer"
-          },
-          {
-            "description": "date",
-            "in": "query",
-            "name": "date",
-            "required": false,
-            "type": "datetime"
           }
         ],
         "produces": [
@@ -372,21 +265,28 @@
         "operationId": "TimemanagerWeb.ClockController.create",
         "parameters": [
           {
+            "default": 1,
             "description": "user ID",
             "in": "path",
             "name": "user_id",
             "required": true,
-            "type": "integer",
-            "x-example": 1
+            "type": "integer"
           },
           {
-            "description": "Clock creation params",
-            "in": "body",
-            "name": "body",
+            "default": "2024-10-29T15:00:00Z",
+            "description": "Time",
+            "in": "query",
+            "name": "time",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/CreateClock"
-            }
+            "type": "string"
+          },
+          {
+            "default": "true",
+            "description": "Status",
+            "in": "query",
+            "name": "status",
+            "required": true,
+            "type": "boolean"
           }
         ],
         "produces": [
@@ -394,10 +294,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/Clock"
-            }
+            "description": "Success"
           },
           "400": {
             "description": "Client Error"
@@ -459,6 +356,7 @@
         "operationId": "TimemanagerWeb.RoleController.show",
         "parameters": [
           {
+            "default": 1,
             "description": "Role id",
             "in": "path",
             "name": "id",
@@ -534,13 +432,12 @@
         "operationId": "TimemanagerWeb.TeamController.create",
         "parameters": [
           {
-            "description": "Team creation params",
-            "in": "body",
-            "name": "body",
+            "default": 7,
+            "description": "manager ID",
+            "in": "query",
+            "name": "manager_id",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/CreateTeam"
-            }
+            "type": "integer"
           }
         ],
         "produces": [
@@ -573,8 +470,7 @@
             "in": "path",
             "name": "id",
             "required": true,
-            "type": "integer",
-            "x-example": 3
+            "type": "integer"
           }
         ],
         "responses": {
@@ -592,6 +488,7 @@
         "operationId": "TimemanagerWeb.TeamController.show",
         "parameters": [
           {
+            "default": 1,
             "description": "Team ID",
             "in": "path",
             "name": "id",
@@ -623,21 +520,20 @@
         "operationId": "TimemanagerWeb.TeamController.update",
         "parameters": [
           {
+            "default": 1,
             "description": "Team ID",
             "in": "path",
             "name": "id",
             "required": true,
-            "type": "integer",
-            "x-example": 1
+            "type": "integer"
           },
           {
-            "description": "Team update params",
-            "in": "body",
-            "name": "body",
+            "default": 7,
+            "description": "manager ID",
+            "in": "query",
+            "name": "manager_id",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/UpdateTeam"
-            }
+            "type": "integer"
           }
         ],
         "produces": [
@@ -666,6 +562,7 @@
         "operationId": "TimemanagerWeb.TeamController.manager",
         "parameters": [
           {
+            "default": 3,
             "description": "manager ID",
             "in": "path",
             "name": "manager_id",
@@ -699,6 +596,7 @@
         "operationId": "TimemanagerWeb.UserController.index",
         "parameters": [
           {
+            "default": "antoine@timemanager.com",
             "description": "Email address of the user",
             "in": "query",
             "name": "email",
@@ -706,6 +604,7 @@
             "type": "string"
           },
           {
+            "default": "Antoine",
             "description": "Username of the user",
             "in": "query",
             "name": "username",
@@ -734,13 +633,28 @@
         "operationId": "TimemanagerWeb.UserController.create",
         "parameters": [
           {
-            "description": "User creation params",
-            "in": "body",
-            "name": "body",
+            "default": "JohnDoe123",
+            "description": "Username",
+            "in": "query",
+            "name": "username",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/CreateUser"
-            }
+            "type": "string"
+          },
+          {
+            "default": "mymail@testmail.com",
+            "description": "Email address",
+            "in": "query",
+            "name": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "default": 1,
+            "description": "Role id",
+            "in": "query",
+            "name": "role_id",
+            "required": true,
+            "type": "integer"
           }
         ],
         "produces": [
@@ -748,10 +662,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
+            "description": "Success"
           },
           "400": {
             "description": "Client Error"
@@ -792,12 +703,12 @@
         "operationId": "TimemanagerWeb.UserController.show",
         "parameters": [
           {
+            "default": 1,
             "description": "User ID",
             "in": "path",
             "name": "id",
             "required": true,
-            "type": "integer",
-            "x-example": 3
+            "type": "integer"
           }
         ],
         "produces": [
@@ -829,16 +740,31 @@
             "name": "id",
             "required": true,
             "type": "integer",
-            "x-example": 1
+            "x-example": 3
           },
           {
-            "description": "User update params",
-            "in": "body",
-            "name": "body",
+            "default": "JohnDoe123",
+            "description": "Username",
+            "in": "query",
+            "name": "username",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/UpdateUser"
-            }
+            "type": "string"
+          },
+          {
+            "default": "mymail@testmail.com",
+            "description": "Email address",
+            "in": "query",
+            "name": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "default": 1,
+            "description": "Role id",
+            "in": "query",
+            "name": "role_id",
+            "required": true,
+            "type": "integer"
           }
         ],
         "produces": [
@@ -846,10 +772,7 @@
         ],
         "responses": {
           "200": {
-            "description": "User updated",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
+            "description": "User updated"
           },
           "400": {
             "description": "Client Error"
@@ -874,20 +797,20 @@
             "type": "integer"
           },
           {
+            "default": "2024-10-29T00:00:00Z",
             "description": "today at 00:00",
             "in": "query",
             "name": "start_of_day",
             "required": true,
-            "type": "datetime",
-            "x-example": "2024-10-29 00:00:00"
+            "type": "string"
           },
           {
+            "default": "2024-10-29T23:59:59Z",
             "description": "today at 23:59",
             "in": "query",
             "name": "end_of_day",
             "required": true,
-            "type": "datetime",
-            "x-example": "2024-10-29 23:59:59"
+            "type": "string"
           }
         ],
         "produces": [
@@ -916,12 +839,12 @@
         "operationId": "TimemanagerWeb.WorkingTimeController.delete",
         "parameters": [
           {
+            "default": 1,
             "description": "Working time ID",
             "in": "path",
             "name": "id",
             "required": true,
-            "type": "integer",
-            "x-example": 1
+            "type": "integer"
           }
         ],
         "responses": {
@@ -939,21 +862,28 @@
         "operationId": "TimemanagerWeb.WorkingTimeController.update",
         "parameters": [
           {
-            "description": "working time id",
+            "default": 1,
+            "description": "Working time id",
             "in": "path",
             "name": "id",
             "required": true,
-            "type": "integer",
-            "x-example": 1
+            "type": "integer"
           },
           {
-            "description": "working time update params",
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UpdateWorkingtime"
-            }
+            "default": "2024-10-25T09:30:00Z",
+            "description": "start date",
+            "in": "query",
+            "name": "working_start",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "default": "2024-10-28T18:00:00Z",
+            "description": "end date",
+            "in": "query",
+            "name": "working_end",
+            "required": false,
+            "type": "string"
           }
         ],
         "produces": [
@@ -961,10 +891,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Working time updated",
-            "schema": {
-              "$ref": "#/definitions/Workingtime"
-            }
+            "description": "Working time updated"
           },
           "400": {
             "description": "Client Error"
@@ -982,16 +909,10 @@
         "operationId": "TimemanagerWeb.WorkingTimeController.show",
         "parameters": [
           {
+            "default": 1,
             "description": "User ID",
             "in": "path",
             "name": "user_id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "description": "Working time ID",
-            "in": "query",
-            "name": "id",
             "required": true,
             "type": "integer"
           }
@@ -1020,21 +941,28 @@
         "operationId": "TimemanagerWeb.WorkingTimeController.create",
         "parameters": [
           {
+            "default": 1,
             "description": "User ID",
             "in": "path",
             "name": "user_id",
             "required": true,
-            "type": "integer",
-            "x-example": 1
+            "type": "integer"
           },
           {
-            "description": "Workingtime creation params",
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CreateWorkingtime"
-            }
+            "default": "2024-10-25T09:00:00Z",
+            "description": "start date",
+            "in": "query",
+            "name": "working_start",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "default": "2024-10-28T17:30:00Z",
+            "description": "end date",
+            "in": "query",
+            "name": "working_end",
+            "required": false,
+            "type": "string"
           }
         ],
         "produces": [
@@ -1042,10 +970,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/Workingtime"
-            }
+            "description": "Success"
           },
           "400": {
             "description": "Client Error"
@@ -1059,20 +984,6 @@
     }
   },
   "swagger": "2.0",
-  "securityDefinitions": {
-    "bearerAuth": {
-      "in": "header",
-      "name": "Authorization",
-      "type": "apiKey",
-      "description": "Enter 'Bearer' followed by a space and then your token"
-    },
-    "csrfToken": {
-      "in": "header",
-      "name": "X-CSRF-Token",
-      "type": "apiKey",
-      "description": "CSRF token required for state-changing requests"
-    }
-  },
   "security": [
     {
       "bearerAuth": []
@@ -1080,5 +991,19 @@
     {
       "csrfToken": []
     }
-  ]
+  ],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "in": "header",
+      "name": "Authorization",
+      "type": "apiKey",
+      "description": "Enter 'Bearer' followed by a space and then your JWT token"
+    },
+    "csrfToken": {
+      "in": "header",
+      "name": "X-CSRF-Token",
+      "type": "apiKey",
+      "description": "CSRF token required for state-changing requests"
+    }
+  }
 }

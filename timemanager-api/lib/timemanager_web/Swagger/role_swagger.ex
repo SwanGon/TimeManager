@@ -40,7 +40,7 @@ defmodule TimemanagerWeb.Swagger.RoleSwagger do
         description "Get role by id"
         produces "application/json"
         tag "Roles"
-        parameter :id, :path, :integer, "Role id", required: true
+        parameter :id, :path, :integer, "Role id", required: true, default: 1
         response 200, "Success"
         response 400, "Client Error"
         response 404, "No roles found with this ID"

@@ -73,7 +73,7 @@ defmodule TimemanagerWeb.UserController do
 
 
   def show(conn, %{"id" => id}) do
-    user = UserManager.get_user!(id)
+    user = UserManager.get_user_by_id(id)
     render(conn, :show, user: user)
   end
 

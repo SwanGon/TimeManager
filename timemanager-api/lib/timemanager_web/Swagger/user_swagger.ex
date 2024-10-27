@@ -45,8 +45,8 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
         produces "application/json"
         tag "Users"
         parameters do
-          email :query, :string, "Email address of the user", required: false
-          username :query, :string, "Username of the user", required: false
+          email :query, :string, "Email address of the user", required: false, default: "antoine@timemanager.com"
+          username :query, :string, "Username of the user", required: false, default: "Antoine"
         end
         response 200, "Success"
         response 400, "Client Error"
@@ -75,7 +75,7 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
         description "Get user by id"
         produces "application/json"
         tag "Users"
-        parameter :id, :path, :integer, "User ID", required: true, example: 3
+        parameter :id, :path, :integer, "User ID", required: true, default: 1
         response 200, "Success"
         response 400, "Client Error"
         response 404, "No user found with this ID"
@@ -86,10 +86,10 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
         description "Create user with register"
         produces "application/json"
         tag "Users"
-        parameters do
-          body :body, Schema.ref(:CreateUser), "User creation params", required: true
-        end
-        response 201, "Success", Schema.ref(:User)
+        parameter :username, :query, :string, "Username", default: "JohnDoe123", required: true
+        parameter :email, :query, :string, "Email address", default: "mymail@testmail.com", required: true
+        parameter :role_id, :query, :integer, "Role id", default: 1, required: true, default: 1
+        response 201, "Success"
         response 400, "Client Error"
       end
 
@@ -98,10 +98,10 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
         description "Create user"
         produces "application/json"
         tag "Users"
-        parameters do
-          body :body, Schema.ref(:CreateUser), "User creation params", required: true
-        end
-        response 201, "Success", Schema.ref(:User)
+        parameter :username, :query, :string, "Username", default: "JohnDoe123", required: true
+        parameter :email, :query, :string, "Email address", default: "mymail@testmail.com", required: true
+        parameter :role_id, :query, :integer, "Role id", default: 1, required: true, default: 1
+        response 201, "Success"
         response 400, "Client Error"
       end
 
@@ -110,11 +110,11 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
         description "Update an existing user"
         produces "application/json"
         tag "Users"
-        parameters do
-          id :path, :integer, "User ID", required: true, example: 1
-          body :body, Schema.ref(:UpdateUser), "User update params", required: true
-        end
-        response 200, "User updated", Schema.ref(:User)
+        parameter :id, :path, :integer, "User ID", required: true, example: 3
+        parameter :username, :query, :string, "Username", default: "JohnDoe123", required: true
+        parameter :email, :query, :string, "Email address", default: "mymail@testmail.com", required: true
+        parameter :role_id, :query, :integer, "Role id", default: 1, required: true, default: 1
+        response 200, "User updated"
         response 400, "Client Error"
       end
 
