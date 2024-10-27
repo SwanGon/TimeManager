@@ -2,9 +2,9 @@ name: CI/CD
 
 on:
   push:
-    branches: [ init ]
+    branches: [ 90-fix-create-env-for-vue-app-to-add-and-other ]
   pull_request:
-    branches: [ init ]
+    branches: [ 90-fix-create-env-for-vue-app-to-add-and-other ]
 
 permissions:
   contents: write
