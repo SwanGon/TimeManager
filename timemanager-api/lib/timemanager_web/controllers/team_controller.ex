@@ -20,7 +20,8 @@ defmodule TimemanagerWeb.TeamController do
 
 
 
-  def create(conn, %{"team" => team_params}) do
+  def create(conn, %{"manager_id" => manager_id}) do
+    team_params = %{"manager_id"=> manager_id}
     with {:ok, %Team{} = team} <- TeamManagers.create_team(team_params) do
       conn
       |> put_status(:created)
@@ -39,7 +40,8 @@ defmodule TimemanagerWeb.TeamController do
     render(conn, :show, team: team)
   end
 
-  def update(conn, %{"id" => id, "team" => team_params}) do
+  def update(conn, %{"id" => id, "manager_id" => manager_id}) do
+    team_params = %{"id" => id, "manager_id"=> manager_id}
     team = TeamManagers.get_team!(id)
 
     with {:ok, %Team{} = team} <- TeamManagers.update_team(team, team_params) do

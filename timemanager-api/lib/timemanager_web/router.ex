@@ -78,8 +78,27 @@ defmodule TimemanagerWeb.Router do
     %{
       info: %{
         version: "1.0",
-        title: "Time Manager",
-      }
+        title: "Time Manager"
+      },
+      securityDefinitions: %{
+        bearerAuth: %{
+          type: "apiKey",
+          name: "Authorization",
+          in: "header",
+          description: "Enter 'Bearer' followed by a space and then your JWT token"
+        },
+        csrfToken: %{
+          type: "apiKey",
+          name: "X-CSRF-Token",
+          in: "header",
+          description: "CSRF token required for state-changing requests"
+        }
+      },
+      security: [
+        %{bearerAuth: []},
+        %{csrfToken: []}
+      ]
     }
   end
+
 end

@@ -56,6 +56,8 @@ async function getClocks() {
       }
     })
     todaysClocks.value = response.data.data
+    console.log(response.data.data);
+
     firstClock.value = todaysClocks.value.find((item) => item.status === true).time
     totalMinutesWorked.value = calculateTotalTime(todaysClocks.value)
   } catch (error) {

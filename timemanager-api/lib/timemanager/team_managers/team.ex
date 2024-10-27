@@ -24,10 +24,13 @@ defmodule Timemanager.TeamManagers.Team do
     manager_id = get_field(changeset, :manager_id)
 
     if manager_id do
-      query = from u in Timemanager.UserManager.User, where: u.id == ^manager_id and u.role == "manager"
-      case Timemanager.Repo.one(query) do
-        nil -> add_error(changeset, :manager_id, "Selected user is not a manager")
-        _user -> changeset
+      query = from u in Timemanager.UserManager.User,
+              where: u.id == ^manager_id,
+              where: u.role_id in subquery(from r in Timemanager.RoleManager.Role, where: r.title == "manager", select: r.id)
+
+      case Timemanager.Repo.exists?(query) do
+        false -> add_error(changeset, :manager_id, "Selected user is not a manager")
+        true -> changeset
       end
     else
       changeset

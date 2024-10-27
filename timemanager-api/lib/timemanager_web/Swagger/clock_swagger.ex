@@ -3,26 +3,18 @@ defmodule TimemanagerWeb.Swagger.ClockSwagger do
 
   def swagger_definitions do
     %{
-      CreateClock: swagger_schema do
-        title "Create Clock"
-        description "Schema for creating a clock"
-        properties do
-          time :datetime, "Time", example: "2024-12-30 15:46:33", required: true
-          status :boolean, "Status", example: "true"
-        end
-      end,
       Clock: swagger_schema do
         title "Clock"
         description "Clock details"
         properties do
           time :datetime, "Time"
           status :boolean, "Status"
-          user :integer, "User ID"
+          user_id :integer, "User ID"
         end
         example %{
-          time: "2024-12-30 15:46:33",
+          time: "2024-10-29T15:00:00Z",
           status: "true",
-          user: "User ID"
+          user_id: "User ID"
         }
       end,
     }
@@ -36,9 +28,7 @@ defmodule TimemanagerWeb.Swagger.ClockSwagger do
         produces "application/json"
         tag "Clocks"
 
-        parameter :user_id, :path, :integer, "User ID", required: true
-        parameter :date, :query, :string, "date", required: false
-
+        parameter :user_id, :path, :integer, "User ID", required: true, default: 1
         response 200, "Success"
         response 400, "Client Error"
       end
@@ -48,23 +38,27 @@ defmodule TimemanagerWeb.Swagger.ClockSwagger do
         description "Create clock"
         produces "application/json"
         tag "Clocks"
-        parameters do
-          user_id :path, :integer, "user ID", required: true, example: 1
-          body :body, Schema.ref(:CreateClock), "Clock creation params", required: true
-        end
-        response 201, "Success", Schema.ref(:Clock)
+
+        parameter :user_id, :path, :integer, "user ID", required: true, default: 1
+        parameter :time, :query, :string, "Time", default: "2024-10-29T15:00:00Z", required: true
+        parameter  :status, :query, :boolean, "Status", default: "true", required: true
+
+        response 201, "Success"
         response 400, "Client Error"
       end
 
-      # swagger_path :show do
-      #   get "/api/clocks/{id}"
-      #   description "Get clock by id"
-      #   produces "application/json"
-      #   tag "Clocks"
-      #   parameter :id, :path, :integer, "Clock ID", required: true, example: 3
-      #   response 200, "Success"
-      #   response 400, "Client Error"
-      # end
+      swagger_path :today do
+        get "/api/clocks/today/{user_id}"
+        description "Get clock by id"
+        produces "application/json"
+        tag "Clocks"
+
+        parameter :user_id, :path, :integer, "user id", required: true, default: 1
+        parameter :start_of_day, :query, :string, "today at 00:00", required: true, default: "2024-10-28T00:00:00Z"
+        parameter :end_of_day, :query, :string, "today at 23:59", required: true, default: "2024-10-28T23:59:59Z"
+        response 200, "Success"
+        response 400, "Client Error"
+      end
     end
   end
 end
