@@ -3,7 +3,6 @@ import HomeView from '../views/HomeView.vue'
 import ClockManager from '../components/ClockManager/ClockManager.vue'
 import TeamManager from'@/components/UserManager/TeamManager'
 import NotFoundView from '../views/NotFoundView.vue'
-import UserManager from '@/components/UserManager/UserManager.vue'
 import WorkingTimesManager from '@/components/WorkingTimesManager/WorkingTimesManager.vue'
 import WorkingShiftManager from '@/components/WorkingShiftManager/WorkingShiftManager.vue'
 import LoginView from '@/views/Authentication/LoginView.vue'
@@ -78,11 +77,11 @@ const router = createRouter({
       name: 'clockManager',
       component: ClockManager
     },
-    {
-      path: '/chart/:userId',
-      name: 'chartManager',
-      component: ChartManager
-    },
+    // {
+    //   path: '/chart/:userId',
+    //   name: 'chartManager',
+    //   component: ChartManager
+    // },
     {
       path: '/team/:teamId',
       name: 'Team',

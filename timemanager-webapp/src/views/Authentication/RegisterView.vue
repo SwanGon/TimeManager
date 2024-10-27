@@ -1,9 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import axios from 'axios'
 
-const router = useRouter()
 const username = ref('')
 const email = ref('')
 const password = ref('')
