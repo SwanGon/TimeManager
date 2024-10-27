@@ -2,8 +2,7 @@
 import WorkingTimePicker from './WorkingTimePicker.vue';
 </script>
 <template>
-  <div>
-    <h1>hello</h1>
+  <div class="working-time-page">
     <WorkingTimePicker />
   </div>
 </template>

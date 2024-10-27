@@ -33,78 +33,78 @@ defmodule Timemanager.Seeds do
     users = [
       %{
         username: "Antoine",
-        email: "antoine@mail.mail",
-        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
-        role_id: supervisor_role.id,
+        email: "antoine@timemanager.com",
+        hashed_password: Bcrypt.hash_pwd_salt("code1234"),
+        role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Marc",
-        email: "marc@mail.mail",
-        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
+        email: "marc@timemanager.com",
+        hashed_password: Bcrypt.hash_pwd_salt("code1234"),
         role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Swan",
-        email: "swan@mail.mail",
-        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
+        email: "swan@timemanager.com",
+        hashed_password: Bcrypt.hash_pwd_salt("code1234"),
         role_id: manager_role.id,
         team_id: nil
       },
       %{
         username: "Laurent",
-        email: "laurent@mail.mail",
-        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
+        email: "laurent@timemanager.com",
+        hashed_password: Bcrypt.hash_pwd_salt("code1234"),
         role_id: supervisor_role.id,
         team_id: nil
       },
       %{
         username: "Max",
-        email: "max@mail.mail",
-        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
+        email: "max@timemanager.com",
+        hashed_password: Bcrypt.hash_pwd_salt("code1234"),
         role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Emilie",
-        email: "emilie@mail.mail",
-        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
+        email: "emilie@timemanager.com",
+        hashed_password: Bcrypt.hash_pwd_salt("code1234"),
         role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Rose",
-        email: "rose@mail.mail",
-        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
+        email: "rose@timemanager.com",
+        hashed_password: Bcrypt.hash_pwd_salt("code1234"),
         role_id: manager_role.id,
         team_id: nil
       },
       %{
         username: "Romain",
-        email: "romain@mail.mail",
-        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
+        email: "romain@timemanager.com",
+        hashed_password: Bcrypt.hash_pwd_salt("code1234"),
         role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Sophie",
-        email: "sophie@mail.mail",
-        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
+        email: "sophie@timemanager.com",
+        hashed_password: Bcrypt.hash_pwd_salt("code1234"),
         role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Sarah",
-        email: "sarah@mail.mail",
-        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
+        email: "sarah@timemanager.com",
+        hashed_password: Bcrypt.hash_pwd_salt("code1234"),
         role_id: user_role.id,
         team_id: nil
       },
       %{
         username: "Marius",
-        email: "marius@mail.mail",
-        hashed_password: Bcrypt.hash_pwd_salt("antoine"),
+        email: "marius@timemanager.com",
+        hashed_password: Bcrypt.hash_pwd_salt("code1234"),
         role_id: user_role.id,
         team_id: nil
       }
@@ -144,48 +144,70 @@ defmodule Timemanager.Seeds do
 
 
   defp create_working_times do
-    teams = Repo.all(Team)
-    today = Date.utc_today()
-    start_of_week = today |> Date.beginning_of_week(:monday)
-    days_difference = Date.diff(start_of_week, today)
-    days_range = days_difference + 4
+    antoine_id = Repo.one(from u in User, where: u.username == "Antoine", select: u.id)
+    for day <- 0..21 do
+      working_start = DateTime.add(~U[2024-10-07 08:00:00Z], day*86400)
+      working_end = DateTime.add(~U[2024-10-07 17:00:00Z], day*86400)
 
-    Enum.each(teams, fn team ->
+      Repo.insert!(%WorkingTime{
+        working_start: working_start,
+        working_end: working_end,
+        user_id: antoine_id
+      })
 
-      users = Repo.all(from u in User, where: u.team_id == ^team.id)
+      clock_in_offset = Enum.random(-300..300)
+      clock_in_time = working_start |> DateTime.add(clock_in_offset)
 
-      start_hour = Enum.random([-2,-0, 2])
+      clock_out_offset = Enum.random(-300..300)
+      clock_out_time = working_end |> DateTime.add(clock_out_offset)
 
-      for day <- days_difference..days_range do
-        working_start = DateTime.utc_now() |> DateTime.truncate(:second) |> DateTime.add(day * 86400) |> DateTime.add(start_hour * 3600)
-        working_end = working_start |> DateTime.add(8 * 3600)
-        Enum.each(users, fn user ->
-          Repo.insert!(%WorkingTime{
-            working_start: working_start,
-            working_end: working_end,
-            user_id: user.id
-          })
+      Repo.insert!(%Clock{
+        user_id: antoine_id,
+        time: clock_in_time,
+        status: true
+      })
+      Repo.insert!(%Clock{
+        user_id: antoine_id,
+        time: clock_out_time,
+        status: false
+      })
+    end
 
-          clock_in_offset = Enum.random([-150, 150])
-          clock_in_time = working_start |> DateTime.add(clock_in_offset)
+    Repo.insert!(%WorkingTime{
+      working_start: ~U[2024-10-28 08:00:00Z],
+      working_end: ~U[2024-10-28 17:00:00Z],
+      user_id: 1
+    })
 
-          clock_out_offset = Enum.random([-150, 150])
-          clock_out_time = working_end |> DateTime.add(clock_out_offset)
+    Repo.insert!(%Clock{
+      user_id: 1,
+      time: ~U[2024-10-29 08:50:00Z],
+      status: true
+    })
 
-          Repo.insert!(%Clock{
-            user_id: user.id,
-            time: clock_in_time,
-            status: true
-          })
+    Repo.insert!(%Clock{
+      user_id: 1,
+      time: ~U[2024-10-29 17:30:00Z],
+      status: false
+    })
 
-          Repo.insert!(%Clock{
-            user_id: user.id,
-            time: clock_out_time,
-            status: false
-          })
-        end)
-      end
-    end)
+    Repo.insert!(%WorkingTime{
+      working_start: ~U[2024-10-29 08:00:00Z],
+      working_end: ~U[2024-10-29 17:00:00Z],
+      user_id: 1
+    })
+
+    Repo.insert!(%Clock{
+      user_id: 1,
+      time: ~U[2024-10-29 08:50:00Z],
+      status: true
+    })
+
+    Repo.insert!(%Clock{
+      user_id: 1,
+      time: ~U[2024-10-29 12:30:00Z],
+      status: false
+    })
   end
 end
 
