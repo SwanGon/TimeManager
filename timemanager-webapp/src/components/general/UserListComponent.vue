@@ -1,9 +1,11 @@
 <template>
     <table class="w-2/5 my-4">
-        <tr class="border-black bg-gray-100 border border-collapse">
-            <th class="p-3 text-gray-700 border-r">Username</th>
-            <th class="p-3 text-gray-700">Email</th>
-        </tr>
+        <thead>
+            <tr class="border-black bg-gray-100 border border-collapse">
+                <th class="p-3 text-gray-700 border-r">Username</th>
+                <th class="p-3 text-gray-700">Email</th>
+            </tr>
+        </thead>
         <tbody>
             <tr :key="user.id" v-for="user in userlist"
                 class="border-black bg-gray-100 border border-collapse"

@@ -12,8 +12,8 @@ const user = ref({
   "email": '',
   "username":'',
   "team_id":'',
-}
-)
+})
+
 const teamId = localStorage.getItem("teamId")
 const userId = localStorage.getItem('userId')
 const updateClockStatus = (newStatus) => {
@@ -24,8 +24,6 @@ const fetchUserProfile = async () => {
   try {
     await UserApi.getUser(localStorage.getItem('userId'))
     .then(response => {
-      console.log(response.data);
-
       user.value = response.data
     })    
   } catch (error) {
@@ -41,7 +39,8 @@ onMounted(fetchUserProfile)
     <div class="w-2/6 flex flex-col gap-8 justify-center items-center rounded mt-3 px-2">
       <ProfilComponent
       :username="user.username"
-      :email="user.email"  />
+      :email="user.email"  
+      />
       <ClockManager :clockStatus="clockStatus" :userId="userId" @updateClockStatus="updateClockStatus" />
       <ButtonComponent title="My Clocks" path="/" />
       <ButtonComponent title="WorkingTime" path="/workingtimes/:userid" />
