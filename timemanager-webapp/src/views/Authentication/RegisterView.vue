@@ -25,10 +25,10 @@ const handleSubmit = async () => {
       }
     })
     alert('Registration successful')
-    router.push('/login')
   } catch (error) {
 
-    alert('Email '+error.response.data.errors.email)
+    if( typeof error.response.data.errors.email != "undefined")
+      alert('Email '+error.response.data.errors.email)
    
     console.error('Registration error:', error)
   }
@@ -38,7 +38,7 @@ const handleSubmit = async () => {
 <template>
   <div class="card-container">
     <div class="card">
-      <h2 class="card-title">Register</h2>
+      <h2 class="card-title">Create user</h2>
       <form @submit.prevent="handleSubmit" class="card-form">
         <div class="form-group">
           <label for="username">Username</label>
@@ -56,7 +56,7 @@ const handleSubmit = async () => {
           <label for="confirmPassword">Confirm Password</label>
           <input id="confirmPassword" v-model="confirmPassword" type="password" required />
         </div>
-        <button type="submit" class="card-button">Register</button>
+        <button type="submit" class="card-button">Sumbit</button>
       </form>
     </div>
   </div>
