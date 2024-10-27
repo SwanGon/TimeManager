@@ -11,7 +11,7 @@ const getTeam = (teamId) => {
     .then(response => response.data)
 }
 
-const getUsers = (teamId) => {
+const getUsersByTeam = (teamId) => {
     return axios.get(route+"/"+teamId+"/users")
     .then(response => response.data)
 }
@@ -24,7 +24,7 @@ const deleteTeam = (teamId) => {
 export default {
     getTeams,
     getTeam,
-    getUsers,
+    getUsersByTeam,
     deleteTeam
 }
 

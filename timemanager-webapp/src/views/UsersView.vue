@@ -11,14 +11,16 @@
 
 <script setup>
 import UserListComponent from '@/components/general/UserListComponent.vue';
-// import TeamManager from '@/components/TeamManager/TeamManager';
+import UserApi from '@/api/UserApi';
 import { onMounted, ref } from 'vue';
 
 let userlist = ref()
 
 onMounted(() => {
-    // TeamManager.getUsers().then(json => {
-    //     userlist.value = json.data
-    // })
+    UserApi.getUsers().then(json => {
+        console.log(json.data);
+        
+        userlist.value = json.data
+    })
 })
 </script>

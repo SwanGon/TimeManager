@@ -17,7 +17,7 @@ import { onMounted, ref } from 'vue';
 let userlist = ref()
 
 onMounted(() => {
-    TeamManager.getUsers(localStorage.getItem("teamId")).then(json => {
+    TeamManager.getUsersByTeam(localStorage.getItem("teamId")).then(json => {
         userlist.value = json.data
     })
 })

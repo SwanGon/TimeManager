@@ -18,6 +18,7 @@ const teamId = localStorage.getItem("teamId")
       <div class="flex justify-around p-3 shrink">
         <ButtonComponent title="Contracts" path="/contracts" />
         <ButtonComponent title="My team" :path="`/team/${teamId}`" />
+        <ButtonComponent title="Users" path="/users" />
         <ButtonComponent title="Tutorial" path="/???" />
       </div>
     </div>
