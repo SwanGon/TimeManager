@@ -11,7 +11,8 @@ const confirmPassword = ref('')
 
 const handleSubmit = async () => {
   if (password.value !== confirmPassword.value) {
-    console.error('Passwords do not match')
+
+    alert("Passwords do not match")
     return
   }
 
@@ -23,9 +24,12 @@ const handleSubmit = async () => {
         password: password.value
       }
     })
-    console.log('Registration successful', response.data)
+    alert('Registration successful')
     router.push('/login')
   } catch (error) {
+
+    alert('Email '+error.response.data.errors.email)
+   
     console.error('Registration error:', error)
   }
 }
