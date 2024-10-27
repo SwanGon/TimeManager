@@ -12,10 +12,6 @@ const role = ref('')
 const error =ref (null)
 const isAuthenticated = computed(() => !!localStorage.getItem('jwt'))
 
-const goToRegister = () => {
-  router.push('/register')
-}
-
 const handleSubmit = async () => {
   try {
     const response = await axios.post('/api/login', {
@@ -30,12 +26,14 @@ const handleSubmit = async () => {
 
     const user = response.data.user
 
+    console.log(user);
+    
     await RolesApi.getRole(user.role_id).then(json => {
       role.value = json.name
-      console.log(role.value);
     })
 
     localStorage.setItem('userId', user.id),
+    localStorage.setItem('teamId', user.team_id),
     localStorage.setItem('userRole', role.value)
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     axios.defaults.headers.common['X-CSRF-Token'] = csrf_token
@@ -77,13 +75,6 @@ const handleSubmit = async () => {
             <input type="checkbox" v-model="rememberMe" />
             Keep me logged in
           </label>
-          <button
-            type="button"
-            @click="goToRegister"
-            class="card-button bg-green-500 hover:bg-green-600"
-          >
-            Register
-          </button>
         </div>
         <div v-if="error" class="alert-error">
           <span>{{ error }}</span>
