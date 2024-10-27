@@ -1,9 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import axios from 'axios'
 
-const router = useRouter()
 const username = ref('')
 const email = ref('')
 const password = ref('')
@@ -11,7 +9,8 @@ const confirmPassword = ref('')
 
 const handleSubmit = async () => {
   if (password.value !== confirmPassword.value) {
-    console.error('Passwords do not match')
+
+    alert("Passwords do not match")
     return
   }
 
@@ -23,9 +22,20 @@ const handleSubmit = async () => {
         password: password.value
       }
     })
-    console.log('Registration successful', response.data)
-    router.push('/login')
+    alert('Registration successful')
+    username.value = ""
+    email.value = ""
+    password.value = ""
+    confirmPassword.value = ""
+        
   } catch (error) {
+
+    if( typeof error.response.data.errors.email != "undefined")
+      alert('Email '+error.response.data.errors.email)
+   
+    if( typeof error.response.data.errors.password != "undefined")
+      alert('Email '+error.response.data.errors.password)
+   
     console.error('Registration error:', error)
   }
 }
@@ -34,7 +44,7 @@ const handleSubmit = async () => {
 <template>
   <div class="card-container">
     <div class="card">
-      <h2 class="card-title">Register</h2>
+      <h2 class="card-title">Create user</h2>
       <form @submit.prevent="handleSubmit" class="card-form">
         <div class="form-group">
           <label for="username">Username</label>
@@ -52,7 +62,7 @@ const handleSubmit = async () => {
           <label for="confirmPassword">Confirm Password</label>
           <input id="confirmPassword" v-model="confirmPassword" type="password" required />
         </div>
-        <button type="submit" class="card-button">Register</button>
+        <button type="submit" class="card-button">Sumbit</button>
       </form>
     </div>
   </div>
@@ -63,19 +73,11 @@ const handleSubmit = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  width: 100vw;
-  height: 100vh;
-  background-color: #f0f2f5;
-  position: fixed;
-  top: 0;
-  left: 0;
 }
 
 .card {
   width: 100%;
   height: 100%;
-  max-width: none;
   padding: 2rem;
   background: #ffffff;
   border-radius: 0;

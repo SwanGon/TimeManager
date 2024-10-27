@@ -1,15 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ClockManager from '../components/ClockManager/ClockManager.vue'
+import TeamManager from'@/components/UserManager/TeamManager'
 import NotFoundView from '../views/NotFoundView.vue'
-import TeamManager from'@/components/UserManager/TeamManager.vue'
-import UserManager from '@/components/UserManager/UserManager.vue'
 import WorkingTimesManager from '@/components/WorkingTimesManager/WorkingTimesManager.vue'
 import WorkingShiftManager from '@/components/WorkingShiftManager/WorkingShiftManager.vue'
 import LoginView from '@/views/Authentication/LoginView.vue'
 import RegisterView from '@/views/Authentication/RegisterView.vue'
 import ProfilView from '@/views/Authentication/ProfilView.vue'
 import Contracts from '@/views/Contracts.vue'
+import MyTeamView from '@/views/MyTeamView.vue'
+import UsersView from '@/views/UsersView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,12 +31,6 @@ const router = createRouter({
       path: '/login',
       name: 'Login',
       component: LoginView,
-      meta: { requiresAuth: false }
-    },
-    {
-      path: '/register',
-      name: 'Register',
-      component: RegisterView,
       meta: { requiresAuth: false }
     },
     {
@@ -67,14 +62,30 @@ const router = createRouter({
       component: WorkingTimesManager
     },
     {
-      path: '/user',
-      name: 'user',
-      component: UserManager
+      path: '/users',
+      name: 'users',
+      component: UsersView 
+    },
+    {
+      path: '/users/new',
+      name: 'CreateUser',
+      component: RegisterView,
+      meta: { requiresAuth: false }
     },
     {
       path: '/clock/:userId',
       name: 'clockManager',
       component: ClockManager
+    },
+    // {
+    //   path: '/chart/:userId',
+    //   name: 'chartManager',
+    //   component: ChartManager
+    // },
+    {
+      path: '/team/:teamId',
+      name: 'Team',
+      component: MyTeamView
     },
     {
       path: '/:pathMatch(.*)*',

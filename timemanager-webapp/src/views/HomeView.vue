@@ -7,13 +7,11 @@ import ProgressBar from '@/components/ChartManager/ProgressBar.vue'
 import { ref } from 'vue'
 
 const clockStatus = ref(false)
-
+const teamId = localStorage.getItem("teamId")
 const userId = localStorage.getItem('userId')
-
 const updateClockStatus = (newStatus) => {
   clockStatus.value = newStatus;
 };
-
 </script>
 
 <template>
@@ -31,7 +29,8 @@ const updateClockStatus = (newStatus) => {
       <BarChart :userId="userId" />
       <div class="h-1/6 flex justify-around p-3 shrink">
         <ButtonComponent title="Contracts" path="/contracts" />
-        <ButtonComponent title="My team" path="/team/id" />
+        <ButtonComponent title="My team" :path="`/team/${teamId}`" />
+        <ButtonComponent title="Users" path="/users" />
         <ButtonComponent title="Tutorial" path="/???" />
       </div>
     </div>
