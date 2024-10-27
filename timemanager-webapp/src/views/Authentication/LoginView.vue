@@ -12,6 +12,8 @@ const role = ref('')
 const error =ref (null)
 const isAuthenticated = computed(() => !!localStorage.getItem('jwt'))
 
+console.log(process.env.API_URL)
+
 const handleSubmit = async () => {
   try {
     const response = await axios.post('/api/login', {
