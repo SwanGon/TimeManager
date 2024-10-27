@@ -17,7 +17,7 @@ RUN echo 'server { \
     root /usr/share/nginx/html; \
     \
     location /api { \
-        proxy_pass https://'https://timemanager-api.onrender.com'; \
+        proxy_pass https://timemanager-api.onrender.com; \
         proxy_set_header Host $host; \
         proxy_set_header X-Real-IP $remote_addr; \
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; \
