@@ -12,8 +12,6 @@ const role = ref('')
 const error =ref (null)
 const isAuthenticated = computed(() => !!localStorage.getItem('jwt'))
 
-console.log(process.env.API_URL)
-
 const handleSubmit = async () => {
   try {
     const response = await axios.post('/api/login', {
@@ -50,6 +48,7 @@ const handleSubmit = async () => {
         error.value = '❌ An error occurred. Please try again later.'
       }
     } else {
+      console.log(err)
       error.value = '❌ Network error. Please check your connection.'
     }
   }
