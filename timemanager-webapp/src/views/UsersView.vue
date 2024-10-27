@@ -6,6 +6,10 @@
         <UserListComponent
         :userlist = userlist
         />
+        <ButtonComponent
+        title="Create User"
+        path="/users/new"
+        />
     </div>
 </template>
 
@@ -13,6 +17,7 @@
 import UserListComponent from '@/components/general/UserListComponent.vue';
 import UserApi from '@/api/UserApi';
 import { onMounted, ref } from 'vue';
+import ButtonComponent from '@/components/general/ButtonComponent.vue';
 
 let userlist = ref()
 

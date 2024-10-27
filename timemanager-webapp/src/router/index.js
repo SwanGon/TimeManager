@@ -28,17 +28,6 @@ const router = createRouter({
       meta: { requiresAuth: false }
     },
     {
-      path: '/register',
-      name: 'Register',
-      component: RegisterView,
-      meta: { requiresAuth: false }
-    },
-    {
-      path: '/contracts',
-      name: 'contracts',
-      component: Contracts
-    },
-    {
       path: '/contracts',
       name: 'contracts',
       component: Contracts
@@ -70,6 +59,12 @@ const router = createRouter({
       path: '/users',
       name: 'users',
       component: UsersView 
+    },
+    {
+      path: '/users/new',
+      name: 'CreateUser',
+      component: RegisterView,
+      meta: { requiresAuth: false }
     },
     {
       path: '/clock/:userId',

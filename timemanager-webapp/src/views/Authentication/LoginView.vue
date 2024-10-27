@@ -11,10 +11,6 @@ const rememberMe = ref(false)
 const role = ref('')
 const isAuthenticated = computed(() => !!localStorage.getItem('jwt'))
 
-const goToRegister = () => {
-  router.push('/register')
-}
-
 const handleSubmit = async () => {
   try {
     const response = await axios.post('/api/login', {
@@ -68,13 +64,6 @@ const handleSubmit = async () => {
             <input type="checkbox" v-model="rememberMe" />
             Keep me logged in
           </label>
-          <button
-            type="button"
-            @click="goToRegister"
-            class="card-button bg-green-500 hover:bg-green-600"
-          >
-            Register
-          </button>
         </div>
         <button type="submit" class="card-button">Log in →</button>
       </form>

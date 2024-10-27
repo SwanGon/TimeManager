@@ -25,10 +25,18 @@ const handleSubmit = async () => {
       }
     })
     alert('Registration successful')
+    username.value = ""
+    email.value = ""
+    password.value = ""
+    confirmPassword.value = ""
+        
   } catch (error) {
 
     if( typeof error.response.data.errors.email != "undefined")
       alert('Email '+error.response.data.errors.email)
+   
+    if( typeof error.response.data.errors.password != "undefined")
+      alert('Email '+error.response.data.errors.password)
    
     console.error('Registration error:', error)
   }
@@ -67,19 +75,11 @@ const handleSubmit = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  width: 100vw;
-  height: 100vh;
-  background-color: #f0f2f5;
-  position: fixed;
-  top: 0;
-  left: 0;
 }
 
 .card {
   width: 100%;
   height: 100%;
-  max-width: none;
   padding: 2rem;
   background: #ffffff;
   border-radius: 0;
