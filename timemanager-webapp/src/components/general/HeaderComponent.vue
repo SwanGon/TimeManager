@@ -40,6 +40,6 @@ const formattedDate = computed(() => {
       <div>{{ formattedTime }}</div>
     </span>
     <LogoutComponent/>
-    <ButtonComponent title="profil" path="/"> </ButtonComponent>
+    <ButtonComponent title="profile" path="/profile"> </ButtonComponent>
   </div>
 </template>
