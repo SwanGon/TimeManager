@@ -60,7 +60,7 @@ defmodule TimemanagerWeb.UserController do
     end
   end
 
-  def show(conn, %{"id" => "me"}) do
+  def show(conn, %{"id" => id}) do
     case conn.assigns do
       %{current_user: user} when not is_nil(user) ->
         render(conn, :show, user: user)
