@@ -70,18 +70,15 @@ Access the application at: [TimeManager Web App](https://timemanager-webapp-late
 
 ### Mobile Application (Cordova)
 
-1. Install Apache Cordova globally: `npm install -g vue vue-cli webpack webpack-cli cordova`
-2. Navigate to `timemanager-mobile`
+1. Navigate to `cd timemanager-webapp/timemanager-mobile`
+2. Install Apache Cordova globally: `npm install -g vue vue-cli webpack webpack-cli cordova`
 3. install project dependencies: `npm install -D vue vue-template-compiler axios`
 4. Add platforms:
-   - `cordova platform add ios`
    - `cordova platform add android`
 5. Build the application:
-   - `cordova build ios`
    - `cordova build android`
 6. Run on devices/emulators:
-   - `cordova run ios`
-   - `cordova run android`
+   - `npm run cordova dev`
 
 ## Features
 
