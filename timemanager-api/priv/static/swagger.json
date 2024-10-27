@@ -5,57 +5,6 @@
   },
   "host": "localhost:4000",
   "definitions": {
-    "Clock": {
-      "description": "Clock details",
-      "example": {
-        "status": "true",
-        "time": "2024-10-29 16:00:00",
-        "user_id": "User ID"
-      },
-      "properties": {
-        "status": {
-          "description": "Status",
-          "type": "boolean"
-        },
-        "time": {
-          "description": "Time",
-          "type": "datetime"
-        },
-        "user_id": {
-          "description": "User ID",
-          "type": "integer"
-        }
-      },
-      "title": "Clock",
-      "type": "object"
-    },
-    "CreateClock": {
-      "description": "Schema for creating a clock",
-      "properties": {
-        "status": {
-          "description": "Status",
-          "example": "true",
-          "type": "boolean"
-        },
-        "time": {
-          "description": "Time",
-          "example": "2024-10-29 16:00:00",
-          "type": "datetime"
-        },
-        "user_id": {
-          "description": "User id",
-          "example": 1,
-          "type": "integer"
-        }
-      },
-      "required": [
-        "user_id",
-        "status",
-        "time"
-      ],
-      "title": "Create Clock",
-      "type": "object"
-    },
     "UpdateUser": {
       "description": "Schema for updating a user",
       "properties": {
@@ -248,6 +197,57 @@
       "title": "Create Workingtime",
       "type": "object"
     },
+    "CreateClock": {
+      "description": "Schema for creating a clock",
+      "properties": {
+        "status": {
+          "description": "Status",
+          "example": "true",
+          "type": "boolean"
+        },
+        "time": {
+          "description": "Time",
+          "example": "2024-10-29 16:00:00",
+          "type": "datetime"
+        },
+        "user_id": {
+          "description": "User id",
+          "example": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "user_id",
+        "status",
+        "time"
+      ],
+      "title": "Create Clock",
+      "type": "object"
+    },
+    "Clock": {
+      "description": "Clock details",
+      "example": {
+        "status": "true",
+        "time": "2024-10-29 16:00:00",
+        "user_id": "User ID"
+      },
+      "properties": {
+        "status": {
+          "description": "Status",
+          "type": "boolean"
+        },
+        "time": {
+          "description": "Time",
+          "type": "datetime"
+        },
+        "user_id": {
+          "description": "User ID",
+          "type": "integer"
+        }
+      },
+      "title": "Clock",
+      "type": "object"
+    },
     "CreateRole": {
       "description": "Schema for creating a Role",
       "properties": {
@@ -431,7 +431,7 @@
         ]
       }
     },
-    "/api/roles/": {
+    "/api/roles": {
       "get": {
         "description": "List all roles",
         "operationId": "TimemanagerWeb.RoleController.index",
@@ -1058,5 +1058,27 @@
       }
     }
   },
-  "swagger": "2.0"
+  "swagger": "2.0",
+  "securityDefinitions": {
+    "bearerAuth": {
+      "in": "header",
+      "name": "Authorization",
+      "type": "apiKey",
+      "description": "Enter 'Bearer' followed by a space and then your token"
+    },
+    "csrfToken": {
+      "in": "header",
+      "name": "X-CSRF-Token",
+      "type": "apiKey",
+      "description": "CSRF token required for state-changing requests"
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    },
+    {
+      "csrfToken": []
+    }
+  ]
 }
