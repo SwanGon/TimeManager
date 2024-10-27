@@ -9,6 +9,7 @@ const email = ref('')
 const password = ref('')
 const rememberMe = ref(false)
 const role = ref('')
+const error =ref (null)
 const isAuthenticated = computed(() => !!localStorage.getItem('jwt'))
 
 const goToRegister = () => {
@@ -39,9 +40,20 @@ const handleSubmit = async () => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     axios.defaults.headers.common['X-CSRF-Token'] = csrf_token
     router.push('/')
-  } catch (error) {
-    console.error('Login error:', error)
+  }  catch (err) { 
+    if (err.response) {
+      if (err.response.status === 401) {
+        error.value = '❌ Invalid email or password. Please try again.'
+      } else if (err.response.status === 422) {
+        error.value = '❌ Please check your email format and password.'
+      } else {
+        error.value = '❌ An error occurred. Please try again later.'
+      }
+    } else {
+      error.value = '❌ Network error. Please check your connection.'
+    }
   }
+
 }
 </script>
 
@@ -73,6 +85,9 @@ const handleSubmit = async () => {
             Register
           </button>
         </div>
+        <div v-if="error" class="alert-error">
+          <span>{{ error }}</span>
+        </div>
         <button type="submit" class="card-button">Log in →</button>
       </form>
     </div>
@@ -92,7 +107,16 @@ const handleSubmit = async () => {
   top: 0;
   left: 0;
 }
-
+.alert-error {
+  background-color: #fee2e2;
+  border: 1px solid #ef4444;
+  color: #dc2626;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 500;
+}
 .card {
   width: 100%;
   height: 100%;
