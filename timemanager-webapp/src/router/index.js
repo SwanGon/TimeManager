@@ -97,7 +97,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const isAuthenticated = !!localStorage.getItem('jwt')
   // const userRole = localStorage.getItem('userRole')
-  const publicPages = ['/login', '/register']
+  const publicPages = ['/login']
   const authRequired = !publicPages.includes(to.path)
   const loggedUserId = localStorage.getItem('userId')
   const userId = to.params.userId
@@ -108,8 +108,6 @@ router.beforeEach((to, from, next) => {
     next('/teams')
   } else {
     
-    console.log('userId', userId)
-    console.log('loggedUserId', loggedUserId)
     if (to.meta.requiresAuth && loggedUserId !== userId && to.path !== '/404' && userId !== undefined) {
         next({ name: 'NotFound' })
       
