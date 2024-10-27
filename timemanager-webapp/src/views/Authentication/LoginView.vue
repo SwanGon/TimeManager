@@ -33,8 +33,10 @@ const handleSubmit = async () => {
     })
 
     localStorage.setItem('userId', user.id),
-    localStorage.setItem('teamId', user.team_id),
+    localStorage.setItem('teamId', user.team_id)
     localStorage.setItem('userRole', role.value)
+    localStorage.setItem('userMail', user.email)
+    localStorage.setItem('username', user.username)
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     axios.defaults.headers.common['X-CSRF-Token'] = csrf_token
     router.push('/')
