@@ -14,7 +14,6 @@ app.use(createVuestic());
 app.use(router)
 
 axios.defaults.withCredentials = true
-axios.defaults.baseURL = import.meta.env.VITE_API_URL
 axios.interceptors.request.use(config => {
   const token = localStorage.getItem('jwt')
   const csrfToken = localStorage.getItem('csrf_token')
