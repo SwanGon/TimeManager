@@ -27,12 +27,12 @@ defmodule Timemanager.WorkingTimeManager do
   end
 
   def get_working_times_by_user_start_and_end(working_start, working_end, user_id) do
-    from(w in WorkingTime, where: w.user_id == ^user_id and w.working_start <= ^working_start and w.working_end >= ^working_end)
+    from(w in WorkingTime, where: w.user_id == ^user_id and w.working_start >= ^working_start and w.working_end <= ^working_end)
     |> Repo.all()
   end
 
   def get_working_times_by_user_and_start(working_start, user_id) do
-    from(w in WorkingTime, where: w.user_id == ^user_id and w.working_start <= ^working_start)
+    from(w in WorkingTime, where: w.user_id == ^user_id and w.working_start >= ^working_start)
     |> Repo.all()
   end
 
