@@ -82,9 +82,9 @@ defmodule TimemanagerWeb.Router do
       securityDefinitions: %{
         bearerAuth: %{
           type: "apiKey",
-          name: "Authorization",
+          name: "JWT Authorization",
           in: "header",
-          description: "Enter 'Bearer' followed by a space and then your token"
+          description: "Enter 'Bearer' followed by a space and then your JWT token"
         },
         csrfToken: %{
           type: "apiKey",
