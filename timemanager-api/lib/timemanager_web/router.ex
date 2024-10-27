@@ -19,6 +19,7 @@ defmodule TimemanagerWeb.Router do
   pipeline :authenticated do
     plug TimemanagerWeb.Plug.Authenticate
     plug TimemanagerWeb.Plug.CSRFProtection
+    # plug TimemanagerWeb.Plug.CheckUserAccess
   end
 
   scope "/api/swagger" do
@@ -49,6 +50,7 @@ defmodule TimemanagerWeb.Router do
 
     #Working times routes
     get "/workingtimes/:user_id", WorkingTimeController, :index
+    get "/workingtimes/today/:user_id", WorkingTimeController, :today
     get "/workingtimes/:user_id/:id", WorkingTimeController, :show
     post "/workingtimes/:user_id", WorkingTimeController, :create
     put "/workingtimes/:id", WorkingTimeController, :update
@@ -56,6 +58,7 @@ defmodule TimemanagerWeb.Router do
 
     #Clocks routes
     get "/clocks/:user_id", ClockController, :index
+    get "/clocks/today/:user_id", ClockController, :today
     post "/clocks/:user_id", ClockController, :create
 
     #Teams routes

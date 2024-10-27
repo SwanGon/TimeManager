@@ -41,6 +41,11 @@ defmodule Timemanager.WorkingTimeManager do
     |> Repo.all()
   end
 
+  def get_todays_working_times(user_id, start_of_day, end_of_day) do
+    from(w in WorkingTime, where: w.user_id == ^user_id and ^start_of_day <= w.working_start and w.working_start <= ^end_of_day )
+  |> Repo.all()
+  end
+
   @doc """
   Gets a single working_time.
 

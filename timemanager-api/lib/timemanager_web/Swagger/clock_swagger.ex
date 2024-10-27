@@ -37,6 +37,7 @@ defmodule TimemanagerWeb.Swagger.ClockSwagger do
         tag "Clocks"
 
         parameter :user_id, :path, :integer, "User ID", required: true
+        parameter :date, :query, :string, "date", required: false
 
         response 200, "Success"
         response 400, "Client Error"

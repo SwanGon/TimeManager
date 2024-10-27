@@ -18,10 +18,9 @@ const handleSubmit = async () => {
         password: password.value,
         remember_me: rememberMe.value
     })
-
-    const {token, csrf_token} = response.data
-
+    const { token, csrf_token, user:{ id: userId} } = response.data
     localStorage.setItem('jwt', token)
+    localStorage.setItem('userId', userId)
     localStorage.setItem('csrf_token', csrf_token)
 
     const user = response.data.user
