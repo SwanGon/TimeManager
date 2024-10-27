@@ -1,8 +1,5 @@
 defmodule TimemanagerWeb.Swagger.UserSwagger do
   use PhoenixSwagger
-
-
-
   def swagger_definitions do
     %{
       User: swagger_schema do
@@ -44,7 +41,7 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
     quote do
       swagger_path :index do
         get "/api/users"
-        description "List all users"
+        description "List all users, can pass email or username as params"
         produces "application/json"
         tag "Users"
         parameters do
@@ -64,6 +61,15 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
         response 400, "Client Error"
       end
 
+      swagger_path :supervisors do
+        get "/api/supervisors"
+        description "List all users with supervisor Role"
+        produces "application/json"
+        tag "Users"
+        response 200, "Success"
+        response 400, "Client Error"
+      end
+
       swagger_path :show do
         get "/api/users/{id}"
         description "Get user by id"
@@ -77,6 +83,18 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
 
       swagger_path :create do
         post "/api/users"
+        description "Create user with register"
+        produces "application/json"
+        tag "Users"
+        parameters do
+          body :body, Schema.ref(:CreateUser), "User creation params", required: true
+        end
+        response 201, "Success", Schema.ref(:User)
+        response 400, "Client Error"
+      end
+
+      swagger_path :create do
+        post "/api/users/register"
         description "Create user"
         produces "application/json"
         tag "Users"
@@ -102,7 +120,6 @@ defmodule TimemanagerWeb.Swagger.UserSwagger do
 
       swagger_path :delete do
         PhoenixSwagger.Path.delete "/api/users/{id}"
-        summary "Delete User"
         description "Delete a user by ID"
         tag "Users"
         parameter :id, :path, :integer, "User ID", required: true, example: 3

@@ -9,12 +9,12 @@ defmodule TimemanagerWeb.Swagger.WorkingtimeSwagger do
         properties do
           working_start :datetime, "Start"
           working_end :datetime, "end"
-          user :integer, "User ID"
+          user_id :integer, "User ID"
         end
         example %{
           working_start: "2024-12-30 15:46:33",
           working_end: "2024-12-30 15:46:33",
-          user: "User ID"
+          user_id: "User ID"
         }
       end,
 
@@ -43,27 +43,41 @@ defmodule TimemanagerWeb.Swagger.WorkingtimeSwagger do
 
       swagger_path :index do
         get "/api/workingtimes/{user_id}"
-        description "List all working times of a user"
+        description "List all working times of a user, with possibility to get after a starting date and/or before a ending date"
         produces "application/json"
         tag "Workingtime"
 
         parameter :user_id, :path, :integer, "User ID", required: true
-        parameter :working_start, :query, :string, "start date", required: false
-        parameter :working_end, :query, :string, "end date", required: false
+        parameter :working_start, :query, :datetime, "start date", required: false
+        parameter :working_end, :query, :datetime, "end date", required: false
 
         response 200, "Success"
         response 400, "Client Error"
+        response 404, "No working times/user/working start/end found with this parameters"
       end
 
+      swagger_path :today do
+        get "/api/workingtimes/today/{user_id}"
+        description "Get a working time for the current day by user by id"
+        produces "application/json"
+        tag "Workingtime"
+
+        parameter :user_id, :path, :integer, "User ID", required: true
+        parameter :start_of_day, :query, :datetime, "today at 00:00", required: true, example: "2024-10-29 00:00:00"
+        parameter :end_of_day, :query, :datetime, "today at 23:59", required: true, example: "2024-10-29 23:59:59"
+        response 200, "Success"
+        response 400, "Client Error"
+        response 404, "No working time and/or user found with this IDs"
+      end
 
       swagger_path :show do
-        get "/api/workingtimes/{user_id}/"
+        get "/api/workingtimes/{user_id}"
         description "Get a working time by user by id"
         produces "application/json"
         tag "Workingtime"
 
-        parameter :id, :query, :integer, "Working time ID", required: true
         parameter :user_id, :path, :integer, "User ID", required: true
+        parameter :id, :query, :integer, "Working time ID", required: true
 
         response 200, "Success"
         response 400, "Client Error"
@@ -71,7 +85,7 @@ defmodule TimemanagerWeb.Swagger.WorkingtimeSwagger do
       end
 
       swagger_path :create do
-        post "/api/workingtimes/{user_id}/"
+        post "/api/workingtimes/{user_id}"
         description "Create workingtime"
         produces "application/json"
         tag "Workingtime"
@@ -85,7 +99,7 @@ defmodule TimemanagerWeb.Swagger.WorkingtimeSwagger do
 
       swagger_path :update do
         put "/api/workingtimes/{id}"
-        description "Update an existing user"
+        description "Update an existing working time"
         produces "application/json"
         tag "Workingtime"
         parameters do
@@ -98,8 +112,7 @@ defmodule TimemanagerWeb.Swagger.WorkingtimeSwagger do
 
       swagger_path :delete do
         PhoenixSwagger.Path.delete "/api/workingtimes/{id}"
-        summary "Delete User"
-        description "Delete a user by ID"
+        description "Delete a working time by ID"
         tag "Workingtime"
         parameter :id, :path, :integer, "Working time ID", required: true, example: 1
         response 204, "No Content - Deleted Successfully"

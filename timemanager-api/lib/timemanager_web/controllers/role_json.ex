@@ -22,7 +22,7 @@ defmodule TimemanagerWeb.RoleJSON do
   defp data(%Role{} = role) do
     %{
       id: role.id,
-      name: role.title,
+      title: role.title,
     }
   end
 end
